@@ -1,0 +1,166 @@
+/* イーグリッド コンサル基礎研修（AI活用版）共通スタイル */
+
+:root {
+  --primary: #1a5f7a;
+  --primary-dark: #0b2027;
+  --accent: #57a773;
+  --accent-soft: #e7f1ea;
+  --warn: #c0622b;
+  --warn-soft: #fbeee4;
+  --light: #f4f7f8;
+  --border: #d9e2e5;
+  --text: #1f2a30;
+  --muted: #5c6b72;
+  --radius: 12px;
+  --shadow: 0 2px 10px rgba(11, 32, 39, 0.06);
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  font-family: "Hiragino Kaku Gothic ProN", "Yu Gothic", "Meiryo", system-ui, sans-serif;
+  color: var(--text);
+  background: #fff;
+  line-height: 1.75;
+  font-size: 16px;
+}
+
+a { color: var(--primary); }
+
+/* ===== ヘッダー / ナビ ===== */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(6px);
+  border-bottom: 1px solid var(--border);
+}
+.nav {
+  max-width: 1080px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  flex-wrap: wrap;
+}
+.brand {
+  font-weight: 700;
+  color: var(--primary);
+  text-decoration: none;
+  font-size: 17px;
+  margin-right: auto;
+}
+.brand span { color: var(--accent); }
+.nav a.navlink {
+  text-decoration: none;
+  color: var(--muted);
+  padding: 6px 10px;
+  border-radius: 8px;
+  font-size: 14px;
+  white-space: nowrap;
+}
+.nav a.navlink:hover { background: var(--light); color: var(--primary); }
+.nav a.navlink.active { background: var(--primary); color: #fff; }
+
+/* ===== ヒーロー ===== */
+.hero {
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  color: #fff;
+  padding: 64px 20px;
+}
+.hero .inner { max-width: 1080px; margin: 0 auto; }
+.hero h1 { font-size: 38px; margin: 0 0 12px; line-height: 1.3; }
+.hero p { font-size: 18px; color: #d3e5ec; margin: 0 0 8px; max-width: 720px; }
+.hero .badges { margin-top: 20px; display: flex; gap: 10px; flex-wrap: wrap; }
+.hero .badge {
+  background: rgba(255,255,255,0.14);
+  border: 1px solid rgba(255,255,255,0.25);
+  padding: 6px 14px; border-radius: 999px; font-size: 14px;
+}
+
+/* ===== レイアウト ===== */
+.container { max-width: 1080px; margin: 0 auto; padding: 40px 20px 80px; }
+.page-head { border-bottom: 3px solid var(--accent); padding-bottom: 16px; margin-bottom: 8px; }
+.eyebrow { color: var(--accent); font-weight: 700; letter-spacing: .04em; font-size: 14px; margin: 0; }
+h1.page-title { font-size: 30px; color: var(--primary); margin: 6px 0 0; }
+.meta { color: var(--muted); font-size: 14px; margin-top: 8px; }
+
+h2 { color: var(--primary); font-size: 23px; margin-top: 48px; border-left: 5px solid var(--accent); padding-left: 12px; }
+h3 { color: var(--primary-dark); font-size: 19px; margin-top: 28px; }
+
+ul, ol { padding-left: 1.4em; }
+li { margin: 6px 0; }
+
+/* ===== カード（回一覧） ===== */
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 18px; margin-top: 24px; }
+.card {
+  display: block; text-decoration: none; color: inherit;
+  border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 22px; background: #fff; box-shadow: var(--shadow);
+  transition: transform .12s ease, box-shadow .12s ease;
+}
+.card:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(11,32,39,.12); }
+.card .num { color: var(--accent); font-weight: 700; font-size: 14px; }
+.card h3 { margin: 6px 0 8px; color: var(--primary); }
+.card p { color: var(--muted); font-size: 14px; margin: 0; }
+
+/* ===== ボックス（演習・課題・AI・注意） ===== */
+.box { border-radius: var(--radius); padding: 18px 22px; margin: 22px 0; border: 1px solid var(--border); }
+.box .box-title { font-weight: 700; margin: 0 0 8px; display: flex; align-items: center; gap: 8px; }
+.box.exercise { background: var(--accent-soft); border-color: #bcd9c7; }
+.box.exercise .box-title { color: #2f7a4d; }
+.box.assignment { background: #eef4f7; border-color: #c4d8e1; }
+.box.assignment .box-title { color: var(--primary); }
+.box.ai { background: #eef0fb; border-color: #c7cdf0; }
+.box.ai .box-title { color: #4a4fb0; }
+.box.warn { background: var(--warn-soft); border-color: #e8c3a8; }
+.box.warn .box-title { color: var(--warn); }
+
+/* ===== プロンプト例 ===== */
+.prompt {
+  background: var(--primary-dark); color: #e7eef0;
+  border-radius: 10px; padding: 14px 16px; margin: 12px 0;
+  font-family: "SFMono-Regular", Consolas, "Courier New", monospace;
+  font-size: 13.5px; line-height: 1.6; white-space: pre-wrap; overflow-x: auto;
+}
+.prompt .tag { color: var(--accent); }
+
+/* ===== テーブル ===== */
+table { width: 100%; border-collapse: collapse; margin: 18px 0; font-size: 15px; }
+th, td { border: 1px solid var(--border); padding: 9px 12px; text-align: left; vertical-align: top; }
+th { background: var(--primary); color: #fff; font-weight: 600; }
+tr:nth-child(even) td { background: var(--light); }
+
+/* ===== タイムライン（90分の流れ） ===== */
+.timeline { border-left: 3px solid var(--accent); margin: 18px 0; padding-left: 0; list-style: none; }
+.timeline li { position: relative; padding: 4px 0 16px 22px; }
+.timeline li::before {
+  content: ""; position: absolute; left: -8px; top: 12px;
+  width: 12px; height: 12px; border-radius: 50%; background: var(--accent); border: 2px solid #fff;
+}
+.timeline .t { font-weight: 700; color: var(--primary); }
+
+/* ===== 目標リスト ===== */
+.goals { background: var(--light); border-radius: var(--radius); padding: 18px 22px; margin: 20px 0; }
+.goals h3 { margin-top: 0; }
+
+/* ===== ページ送り ===== */
+.pager { display: flex; justify-content: space-between; gap: 12px; margin-top: 56px; border-top: 1px solid var(--border); padding-top: 22px; }
+.pager a { text-decoration: none; color: var(--primary); font-weight: 600; padding: 10px 16px; border: 1px solid var(--border); border-radius: 10px; }
+.pager a:hover { background: var(--light); }
+.pager .spacer { flex: 1; }
+
+/* ===== フッター ===== */
+.site-footer { border-top: 1px solid var(--border); color: var(--muted); font-size: 13px; padding: 28px 20px; text-align: center; }
+
+.tag-pill { display: inline-block; background: var(--accent-soft); color: #2f7a4d; border-radius: 999px; font-size: 12px; padding: 2px 10px; margin-left: 8px; vertical-align: middle; }
+
+@media (max-width: 640px) {
+  .hero h1 { font-size: 28px; }
+  .nav .navlink { font-size: 13px; padding: 5px 7px; }
+}

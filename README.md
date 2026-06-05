@@ -1,88 +1,85 @@
-# イーグリッド コンサル基礎研修
+# イーグリッド コンサル基礎研修（AI活用版）
 
-新人コンサルタント向けの基礎研修コンテンツ（スライド資料）です。
-Markdown ベースの [Marp](https://marp.app/) で作成しており、GitHub 上での編集・レビュー、PDF / PPTX / HTML への出力が可能です。
+新人コンサルタント向けの基礎研修カリキュラムです。**全4回・各90分**、各回に**演習（研修中）**と**課題（回の間の宿題）**を備え、全回を通じて**生成AIの活用**を学びます。
 
-## 対象者
+カリキュラムは **Web上で閲覧できる静的サイト（HTML）** として作成しており、ブラウザで開くだけで閲覧できます。GitHub Pages でそのまま公開も可能です。
 
-- 新卒・中途で入社したばかりの新人コンサルタント全般
-- コンサルティングの基礎スキルを体系的に学び直したいメンバー
+## Webで見る
 
-## ゴール（研修修了時の状態）
+### そのままブラウザで開く
 
-1. コンサルタントとしての役割・心構えを自分の言葉で説明できる
-2. ロジカルシンキングの基本（MECE・ピラミッド構造・ロジックツリー）を使える
-3. 問題解決の基本プロセスに沿って、課題を構造化し打ち手を導ける
-4. 仮説思考でリサーチ・検証を効率的に進められる
-5. ヒアリング・資料作成・プレゼンの型を理解し、実務で再現できる
-6. プロジェクトの進め方（PM の基礎）をイメージできる
+`index.html` をブラウザで開けば閲覧できます（ビルド不要）。
 
-## カリキュラム構成
-
-| No. | モジュール | ファイル | 目安時間 |
-| --- | --- | --- | --- |
-| 00 | 研修オリエンテーション | [slides/00_orientation.md](slides/00_orientation.md) | 30分 |
-| 01 | コンサルタントとは／心構え | [slides/01_consultant_mindset.md](slides/01_consultant_mindset.md) | 60分 |
-| 02 | ロジカルシンキング基礎 | [slides/02_logical_thinking.md](slides/02_logical_thinking.md) | 90分 |
-| 03 | 問題解決の基本プロセス | [slides/03_problem_solving.md](slides/03_problem_solving.md) | 90分 |
-| 04 | 仮説思考・リサーチ | [slides/04_hypothesis_research.md](slides/04_hypothesis_research.md) | 60分 |
-| 05 | ヒアリング・コミュニケーション | [slides/05_communication.md](slides/05_communication.md) | 60分 |
-| 06 | ドキュメンテーション（資料作成） | [slides/06_documentation.md](slides/06_documentation.md) | 90分 |
-| 07 | プレゼンテーション | [slides/07_presentation.md](slides/07_presentation.md) | 60分 |
-| 08 | プロジェクトマネジメント基礎 | [slides/08_project_management.md](slides/08_project_management.md) | 60分 |
-
-> 各モジュールは独立して実施できます。1日完結ではなく、複数回に分けての実施を推奨します。
-
-## スライドの見方・出力方法
-
-### 1. VS Code で編集・プレビュー
-
-1. VS Code 拡張機能「**Marp for VS Code**」をインストール
-2. `slides/` 以下の `.md` を開くと、右上のプレビューアイコンからスライド表示できます
-
-### 2. CLI で PDF / PPTX / HTML に変換
-
-[Marp CLI](https://github.com/marp-team/marp-cli) を使用します。
+### ローカルで簡易サーバーを立てて見る
 
 ```bash
-# Marp CLI のインストール（要 Node.js）
-npm install -g @marp-team/marp-cli
-
-# 単一ファイルを PDF に変換
-marp slides/02_logical_thinking.md --pdf --theme themes/egrid.css
-
-# PPTX（PowerPoint）に変換
-marp slides/02_logical_thinking.md --pptx --theme themes/egrid.css
-
-# slides/ 配下をまとめて HTML に変換
-marp slides/ --theme themes/egrid.css
+# Python が入っていれば
+python3 -m http.server 8000
+# → ブラウザで http://localhost:8000 を開く
 ```
 
-## ディレクトリ構成
+### GitHub Pages で公開する
+
+1. このリポジトリの **Settings → Pages** を開く
+2. **Build and deployment** の Source を「Deploy from a branch」に設定
+3. Branch を `main`（公開用ブランチ）／フォルダを `/ (root)` に設定して Save
+4. 数分後に発行される URL（`https://<ユーザー名>.github.io/e-grid/`）で閲覧可能
+
+> 現在の作業ブランチは `claude/practical-lamport-UB9ec` です。公開時は `main` 等へマージしてください。
+
+## カリキュラム構成（全4回・各90分）
+
+| 回 | テーマ | 主な内容 | ページ |
+| --- | --- | --- | --- |
+| 第1回 | AI時代のコンサル基礎 | 役割・心構え／生成AIの基礎とルール | [session1.html](session1.html) |
+| 第2回 | ロジカルシンキング × AI | MECE・ピラミッド・ツリー・PREP／プロンプトの型 | [session2.html](session2.html) |
+| 第3回 | 問題解決・仮説思考 × AI | 問題解決プロセス／仮説・リサーチ／ファクトチェック | [session3.html](session3.html) |
+| 第4回 | アウトプット・PM × AI＋総合演習 | 資料・プレゼン・PM／総合演習・発表 | [session4.html](session4.html) |
+
+- 全回共通の [AI活用ガイド](ai-guide.html)：安全な使い方・プロンプトの基本・チェック観点
+- トップページ [index.html](index.html)：研修概要・進め方・評価
+
+### 各回の標準タイムテーブル（90分）
+
+| 時間 | 内容 |
+| --- | --- |
+| 0–10分 | 前回課題の共有・ふりかえり |
+| 10–45分 | 講義（型のインプット＋AI活用ポイント） |
+| 45–80分 | 演習（個人/チームで手を動かす） |
+| 80–90分 | まとめ・今回の課題（宿題）の説明 |
+
+## 演習と課題
+
+- **演習**：研修中にその場で手を動かす（各回に複数）
+- **課題**：回と回の間に各自で実施し、次回までに提出
+- 課題はすべて「**AIをどこで・どう使い、どこを自分で判断したか**」を明記して提出します
+
+## 対象者・ゴール
+
+- 対象：新卒・中途で入社したばかりの新人コンサルタント全般
+- ゴール：思考の型（ロジカルシンキング／問題解決）と仕事の進め方（資料・プレゼン・PM）を、**生成AIを相棒として**再現性高く使えるようになること
+
+## ファイル構成
 
 ```
 .
-├── README.md                 # 本ファイル
-├── slides/                   # 各モジュールのスライド（Marp Markdown）
-│   ├── 00_orientation.md
-│   ├── 01_consultant_mindset.md
-│   ├── 02_logical_thinking.md
-│   ├── 03_problem_solving.md
-│   ├── 04_hypothesis_research.md
-│   ├── 05_communication.md
-│   ├── 06_documentation.md
-│   ├── 07_presentation.md
-│   └── 08_project_management.md
-└── themes/
-    └── egrid.css             # スライド共通テーマ
+├── README.md            # 本ファイル
+├── index.html           # トップ（研修概要・進め方・評価）
+├── ai-guide.html        # AI活用ガイド（全回共通）
+├── session1.html        # 第1回
+├── session2.html        # 第2回
+├── session3.html        # 第3回
+├── session4.html        # 第4回
+└── assets/
+    └── style.css        # 共通スタイル
 ```
 
 ## 編集ガイドライン
 
-- 1スライド＝1メッセージを基本とする（情報を詰め込みすぎない）
-- 具体例・演習（💡 / ✏️ で表記）を各モジュールに必ず入れる
-- 専門用語は初出時に必ず補足する
-- 図解できる箇所は文章ではなく図・表で表現する
+- 各ページは独立した HTML。ヘッダーのナビゲーションは全ページ共通の構造
+- 配色・コンポーネント（演習＝緑、課題＝青、AI＝紫、注意＝オレンジのボックス）は `assets/style.css` で一元管理
+- 演習・課題は「手を動かす」「自分の業務に当てはめる」を必ず含める
+- AIの活用は「発散・たたき台・チェック」に使い、**最終判断と責任は人間**という原則を各回で明示する
 
 ## ライセンス／取り扱い
 
