@@ -1,8 +1,8 @@
 name: Deploy to GitHub Pages
 
 # main への push で静的サイト（リポジトリ直下の HTML）を GitHub Pages へ自動デプロイする。
-# 事前準備（1回だけ）: リポジトリの Settings → Pages → Build and deployment の
-# Source を「GitHub Actions」に設定してください。
+# configure-pages の enablement: true により、Pages 未設定でもワークフローから
+# 自動で有効化する（Settings での手動設定は不要）。
 
 on:
   push:
@@ -32,6 +32,10 @@ jobs:
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
+        with:
+          # Pages が未設定でも、ワークフローから自動で有効化する
+          # （Settings での手動設定が不要になる）
+          enablement: true
 
       - name: Upload site artifact
         uses: actions/upload-pages-artifact@v3
