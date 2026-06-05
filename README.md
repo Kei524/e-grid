@@ -14,17 +14,30 @@
 
 > `main` への push、および現在のデフォルトブランチへの push で、GitHub Actions（`.github/workflows/deploy-pages.yml`）が自動デプロイします。
 
-## カリキュラム構成（90分 × 4回）
+## カリキュラム構成（事前学習 ＋ 90分 × 4回）
 
 | 回 | テーマ | 扱う概念 | 演習素材 | ページ |
 | --- | --- | --- | --- | --- |
+| 第0回 | 超入門（事前学習） | 結論ファースト／MECE | 業務報告をPREP化 | [session0.html](session0.html) |
 | 第1回 | 構造化思考の基本 | ピラミッド／MECE最小限 | 地方中堅製造業の業績悪化 | [session1.html](session1.html) |
-| 第2回 | MECEと空・雨・傘 | MECEの引き出し／空雨傘 | 地銀の経営課題 | [session2.html](session2.html) |
+| 第2回 | MECEと空・雨・傘 | MECEの引き出し／空雨傘 | 地銀の経営課題 ＋ BtoC成長（E社・別ケース） | [session2.html](session2.html) |
 | 第3回 | イシュー設定と仮説思考 | イシュー3条件／30分仮説 | 地方企業のDX相談 | [session3.html](session3.html) |
 | 第4回 | イシューツリーと統合演習 | ツリー／提案4工程 | 地方中堅メーカーDX提案 | [session4.html](session4.html) |
 
+### 共通資料（全ページのナビから参照可能）
+
 - トップ [index.html](index.html)：全体構成・コードレビューの比喩・修了判定
-- [AI併用ガイド](ai-guide.html)（全回共通）：安全な使い方・プロンプトの型・AIの役割
+- [AI併用ガイド](ai-guide.html)：安全な使い方・プロンプトの型・AIの役割
+- [フレーム選択マップ](toolmap.html)：「状況 → 使う道具」の対応表（道具の使い分け）
+- [採点ルーブリック](rubric.html)：ピラミッド／ツリーの自己・相互採点表（印刷して配布可）
+
+### 研修設計の工夫（最適化で追加）
+
+- **第0回（事前学習）** で“崖”を緩和し、未経験者でも第1回に入りやすくした
+- 全回に **「まず自力 → そのあとAI」の鉄則バナー**を固定し、演習タスクを 自力／AI で明示
+- 発表できない大多数のために、各回末に **採点ルーブリックでの自己・相互採点**を組み込み
+- 演習素材が「地方製造×DX」に偏らないよう、第2回に **毛色の違うBtoC成長ケース** を1つ追加
+- 道具の使い分けに迷ったとき用に **フレーム選択マップ**を用意
 
 ## 特徴（わかりやすさ・図表）
 
@@ -46,9 +59,12 @@ python3 -m http.server 8000   # → http://localhost:8000
 ```
 .
 ├── README.md
-├── index.html            # トップ（全体構成・修了判定）
-├── ai-guide.html         # AI併用ガイド（全回共通）
+├── index.html            # トップ（全体構成・共通資料・修了判定）
+├── session0.html         # 第0回（事前学習・超入門）
 ├── session1.html 〜 session4.html   # 各回
+├── ai-guide.html         # AI併用ガイド（全回共通）
+├── toolmap.html          # フレーム選択マップ
+├── rubric.html           # 採点ルーブリック
 ├── assets/style.css      # 共通スタイル（図表コンポーネント含む）
 └── .github/workflows/deploy-pages.yml  # GitHub Pages 自動デプロイ
 ```
