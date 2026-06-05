@@ -1,12 +1,16 @@
 name: Deploy to GitHub Pages
 
-# main への push で静的サイト（リポジトリ直下の HTML）を GitHub Pages へ自動デプロイする。
-# 事前準備（1回だけ）: リポジトリの Settings → Pages → Build and deployment の
-# Source を「GitHub Actions」に設定してください。
+# 静的サイト（リポジトリ直下の HTML）を GitHub Pages へ自動デプロイする。
+# 事前準備（1回だけ）: Settings → Pages → Source を「GitHub Actions」に設定。
+# 注: github-pages 環境はデフォルトブランチからのデプロイのみ許可するため、
+#     当面はデフォルトブランチ（作業ブランチ）でもデプロイする。
+#     デフォルトブランチを main に変更後は main のみで運用してよい。
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
+      - claude/practical-lamport-UB9ec
   workflow_dispatch:
 
 # GitHub Pages へのデプロイに必要な権限
@@ -32,6 +36,8 @@ jobs:
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
+        with:
+          enablement: true
 
       - name: Upload site artifact
         uses: actions/upload-pages-artifact@v3
