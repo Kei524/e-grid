@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI活用ガイド ｜ コンサル基礎研修</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <nav class="nav">
+    <a class="brand" href="index.html">e-grid <span>研修</span></a>
+    <a class="navlink" href="index.html">トップ</a>
+    <a class="navlink active" href="ai-guide.html">AI活用ガイド</a>
+    <a class="navlink" href="session1.html">第1回</a>
+    <a class="navlink" href="session2.html">第2回</a>
+    <a class="navlink" href="session3.html">第3回</a>
+    <a class="navlink" href="session4.html">第4回</a>
+  </nav>
+</header>
+
+<main class="container">
+
+  <div class="page-head">
+    <p class="eyebrow">COMMON GUIDE</p>
+    <h1 class="page-title">AI活用ガイド（全回共通）</h1>
+    <p class="meta">この研修では全回で生成AIを使います。最初に必ず読んでください。</p>
+  </div>
+
+  <h2>生成AIにできること・苦手なこと</h2>
+  <table>
+    <tr><th>得意（任せやすい）</th><th>苦手（人間が補う）</th></tr>
+    <tr>
+      <td>
+        ・アイデアや観点の発散（たたき台づくり）<br>
+        ・文章の要約・整形・推敲<br>
+        ・MECEな分解・分類の案出し<br>
+        ・言い換え・翻訳・体裁の統一
+      </td>
+      <td>
+        ・事実の正確性（誤りを自信満々に言う）<br>
+        ・最新情報・社内固有の文脈<br>
+        ・最終的な判断・責任<br>
+        ・文脈や相手の機微を踏まえた配慮
+      </td>
+    </tr>
+  </table>
+
+  <div class="box warn">
+    <p class="box-title">⚠️ 必ず守る3つのルール</p>
+    <ol>
+      <li><strong>機密情報・個人情報を入力しない</strong>：クライアント名・未公開情報・個人情報は、社内で許可されたツール/設定以外に入力しない。</li>
+      <li><strong>出力は必ずファクトチェック</strong>：AIは「もっともらしい嘘（ハルシネーション）」を出す。数字・事実・出典は自分で確認する。</li>
+      <li><strong>最終責任は人間が持つ</strong>：AIの出力をそのまま提出しない。自分の頭で取捨選択し、自分の言葉に仕上げる。</li>
+    </ol>
+  </div>
+
+  <h2>AIとの基本的な付き合い方</h2>
+  <ul>
+    <li><strong>壁打ち相手として使う</strong>：考えを発散させたり、抜け漏れを指摘してもらう。「答えをもらう」より「考えを進める」。</li>
+    <li><strong>たたき台を速く作る</strong>：ゼロから書くのではなく、AIの叩き台を「直す」ことで時間を短縮する。</li>
+    <li><strong>批判的に読む</strong>：AIの出力に「本当に？」「根拠は？」「モレ・ダブりは？」と必ず問い返す。</li>
+    <li><strong>対話を重ねる</strong>：一発で完璧を求めず、フィードバックして精度を上げる。</li>
+  </ul>
+
+  <h2>プロンプトの基本の型</h2>
+  <p>良い出力は、良い指示から。次の5要素を意識すると、狙った出力に近づきます。</p>
+  <table>
+    <tr><th>要素</th><th>内容</th><th>例</th></tr>
+    <tr><td>役割</td><td>AIにどんな立場で答えさせるか</td><td>「経験豊富なコンサルタントとして」</td></tr>
+    <tr><td>文脈・前提</td><td>背景・状況・制約</td><td>「新人研修向けに、専門用語は補足しながら」</td></tr>
+    <tr><td>指示（タスク）</td><td>してほしいこと</td><td>「以下の課題の原因を洗い出して」</td></tr>
+    <tr><td>制約</td><td>条件・観点・禁止事項</td><td>「MECEに、5つ以内で」</td></tr>
+    <tr><td>出力形式</td><td>どんな形で返すか</td><td>「表形式で、各項目に理由を添えて」</td></tr>
+  </table>
+
+  <div class="box ai">
+    <p class="box-title">🤖 プロンプト例（ロジックツリーの叩き台）</p>
+    <div class="prompt"><span class="tag"># 役割</span>
+あなたは経験豊富な経営コンサルタントです。
+<span class="tag"># 前提</span>
+新人研修の演習です。専門用語には短い補足をつけてください。
+<span class="tag"># 依頼</span>
+「会議の時間が長い」という問題の原因を、Whyロジックツリーで2階層に分解してください。
+<span class="tag"># 制約</span>
+・各階層はMECE（モレなく・ダブりなく）を意識
+・第1階層は3〜4個、各々をさらに2個程度に分解
+<span class="tag"># 出力形式</span>
+・インデント付きの箇条書き
+・最後に「人間が確認すべき点」を3つ</div>
+  </div>
+
+  <h2>AI出力をレビューするチェック観点</h2>
+  <ul>
+    <li><strong>事実</strong>：数字・固有名詞・出来事は本当か？出典は？</li>
+    <li><strong>論理</strong>：主張と根拠はつながっているか？飛躍はないか？</li>
+    <li><strong>MECE</strong>：モレ・ダブりはないか？粒度は揃っているか？</li>
+    <li><strong>文脈</strong>：今回のクライアント/状況に本当に合っているか？</li>
+    <li><strong>独自性</strong>：当たり前の一般論で終わっていないか？示唆はあるか？</li>
+  </ul>
+
+  <h2>この研修でのAIツールについて</h2>
+  <p>使用するツールは、<strong>社内で許可された生成AI</strong>（社内ガイドラインに従う）を前提とします。利用可否・設定（学習に使わせない等）・入力してよい情報の範囲は、必ず社内ルールを確認してください。不明な点は講師・メンターに相談を。</p>
+
+  <div class="pager">
+    <a href="index.html">← トップ</a>
+    <span class="spacer"></span>
+    <a href="session1.html">第1回 →</a>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  © イーグリッド ｜ 社内研修用コンテンツ（社外共有時は取り扱いに注意）
+</footer>
+
+</body>
+</html>
