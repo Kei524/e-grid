@@ -3,16 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>第1回 AI時代のコンサル基礎 ｜ コンサル基礎研修</title>
+<title>第1回 構造化思考の基本｜ロジカルシンキング編</title>
 <link rel="stylesheet" href="assets/style.css">
 </head>
 <body>
 
 <header class="site-header">
   <nav class="nav">
-    <a class="brand" href="index.html">e-grid <span>研修</span></a>
+    <a class="brand" href="index.html">e-grid <span>LS研修</span></a>
     <a class="navlink" href="index.html">トップ</a>
-    <a class="navlink" href="ai-guide.html">AI活用ガイド</a>
+    <a class="navlink" href="ai-guide.html">AI併用ガイド</a>
     <a class="navlink active" href="session1.html">第1回</a>
     <a class="navlink" href="session2.html">第2回</a>
     <a class="navlink" href="session3.html">第3回</a>
@@ -24,120 +24,174 @@
 
   <div class="page-head">
     <p class="eyebrow">SESSION 1 ／ 90分</p>
-    <h1 class="page-title">AI時代のコンサル基礎</h1>
-    <p class="meta">コンサルタントの役割・心構えと、生成AIの基礎・使い方のルールを学び、「AIと働く」イメージをつかむ。</p>
+    <h1 class="page-title">構造化思考の基本</h1>
+    <p class="meta">ピラミッドストラクチャー × MECE最小限／演習：地方中堅製造業の業績悪化要因をピラミッド化</p>
+  </div>
+
+  <h3>タイムテーブル（90分）</h3>
+  <div class="ttbar">
+    <div class="seg" style="flex:10">イントロ<small>10分</small></div>
+    <div class="seg" style="flex:20">ピラミッド<small>20分</small></div>
+    <div class="seg" style="flex:15">MECE最小限<small>15分</small></div>
+    <div class="seg" style="flex:35">演習<small>35分</small></div>
+    <div class="seg" style="flex:10">共有・宿題<small>10分</small></div>
   </div>
 
   <div class="goals">
-    <h3>この回のゴール</h3>
+    <h3>第1回の到達点</h3>
     <ul>
-      <li>コンサルタントの役割・提供価値・心構えを自分の言葉で説明できる</li>
-      <li>生成AIにできること／苦手なこと、使う上での3つのルールを理解する</li>
-      <li>AIを「壁打ち相手」として使う感覚をつかむ</li>
+      <li>メイン・サブ・根拠の<strong>3層</strong>で議論を構造化できる</li>
+      <li>MECEの基本切り口を<strong>3つ以上</strong>引き出せる</li>
+      <li>AIに<strong>論理穴チェック</strong>を依頼できる</li>
     </ul>
   </div>
 
-  <h3>タイムテーブル</h3>
-  <ul class="timeline">
-    <li><span class="t">0–10分</span>　オリエンテーション・自己紹介</li>
-    <li><span class="t">10–40分</span>　講義①：コンサルタントとは／心構え</li>
-    <li><span class="t">40–55分</span>　講義②：生成AIの基礎と使い方のルール</li>
-    <li><span class="t">55–80分</span>　演習1-1・1-2</li>
-    <li><span class="t">80–90分</span>　まとめ・課題の説明</li>
-  </ul>
+  <h2>1.1 なぜ今、ロジカルシンキングか（10分）</h2>
+  <div class="keypoint">
+    <span class="kp-label">要点</span>
+    <span class="kp-body">コードレビューと同じ。構造の欠陥は、実行時ではなく「設計時」に潰す方が10倍安い。</span>
+  </div>
+  <p>経営層は技術の詳細を理解しない／信用もしません。彼らが問うのは<strong>「この打ち手で何が変わるか」</strong>。そこに答える論理が組めないと、提案は通りません。ロジカルシンキングは、技術を経営の言葉に変える<strong>翻訳装置</strong>です。</p>
 
-  <h2>1. コンサルタントとは</h2>
-  <p>コンサルタントとは、<strong>クライアントの課題解決を支援し、成果につなげる専門家</strong>です。作業の代行ではなく「何をやるべきかを一緒に考え、やり切る」のが仕事です。</p>
-  <h3>提供する価値</h3>
-  <table>
-    <tr><th>価値</th><th>中身</th></tr>
-    <tr><td>専門性</td><td>知識・ノウハウ・他社事例</td></tr>
-    <tr><td>客観性</td><td>社内のしがらみのない第三者視点</td></tr>
-    <tr><td>構造化</td><td>複雑な問題を整理し、論点を明確化</td></tr>
-    <tr><td>推進力</td><td>意思決定と実行を前に進める力</td></tr>
-  </table>
-
-  <h2>2. コンサルタントの心構え</h2>
-  <ul>
-    <li><strong>バリューを出す</strong>：自分がいることで議論・成果がどれだけ前進したかを問う。会議に出るだけ・議事録だけはバリューゼロ。</li>
-    <li><strong>クライアント目線</strong>：判断軸は常に「相手の成果」。自分が楽か・かっこいいかではない。</li>
-    <li><strong>当事者意識</strong>：「自分の案件」として、指示待ちでなく次にやるべきことを自分から考える。</li>
-    <li><strong>誠実さ</strong>：期限を守る／分からないことを「分かったフリ」しない／数字をごまかさない。</li>
-  </ul>
-
-  <h2>3. AI時代のコンサルタント</h2>
-  <p>生成AIの登場で、調査・要約・たたき台づくりといった作業は大きく効率化されました。だからこそ、人間の価値は<strong>「問いを立てる」「文脈で判断する」「クライアントを動かす」</strong>といった部分にシフトします。</p>
-  <table>
-    <tr><th>AIに任せやすい</th><th>人間が価値を出す</th></tr>
-    <tr><td>情報収集・要約・分類の叩き台</td><td>そもそも何を問うべきかの設定</td></tr>
-    <tr><td>文章の整形・推敲</td><td>事実確認と最終的な判断・責任</td></tr>
-    <tr><td>アイデアの発散</td><td>取捨選択・文脈に合わせた示唆</td></tr>
-  </table>
-
-  <h3>生成AIの基礎と3つのルール</h3>
-  <p>詳しくは <a href="ai-guide.html">AI活用ガイド</a> を参照。要点は次の3つです。</p>
-  <div class="box warn">
-    <p class="box-title">⚠️ AI利用の3つのルール</p>
-    <ol>
-      <li>機密情報・個人情報を入力しない</li>
-      <li>出力は必ずファクトチェック（ハルシネーション前提）</li>
-      <li>最終責任は人間が持つ（そのまま提出しない）</li>
-    </ol>
+  <h2>1.2 ピラミッドストラクチャー（20分）</h2>
+  <div class="keypoint">
+    <span class="kp-label">要点</span>
+    <span class="kp-body">経営層には「1分でメイン、5分でサブ、必要に応じて根拠」の順で語る。</span>
   </div>
 
-  <h2>演習</h2>
-
-  <div class="box exercise">
-    <p class="box-title">✏️ 演習1-1：AIと「提供価値」を言語化する（15分）</p>
-    <p>AIを壁打ち相手にして、「コンサルタントの提供価値とは何か」を自分の言葉で整理します。</p>
-    <ol>
-      <li>下のプロンプトでAIに問いかけ、出てきた観点を眺める</li>
-      <li>AIの回答のうち「自分が大事だと思う点／違うと思う点」を選ぶ</li>
-      <li>最終的に<strong>自分の言葉で3行</strong>にまとめる（AIの文をコピペしない）</li>
-    </ol>
-    <div class="box ai" style="margin-top:12px">
-      <p class="box-title">🤖 プロンプト例</p>
-      <div class="prompt">経験豊富なコンサルタントとして、新人に「コンサルタントが提供する価値」を5つ、それぞれ一言の理由つきで教えてください。そのうえで、新人がまず意識すべき価値はどれか、理由とともに1つ挙げてください。</div>
+  <div class="pyramid">
+    <div class="lvl main"><div class="node">メイン主張（結論）</div></div>
+    <div class="lvl sub">
+      <div class="node">サブ主張A</div>
+      <div class="node">サブ主張B</div>
+      <div class="node">サブ主張C</div>
+    </div>
+    <div class="lvl base">
+      <div class="node">根拠1</div><div class="node">根拠2</div>
+      <div class="node">根拠3</div><div class="node">根拠4</div>
+      <div class="node">根拠5</div><div class="node">根拠6</div>
+    </div>
+    <div class="pyramid-axes">
+      <span>↑ <b>Why So</b>（下から上）：根拠は本当に主張を支えているか？</span>
+      <span><b>So What</b>（上から下）：相手は次に何をすべきか？ ↓</span>
     </div>
   </div>
 
-  <div class="box exercise">
-    <p class="box-title">✏️ 演習1-2：AIの誤りを見つける（15分）</p>
-    <p>AIは間違いを自信満々に言うことがあります。それを体験し、ファクトチェックの習慣をつけます。</p>
-    <ol>
-      <li>自分が少し詳しいテーマ（出身地、趣味、過去の業務など）についてAIに説明させる</li>
-      <li>出力の中から<strong>事実と違う点・あやしい点</strong>を探して指摘する</li>
-      <li>「どこを鵜呑みにすると危険か」をチームで共有する</li>
-    </ol>
+  <table>
+    <tr><th>方向</th><th>問い</th><th>つまずきやすい点</th></tr>
+    <tr><td><strong>Why So</strong>（下→上）</td><td>根拠は本当にサブ主張を支えているか？</td><td>弱い根拠は経営層に即バレる。数値・事例・専門家見解を組み合わせる。</td></tr>
+    <tr><td><strong>So What</strong>（上→下）</td><td>この主張から、相手は次に何をすべきか？</td><td>結論が抽象的だと空回り。「〜が必要」ではなく「3ヶ月で〜を実装すべき」。</td></tr>
+  </table>
+
+  <h2>1.2b 良い例 vs 悪い例（5分）</h2>
+  <div class="keypoint">
+    <span class="kp-label">要点</span>
+    <span class="kp-body">悪い例は「情報の羅列」、良い例は「主張＋根拠の階層」。違いは一目瞭然。</span>
+  </div>
+  <div class="vs">
+    <div class="card2 bad">
+      <h4>✗ 悪い例 — 業績悪化の説明</h4>
+      <p><strong>メイン：「業績が悪い」</strong><br>・売上が落ちている<br>・コストが上がっている<br>・社員が辞めている</p>
+      <p><strong>問題点</strong></p>
+      <ul>
+        <li>階層がバラバラ（事実と原因が混在）</li>
+        <li>根拠データがなく、ふわっとした印象</li>
+        <li>So Whatが空回り＝「で、どうすれば？」に答えていない</li>
+        <li>経営者は「そんなの知ってる」で終わる</li>
+      </ul>
+    </div>
+    <div class="card2 good">
+      <h4>○ 良い例 — 業績悪化の説明</h4>
+      <p><strong>メイン：「打ち手は顧客集中度の解消に絞るべき」</strong><br>・Tier2集中60%<br>・EV移行で縮小<br>・切替成功事例3社</p>
+      <p><strong>良いポイント</strong></p>
+      <ul>
+        <li>メイン主張が<strong>打ち手</strong>まで具体化</li>
+        <li>サブ主張3つがMECE（市場現状／構造変化／実現可能性）</li>
+        <li>各サブに数値・事例の根拠が紐づく</li>
+        <li>Why So／So Whatが成立</li>
+      </ul>
+    </div>
   </div>
 
-  <h2>今回の課題（次回まで）</h2>
+  <h2>1.3 MECE最小限（15分）</h2>
+  <div class="keypoint">
+    <span class="kp-label">要点</span>
+    <span class="kp-body">MECEは「正しい分解」ではなく「目的に合った分解」。サブ主張間に漏れ・ダブりがないか確認する作法。</span>
+  </div>
 
-  <div class="box assignment">
-    <p class="box-title">📝 課題1：AI活用アイデア棚卸し</p>
-    <p>自分の業務（または配属予定の業務）で、生成AIを活用できそうな場面を<strong>5つ</strong>書き出してください。各項目に次を添えること。</p>
+  <h3>代表的な切り口（第2回で深掘り）</h3>
+  <table>
+    <tr><th>切り口</th><th>例</th></tr>
+    <tr><td>時系列</td><td>過去 → 現在 → 未来</td></tr>
+    <tr><td>顧客</td><td>BtoB／BtoC／規模／業種</td></tr>
+    <tr><td>プロセス</td><td>仕入 → 製造 → 物流 → 販売</td></tr>
+    <tr><td>組織</td><td>機能／階層／地域</td></tr>
+  </table>
+
+  <h3>MECE失敗パターン3つ</h3>
+  <div class="steps">
+    <div class="step"><span class="n">a</span><h4>目的に合わない</h4><p>切り口がそもそも目的に合っていない。</p></div>
+    <div class="step"><span class="n">b</span><h4>境界が曖昧</h4><p>サブ要素間の境界が曖昧 → ダブり。</p></div>
+    <div class="step"><span class="n">c</span><h4>切り口が抜け</h4><p>重要な切り口が抜けている → 漏れ。</p></div>
+  </div>
+  <p>対策：<strong>切り口を3つ並べて比較してから採用する</strong>。今日は「MECEに完璧でなくていい。まずピラミッドを建てる」が目標です。</p>
+
+  <h2>1.4 演習 — A社の業績悪化要因をピラミッド化（35分）</h2>
+  <div class="box" style="background:var(--light);border:1px solid var(--border);border-radius:12px;">
+    <p class="box-title">ケース：A社（地方中堅 切削加工メーカー）</p>
     <ul>
-      <li>用途（何に使うか）</li>
-      <li>期待できる効果（速くなる／質が上がる 等）</li>
-      <li>注意点（機密・ファクトチェックなどリスク）</li>
+      <li>売上80億円／従業員250名／創業60年</li>
+      <li>主要顧客：自動車部品Tier2（売上の60%）</li>
+      <li>直近3年で営業利益率 8% → 3% に低下</li>
+      <li>経営者は「EVシフトのせい」と認識</li>
     </ul>
   </div>
 
-  <div class="box assignment">
-    <p class="box-title">📝 課題2：AIと自己紹介文を作る</p>
-    <p>「コンサルタントとしての自分の提供価値」を含む自己紹介文（200字程度）を、AIを叩き台にして作成。<strong>最後は必ず自分の言葉で仕上げ</strong>、「AIに任せた部分／自分で直した部分」を一言添えて提出。</p>
+  <div class="box exercise">
+    <p class="box-title">✏️ 演習タスク（個人25分 → 共有10分）</p>
+    <ol>
+      <li>業績悪化の要因を<strong>ピラミッドで構造化</strong>（15分）</li>
+      <li>各サブ主張に必要な<strong>根拠</strong>を箇条書き（5分）</li>
+      <li>AIに<strong>「見落としているサブ主張」</strong>を指摘させる（5分）</li>
+      <li>結論を<strong>経営者向け1文</strong>に圧縮（5分）</li>
+    </ol>
   </div>
 
-  <h2>チェックリスト</h2>
-  <ul>
-    <li>☐ コンサルタントの役割・提供価値を説明できる</li>
-    <li>☐ 4つの心構え（バリュー・クライアント目線・当事者意識・誠実さ）を言える</li>
-    <li>☐ AIにできること／苦手なことを区別できる</li>
-    <li>☐ AI利用の3つのルールを守る意識がある</li>
-  </ul>
+  <div class="box ai">
+    <p class="box-title">🤖 AI併用：ピラミッドレビュアー</p>
+    <div class="prompt">以下のピラミッド構造を診断してください。
+観点：MECE性／根拠の強さ／So Whatの具体性
+出力：改善版ピラミッド ＋ 改善理由
+
+（ここに自分のピラミッドを貼る）</div>
+  </div>
+
+  <div class="keypoint">
+    <span class="kp-label">対話のコツ</span>
+    <span class="kp-body">「EVシフト」で思考停止しない。サプライチェーン構造変化／顧客集中度／内製化機会／AI活用余地の4軸で再構造化し、“気づかれていない論点”を提示するのがコンサルの価値。</span>
+  </div>
+
+  <h2>1.5 今日のまとめと宿題</h2>
+  <table>
+    <tr><th>今日のまとめ</th><th>次回（第2回）の予告</th></tr>
+    <tr>
+      <td>・ピラミッド（メイン-サブ-根拠の3層）<br>・Why So（下→上）／So What（上→下）<br>・MECE最小限：3つの切り口で比較<br>・AI併用：論理穴チェッカー</td>
+      <td>・MECEの5つの引き出し<br>・空・雨・傘（事実・解釈・打ち手）<br>・演習：地銀の経営課題整理</td>
+    </tr>
+  </table>
+
+  <div class="box assignment">
+    <p class="box-title">📝 翌週までの宿題（必須提出：Google Form または「LS研修ナレッジ」Doc追記）</p>
+    <ol>
+      <li>自業務の議論or報告を1件選び、<strong>ピラミッド構造で組み直す</strong>（紙でもPPTでも可）</li>
+      <li>その過程でClaudeに<strong>論理穴チェッカー</strong>を依頼し、AI出力と自分の判断を並べて記録</li>
+      <li>学びと困った点を<strong>3行ずつ</strong>「LS研修ナレッジ」に追記</li>
+      <li>翌週冒頭の振り返り10分で、2〜3名がピックアップ共有</li>
+    </ol>
+  </div>
 
   <div class="pager">
-    <a href="ai-guide.html">← AI活用ガイド</a>
+    <a href="ai-guide.html">← AI併用ガイド</a>
     <span class="spacer"></span>
     <a href="session2.html">第2回 →</a>
   </div>
@@ -145,7 +199,7 @@
 </main>
 
 <footer class="site-footer">
-  © イーグリッド ｜ 社内研修用コンテンツ（社外共有時は取り扱いに注意）
+  © イーグリッド AIコンサルティング組織 ｜ コンサル基礎研修 ロジカルシンキング編
 </footer>
 
 </body>

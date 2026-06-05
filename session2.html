@@ -3,16 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>第2回 ロジカルシンキング × AI ｜ コンサル基礎研修</title>
+<title>第2回 MECEと空・雨・傘｜ロジカルシンキング編</title>
 <link rel="stylesheet" href="assets/style.css">
 </head>
 <body>
 
 <header class="site-header">
   <nav class="nav">
-    <a class="brand" href="index.html">e-grid <span>研修</span></a>
+    <a class="brand" href="index.html">e-grid <span>LS研修</span></a>
     <a class="navlink" href="index.html">トップ</a>
-    <a class="navlink" href="ai-guide.html">AI活用ガイド</a>
+    <a class="navlink" href="ai-guide.html">AI併用ガイド</a>
     <a class="navlink" href="session1.html">第1回</a>
     <a class="navlink active" href="session2.html">第2回</a>
     <a class="navlink" href="session3.html">第3回</a>
@@ -24,121 +24,147 @@
 
   <div class="page-head">
     <p class="eyebrow">SESSION 2 ／ 90分</p>
-    <h1 class="page-title">ロジカルシンキング × AI</h1>
-    <p class="meta">考えを構造化して伝える「型」を学び、AIを思考の相棒として使うプロンプトの基本を身につける。</p>
+    <h1 class="page-title">MECEと空・雨・傘</h1>
+    <p class="meta">経営対話の基本フレーム／演習：地銀の経営課題を空・雨・傘で整理</p>
+  </div>
+
+  <h3>タイムテーブル（90分）</h3>
+  <div class="ttbar">
+    <div class="seg" style="flex:10">振り返り<small>10分</small></div>
+    <div class="seg" style="flex:15">MECE引き出し<small>15分</small></div>
+    <div class="seg" style="flex:20">空・雨・傘<small>20分</small></div>
+    <div class="seg" style="flex:35">演習<small>35分</small></div>
+    <div class="seg" style="flex:10">共有・宿題<small>10分</small></div>
   </div>
 
   <div class="goals">
-    <h3>この回のゴール</h3>
+    <h3>第2回の到達点</h3>
     <ul>
-      <li>MECE・ピラミッド構造・ロジックツリー・PREPを理解し使える</li>
-      <li>AIにロジカルシンキングを手伝わせ、出力を批判的にレビューできる</li>
-      <li>プロンプトの基本の型を使える</li>
+      <li>MECEの<strong>5つの引き出し</strong>（時系列／地理／顧客／プロセス／組織）を使い分けられる</li>
+      <li>事実・解釈・打ち手を<strong>意識的に分離</strong>して語れる</li>
+      <li>AIに「他の解釈案」を出させ、<strong>人間が選ぶ</strong>判断ができる</li>
     </ul>
   </div>
 
-  <h3>タイムテーブル</h3>
-  <ul class="timeline">
-    <li><span class="t">0–10分</span>　前回課題の共有・ふりかえり</li>
-    <li><span class="t">10–45分</span>　講義：ロジカルシンキングの型（MECE/ピラミッド/ツリー/PREP）</li>
-    <li><span class="t">45–55分</span>　講義：AIを思考の相棒にする・プロンプトの型</li>
-    <li><span class="t">55–80分</span>　演習2-1・2-2</li>
-    <li><span class="t">80–90分</span>　まとめ・課題の説明</li>
-  </ul>
-
-  <h2>1. ロジカルシンキングとは</h2>
-  <p>物事を<strong>筋道立てて考え、分かりやすく伝える</strong>技術。論理的な説明は必ず「主張（結論）」と「根拠（事実）」がつながっています。</p>
-  <blockquote class="box" style="background:var(--light);border-color:var(--border)">
-    「だから何？（So What?）」と「なぜそう言える？（Why So?）」を往復して、主張と根拠のつながりを確かめる。
-  </blockquote>
-
-  <h2>2. MECE（モレなく・ダブりなく）</h2>
-  <p>物事を分けるときの基本。モレがあると見落とし、ダブりがあると混乱します。</p>
-  <table>
-    <tr><th>切り口</th><th>例</th></tr>
-    <tr><td>対象</td><td>新規顧客／既存顧客</td></tr>
-    <tr><td>プロセス</td><td>認知 → 検討 → 購入 → 継続</td></tr>
-    <tr><td>数式分解</td><td>売上 ＝ 客数 × 客単価</td></tr>
-  </table>
-
-  <h2>3. ピラミッド構造 と PREP</h2>
-  <p>結論を頂点に、根拠を下に積み上げる構造。説明は<strong>結論ファースト</strong>が鉄則です。PREPの順で話します。</p>
-  <table>
-    <tr><th>記号</th><th>意味</th><th>例</th></tr>
-    <tr><td>P</td><td>Point（結論）</td><td>「A案を推奨します」</td></tr>
-    <tr><td>R</td><td>Reason（理由）</td><td>「コストと効果のバランスが最良」</td></tr>
-    <tr><td>E</td><td>Example（具体例）</td><td>「他社では◯%改善」</td></tr>
-    <tr><td>P</td><td>Point（結論再掲）</td><td>「よってA案を推奨」</td></tr>
-  </table>
-
-  <h2>4. ロジックツリー</h2>
-  <p>テーマをツリー状にMECEで分解して深掘りする道具。3つの型があります。</p>
-  <table>
-    <tr><th>型</th><th>問い</th><th>用途</th></tr>
-    <tr><td>Whatツリー</td><td>何があるか</td><td>全体像を把握</td></tr>
-    <tr><td>Whyツリー</td><td>なぜか</td><td>原因の深掘り</td></tr>
-    <tr><td>Howツリー</td><td>どうやるか</td><td>打ち手の洗い出し</td></tr>
-  </table>
-
-  <h2>5. AIを「思考の相棒」にする</h2>
-  <p>ロジカルシンキングはAIと特に相性が良い領域です。ただし<strong>考える主役は自分</strong>。AIは発散とチェックを手伝わせます。</p>
-  <ul>
-    <li><strong>MECEな切り口の案出し</strong>：「他にどんな切り口がある？」</li>
-    <li><strong>ロジックツリーの叩き台</strong>：ゼロから書かず、AI案を直す</li>
-    <li><strong>抜け漏れチェック</strong>：「このツリーにモレ・ダブりはない？」</li>
-    <li><strong>So What? / Why So? の問い返し</strong>：論理の飛躍を指摘させる</li>
-  </ul>
-  <div class="box ai">
-    <p class="box-title">🤖 プロンプト例（抜け漏れチェック）</p>
-    <div class="prompt">以下は私が作った「新規顧客が増えない原因」のロジックツリーです。
-MECE（モレなく・ダブりなく）の観点でレビューし、
-①ダブっている項目、②抜けている観点、③粒度が揃っていない箇所
-を指摘してください。最後に改善案を箇条書きで。
-
-（ここに自分のツリーを貼る）</div>
+  <h2>2.1 MECEの5つの引き出し（15分）</h2>
+  <div class="keypoint">
+    <span class="kp-label">要点</span>
+    <span class="kp-body">MECEは「正しい分解」ではない。「目的に合った分解」である。</span>
   </div>
-  <div class="box warn">
-    <p class="box-title">⚠️ 注意</p>
-    <p>AIのロジックツリーは「一般論」になりがち。<strong>今回のクライアント/案件に本当に当てはまるか</strong>は人間が判断する。鵜呑みにせず、採否を自分で決めること。</p>
+  <table>
+    <tr><th>引き出し</th><th>切り口の例</th></tr>
+    <tr><td>時系列</td><td>過去→現在→未来／短期・中期・長期</td></tr>
+    <tr><td>地理</td><td>地域／国／都市規模</td></tr>
+    <tr><td>顧客</td><td>BtoB／BtoC／規模／業種／セグメント</td></tr>
+    <tr><td>プロセス</td><td>仕入→製造→物流→販売→アフター</td></tr>
+    <tr><td>組織</td><td>機能別／階層別／地域別</td></tr>
+  </table>
+
+  <h3>経営対話で使う「一段深い」MECE</h3>
+  <div class="vs">
+    <div class="card2 bad">
+      <h4>✗ 単純な分解</h4>
+      <p>売上 ＝ 製品A ＋ 製品B ＋ 製品C</p>
+      <p>足し算なだけで、打ち手につながらない。</p>
+    </div>
+    <div class="card2 good">
+      <h4>○ 構造的な分解</h4>
+      <p>売上変動 ＝ 既存顧客変動 ＋ 新規獲得 ＋ 失注</p>
+      <p>コスト構造 ＝ 固定費の硬さ × 変動費感応度（リスク視点）</p>
+    </div>
   </div>
 
-  <h2>演習</h2>
+  <h2>2.2 空・雨・傘 — 事実／解釈／打ち手を分離（20分）</h2>
+  <div class="keypoint">
+    <span class="kp-label">要点</span>
+    <span class="kp-body">経営対話が紛糾する原因の8割は「事実・解釈・打ち手を混ぜて議論している」こと。</span>
+  </div>
+
+  <div class="flow3">
+    <div class="col sky">
+      <h4>空（事実）</h4>
+      <ul>
+        <li>観察された事実</li>
+        <li>数値データ</li>
+        <li>ヒアリング発言</li>
+        <li>公開情報</li>
+      </ul>
+      <div class="princ">原則：解釈を入れない<br>✗ 売上が深刻に落ちている<br>○ 売上が3年で15%減少</div>
+    </div>
+    <div class="arrow">→</div>
+    <div class="col rain">
+      <h4>雨（解釈）</h4>
+      <ul>
+        <li>事実が意味するもの</li>
+        <li>因果の推測</li>
+        <li>影響範囲</li>
+        <li>リスクと機会</li>
+      </ul>
+      <div class="princ">原則：複数の解釈を持つ<br>A：EVシフト<br>B：顧客集中度問題</div>
+    </div>
+    <div class="arrow">→</div>
+    <div class="col umb">
+      <h4>傘（打ち手）</h4>
+      <ul>
+        <li>打つべき手</li>
+        <li>短期・中期・長期</li>
+        <li>意思決定者を明確化</li>
+      </ul>
+      <div class="princ">原則：解釈から導く<br>Aなら：EV部品参入<br>Bなら：顧客ポートフォリオ再構築</div>
+    </div>
+  </div>
+
+  <h2>2.3 演習 — C地銀の経営課題を空・雨・傘で整理（35分）</h2>
+  <div class="box" style="background:var(--light);border:1px solid var(--border);border-radius:12px;">
+    <p class="box-title">ケース：C地銀（県内シェア25%）</p>
+    <ul>
+      <li>預金残高2兆円／本店＋30支店</li>
+      <li>貸出利鞘の縮小・人口減少が進行</li>
+      <li>経営層：「DXを進めねば」と漠然と認識</li>
+    </ul>
+  </div>
 
   <div class="box exercise">
-    <p class="box-title">✏️ 演習2-1：PREPで30秒スピーチ（10分）</p>
-    <p>テーマ「研修を受けるなら午前と午後どちらが集中できるか」について、PREPの順で30秒スピーチを作り、隣の人に話す。結論が最初に伝わったかフィードバックし合う。</p>
-  </div>
-
-  <div class="box exercise">
-    <p class="box-title">✏️ 演習2-2：AIとロジックツリーを作る（25分）</p>
+    <p class="box-title">✏️ 演習タスク（個人25分 → 共有10分）</p>
     <ol>
-      <li>テーマ「会議の時間が長い」を、まず<strong>自分で</strong>Whyツリーに2階層分解（5分）</li>
-      <li>同じテーマをAIにも分解させる（プロンプトの型を使う）</li>
-      <li>自分の案とAIの案を比較。<strong>AIから採用する点／却下する点</strong>を決め、理由を書く</li>
-      <li>統合した「自分のツリー」を完成させる</li>
+      <li>現状の<strong>空（事実）を10個</strong>書き出す（5分）</li>
+      <li><strong>雨（解釈）を3パターン</strong>作る（10分）</li>
+      <li>各解釈に対応する<strong>傘（打ち手）を3つずつ</strong>（5分）</li>
+      <li>AIに<strong>「見落としている事実」</strong>を指摘させる（5分）</li>
+      <li>経営層向け<strong>1分プレゼン</strong>の構造を組む</li>
     </ol>
-    <p class="meta">ポイント：AIに丸投げしない。自分で考えてからAIと突き合わせることで、抜け漏れに気づく。</p>
   </div>
 
-  <h2>今回の課題（次回まで）</h2>
+  <div class="box ai">
+    <p class="box-title">🤖 AI併用：解釈生成 ＋ 事実検証</p>
+    <div class="prompt">前半：以下の事実から、解釈を5パターン出してください。
+後半：見落としている重要事実を、業界レポートで確認してください。
+（並行して Deep Research で地銀の公開データを取得し、検証材料にする）</div>
+  </div>
+
+  <div class="keypoint">
+    <span class="kp-label">対話のコツ</span>
+    <span class="kp-body">「DX」「AI」を直接語らない。代わりに「この事実から、3つの解釈と打ち手があります」と語る型を使う。DXは目的ではなく“解釈の一つ”に過ぎない。</span>
+  </div>
+
+  <h2>2.4 今日のまとめと宿題</h2>
+  <table>
+    <tr><th>今日のまとめ</th><th>次回（第3回）の予告</th></tr>
+    <tr>
+      <td>・MECE 5つの引き出し<br>・空・雨・傘（事実・解釈・打ち手の分離）<br>・AI併用：解釈生成＋事実検証</td>
+      <td>・イシュー設定（良いイシュー3条件）<br>・仮説思考（30分初期仮説）<br>・演習：地方企業のDX相談を本質論点に絞る</td>
+    </tr>
+  </table>
+
   <div class="box assignment">
-    <p class="box-title">📝 課題：テーマを1つ選びロジックツリーを作る</p>
-    <p>自分の業務に関わるテーマ（または身近な課題）を1つ選び、AIと協働して<strong>ロジックツリー（Why または How）</strong>を作成して提出。次を必ず含めること。</p>
-    <ul>
-      <li>完成したロジックツリー</li>
-      <li>AIが提案した項目のうち<strong>採用したもの／却下したもの</strong>とその理由</li>
-      <li>使ったプロンプト</li>
-    </ul>
+    <p class="box-title">📝 翌週までの宿題（必須提出）</p>
+    <ol>
+      <li>上司との議論を1件選び、<strong>空・雨・傘</strong>のフレームで議論メモを作る（事前 or 事後）</li>
+      <li>Claudeに<strong>「この事実から他の解釈はないか」を5パターン</strong>出させ、自分の解釈と比較</li>
+      <li>学びと困った点を3行ずつ「LS研修ナレッジ」に追記</li>
+      <li>翌週冒頭で2〜3名が共有</li>
+    </ol>
   </div>
-
-  <h2>チェックリスト</h2>
-  <ul>
-    <li>☐ MECE の意味と切り口の例を説明できる</li>
-    <li>☐ PREP で結論ファーストに話せる</li>
-    <li>☐ ロジックツリーで問題を分解できる</li>
-    <li>☐ AIの分解案を批判的にレビューし、採否を判断できる</li>
-    <li>☐ プロンプトの型（役割・前提・指示・制約・形式）を使える</li>
-  </ul>
 
   <div class="pager">
     <a href="session1.html">← 第1回</a>
@@ -149,7 +175,7 @@ MECE（モレなく・ダブりなく）の観点でレビューし、
 </main>
 
 <footer class="site-footer">
-  © イーグリッド ｜ 社内研修用コンテンツ（社外共有時は取り扱いに注意）
+  © イーグリッド AIコンサルティング組織 ｜ コンサル基礎研修 ロジカルシンキング編
 </footer>
 
 </body>
