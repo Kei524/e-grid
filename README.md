@@ -65,9 +65,22 @@ python3 -m http.server 8000   # → http://localhost:8000
 ├── ai-guide.html         # AI併用ガイド（全回共通）
 ├── toolmap.html          # フレーム選択マップ
 ├── rubric.html           # 採点ルーブリック
+├── kamikaki.html         # 紙書き編（続編）概要・事前確認ハブ
+├── case-c.html           # C地銀 ヒアリングメモ＋解答例（事前確認）
+├── case-d.html           # D社 ヒアリング書き起こし＋補助データ（事前確認）
 ├── assets/style.css      # 共通スタイル（図表コンポーネント含む）
 └── .github/workflows/deploy-pages.yml  # GitHub Pages 自動デプロイ
 ```
+
+## 紙書き編（続編）について
+
+ロジカルシンキング編の続編「**紙書き編**」（90分×4回）は、当日は **PPTを投影資料**として使う前提で、Webには受講者向けの**事前確認コンテンツ**を用意しています。
+
+- [kamikaki.html](kamikaki.html)：紙書きの目的・スライド5種類・紙書き6ステップ・全4回構成
+- [case-c.html](case-c.html)：C地銀ヒアリングメモ（第2回の題材）＋演習解答例
+- [case-d.html](case-d.html)：D社ヒアリング書き起こし＋補助データ（第3〜4回の題材）
+
+> 注：D社ケースの **講師限定資料（教官ノート・模範解答）** は公開していません（別途、講師用ファイルとして管理）。C地銀の解答例は公開可として掲載しています。
 
 ## 運用メモ
 
