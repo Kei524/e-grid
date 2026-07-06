@@ -1,0 +1,2130 @@
+<!DOCTYPE html>
+<!--
+  ============================================================
+  16:9 SLIDE DECK TEMPLATE (html-artifact / Slide Deck format)
+  ============================================================
+  使い方:
+  1. このファイルを出力先ディレクトリにコピーしてから編集する
+     （デフォルトは入力 MD と同一ディレクトリ）
+  2. {{プレースホルダー}} を実際のコンテンツに置換する
+  3. スライド (<section class="slide" id="sN">) を増減する
+     - id は s1, s2, s3, ... の連番（URL ハッシュで深リンクするため）
+     - 最後に <div class="slide-foot"> のページ番号と doc-id を更新
+  4. <英語snake_case>_slides.html として保存する
+  5. ブラウザで開いて目視確認（プレゼンモード、サムネイル開閉、印刷プレビュー）
+
+  キー操作:
+  - 次へ: → / ↓ / Enter / Space / PageDown
+  - 前へ: ← / ↑ / Shift+Space / PageUp / Backspace
+  - 先頭/末尾: Home / End
+  - サムネイル: T / Esc（閉じる）
+  - フルスクリーン: F
+
+  カスタマイズ:
+  - 配色テーマは :root の --accent / --accent-soft / --accent-bg の 3 変数のみ
+    5 テーマ（Terracotta（既定） / Navy / Forest / Charcoal / Mono）は references/design-system.md を参照
+  - キャンバスは 1280×720 px 固定（旧 pitch-mode の 1600×900 は廃止）
+  - スライド内の本文コンポーネント追加は references/components.md
+  - シェル仕様の詳細は references/slide-deck.md
+  - 外部 stylesheet は Google Fonts のみ許可（Noto Sans JP / JetBrains Mono）
+  - 旧 Pitch Mode 相当は Mono テーマ + 拡張コンポーネント 22〜25 で再現する
+  ============================================================
+-->
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claude Code で成果物を作る — コンサル・新規事業担当者向け研修資料</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   DESIGN TOKENS — Slide Deck 全 5 テーマで統一シャシ
+   既定: Mono（参照デザイン踏襲・純白＋モノクロ）
+   キャンバスは 1280×720 px 固定（テーマ・内容によらず変えない）
+
+   Slide Deck では 5 テーマが同じ視覚言語（角丸・影・Filled-Header Card 群・
+   Value Bar 等）を共有し、**テーマ切替は --accent / --accent-soft /
+   --accent-bg の 3 変数のみ**で完結する。他の構造色（--bg / --panel-soft /
+   --rule / --ink 等）は 5 テーマ共通で不動。
+   Terracotta = テラコッタ帯、Navy = 紺帯、Forest = 深緑帯、
+   Charcoal = チャコール帯（実質モノに近い）、Mono = 黒帯 の palette 違い。
+
+   ※ Vertical Document は別。design-system.md の各テーマブロック参照。
+   ============================================================ */
+:root{
+  /* --- 構造色（5 テーマ共通・不動） --- */
+  --bg:#ffffff;
+  --bg-alt:#f5f5f5;
+  --panel:#ffffff;
+  --panel-soft:#f5f5f5;        /* Filled-Header Card ボディ背景 */
+  --ink:#1a1a1a;
+  --ink-soft:#444444;
+  --ink-mute:#777777;
+  --rule:#d0d0d0;
+  --rule-soft:#e8e8e8;
+  --good:#2e5a3f;
+  --good-bg:#e4ebd9;
+  --warn:#7a4a1a;
+  --warn-bg:#f0e3cd;
+
+  /* --- カード装飾（5 テーマ共通） --- */
+  --card-radius:12px;
+  --card-shadow:0 1px 4px rgba(0,0,0,0.05);
+  --card-shadow-lg:0 2px 12px rgba(0,0,0,0.08);
+
+  /* --- アクセント（テーマ切替の唯一のポイント） ---
+     既定は Mono（黒）。他テーマは以下の 3 行だけ差し替える：
+     Terracotta: --accent:#9d3617; --accent-soft:#c45a2c; --accent-bg:#f5e8de;
+     Navy:       --accent:#1e3a5f; --accent-soft:#3a5e8a; --accent-bg:#e3eaf3;
+     Forest:     --accent:#2a4f3a; --accent-soft:#4a7558; --accent-bg:#e2ebe1;
+     Charcoal:   --accent:#2d2d33; --accent-soft:#5a5a64; --accent-bg:#ebe9e4; */
+  --accent:#1a1a1a;
+  --accent-soft:#444444;
+  --accent-bg:#1a1a1a;
+
+  /* --- 段階濃度ランプ（Gantt/Timeline/Progression 用・accent 派生） ---
+     accent が黒なら黒 → 淡グレー、terracotta なら濃 → 淡テラコッタ、と自動追従。 */
+  --stage-1:var(--accent);
+  --stage-2:color-mix(in srgb, var(--accent) 82%, #fff);
+  --stage-3:color-mix(in srgb, var(--accent) 67%, #fff);
+  --stage-4:color-mix(in srgb, var(--accent) 52%, #fff);
+
+  /* --- 作り込み図版の配色基点（既定は --accent 継承。ブランド色はデッキ単位で上書き） --- */
+  --fig-accent:var(--accent);
+
+  /* --- スライドキャンバス --- */
+  --slide-w:1280px;
+  --slide-h:720px;
+  --slide-scale:1;
+  --slide-shift-x:0px;
+  --slide-top:50%;
+  --slide-left:50%;
+  --slide-transform:translate(-50%,-50%) scale(1);
+}
+
+/* ============================================================
+   EYEBROW BAR (Component #22) — Pitch mode meta label
+   ============================================================ */
+.eyebrow-bar{display:flex;align-items:baseline;gap:10px;margin-bottom:6px;text-transform:uppercase}
+.eyebrow-bar .eb-num{font-family:"JetBrains Mono",monospace;font-size:11px;font-weight:700;letter-spacing:0.18em;color:var(--ink)}
+.eyebrow-bar .eb-sep{font-size:11px;color:var(--ink-mute);font-weight:400}
+.eyebrow-bar .eb-label{font-size:11px;font-weight:600;letter-spacing:0.18em;color:var(--ink-mute)}
+
+/* ============================================================
+   HERO NUMBER (Component #23) — Pitch mode KPI showcase
+   ============================================================ */
+.hero-number{display:flex;flex-direction:column;align-items:flex-start;margin:8px 0 16px;padding:18px 22px;background:var(--panel);border:1px solid var(--rule)}
+.hero-number .hn-value{font-family:"Noto Sans JP",sans-serif;font-size:96px;font-weight:700;line-height:1;color:var(--ink);letter-spacing:-0.02em}
+.hero-number .hn-value .hn-unit{font-size:32px;font-weight:500;color:var(--ink-soft);margin-left:6px;letter-spacing:0}
+.hero-number .hn-label{font-size:13px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-mute);margin-top:10px}
+.hero-number .hn-note{font-size:12px;color:var(--ink-soft);margin-top:4px;line-height:1.55}
+.hero-number.compact .hn-value{font-size:68px}
+.hero-number.compact .hn-value .hn-unit{font-size:22px}
+.hero-number.dark{background:var(--accent);color:#fff;border-color:var(--accent)}
+.hero-number.dark .hn-value{color:#fff}
+.hero-number.dark .hn-value .hn-unit{color:rgba(255,255,255,0.7)}
+.hero-number.dark .hn-label{color:rgba(255,255,255,0.6)}
+.hero-number.dark .hn-note{color:rgba(255,255,255,0.75)}
+
+.hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:8px 0 14px}
+
+/* ============================================================
+   TAKEAWAY STRIP (Component #24) — Bottom conclusion bar
+   ============================================================ */
+.takeaway-strip{display:flex;align-items:center;gap:18px;padding:14px 22px;background:var(--accent);color:#fff;margin:14px 0 8px}
+.takeaway-strip .ts-label{font-family:"JetBrains Mono",monospace;font-size:11px;font-weight:700;letter-spacing:0.22em;color:rgba(255,255,255,0.6);flex-shrink:0;padding-right:18px;border-right:1px solid rgba(255,255,255,0.25)}
+.takeaway-strip .ts-body{font-size:15px;font-weight:600;letter-spacing:0.01em;color:#fff;line-height:1.5}
+.takeaway-strip .ts-body strong{background:#fff;color:var(--ink);padding:2px 8px;margin:0 2px}
+
+/* ============================================================
+   ANNOTATION POINTER (Component #25) — Diagram callout
+   ============================================================ */
+.annotation-pointer{position:absolute;display:flex;align-items:flex-start;gap:8px;pointer-events:none;z-index:5}
+.annotation-pointer .ap-line{width:28px;height:1px;background:var(--accent);margin-top:8px;flex-shrink:0}
+.annotation-pointer .ap-text{font-family:"JetBrains Mono",monospace;font-size:10.5px;font-weight:700;letter-spacing:0.1em;color:var(--ink);line-height:1.4;text-transform:uppercase;background:rgba(255,255,255,0.92);padding:3px 6px}
+.annotation-pointer .ap-text small{display:block;font-size:9.5px;font-weight:500;color:var(--ink-mute);text-transform:none;letter-spacing:0.04em;margin-top:1px}
+
+/* ============================================================
+   FILLED-HEADER CARD (Component #26) — Slide Deck 統一シャシ（5 テーマ共通）
+   黒帯ヘッダー＋淡グレーボディの主役カード。Growth Model / Phase 概観 / 3 本柱に。
+   フルスライドレイアウトとして使う（.title-bar + .message は使わない）。
+   ============================================================ */
+.slide .phase-title{text-align:center;margin:0 0 16px}
+.slide .phase-title h2{font-size:22px;font-weight:700;color:var(--ink);letter-spacing:0.02em;margin:0;padding:0;border:none}
+.slide .phase-title .phase-subtitle-top{font-size:13px;color:var(--ink-mute);margin-top:4px;line-height:1.5}
+.slide .phase-flow{display:flex;align-items:stretch;gap:0;margin:8px 0}
+.slide .phase-card{flex:1;border-radius:var(--card-radius,12px);overflow:hidden;display:flex;flex-direction:column;box-shadow:var(--card-shadow-lg,0 2px 12px rgba(0,0,0,0.08))}
+.slide .phase-header{background:var(--accent);padding:14px 18px 10px;display:flex;align-items:baseline;gap:10px}
+.slide .phase-header .phase-number{font-family:"JetBrains Mono",monospace;font-size:11px;font-weight:700;color:rgba(255,255,255,0.55);letter-spacing:0.08em}
+.slide .phase-header .phase-name{font-size:19px;font-weight:700;color:#fff;letter-spacing:0.04em}
+.slide .phase-subtitle{background:var(--accent);font-size:11.5px;color:rgba(255,255,255,0.75);padding:0 18px 12px;line-height:1.5}
+.slide .phase-body{padding:14px 16px;flex:1;display:flex;flex-direction:column;gap:12px;background:var(--panel-soft,#f5f5f5)}
+.slide .phase-body .section{background:#fff;border-radius:8px;padding:10px 12px;box-shadow:var(--card-shadow,0 1px 4px rgba(0,0,0,0.05))}
+.slide .phase-body .section-title{font-size:11px;font-weight:700;color:var(--ink);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:6px;display:flex;align-items:center;gap:6px}
+.slide .phase-body .section ul{list-style:none;padding:0;margin:0}
+.slide .phase-body .section li{font-size:11.5px;color:var(--ink-soft);line-height:1.55;padding:2px 0 2px 14px;position:relative}
+.slide .phase-body .section li::before{content:"";position:absolute;left:0;top:9px;width:6px;height:6px;border-radius:50%;background:var(--ink-mute)}
+.slide .phase-body .section.reject{border:1px solid var(--rule);box-shadow:none}
+.slide .phase-body .section.reject .section-title{color:var(--ink-mute)}
+.slide .phase-body .section.reject li{color:var(--ink-mute)}
+.slide .phase-body .section.reject li::before{background:#999}
+.slide .phase-arrow{display:flex;align-items:center;justify-content:center;width:36px;flex-shrink:0}
+.slide .phase-arrow svg{width:36px;height:60px}
+
+/* ============================================================
+   VALUE BAR (Component #27) — Slide Deck 統一シャシ（5 テーマ共通）
+   スライド最下部の黒帯サマリ。3〜4 アイテム＋縦罫。
+   ============================================================ */
+.slide .value-bar{margin-top:14px;background:var(--accent);border-radius:var(--card-radius,10px);padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.slide .value-bar-item{display:flex;align-items:center;gap:10px;color:#fff;flex:1}
+.slide .value-bar-item .vb-icon{width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,0.12);display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:600;flex-shrink:0;color:#fff}
+.slide .value-bar-item .vb-text{font-size:11.5px;font-weight:600;line-height:1.4;color:#fff}
+.slide .value-bar .vb-divider{width:1px;height:32px;background:rgba(255,255,255,0.2);flex-shrink:0}
+
+/* ============================================================
+   ICON CHIP (Component #28) — Slide Deck 統一シャシ（5 テーマ共通）
+   Filled-Header Card 内の section-title 先頭 1 字ラベル。
+   ============================================================ */
+.slide .icon-chip{display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;border-radius:4px;background:var(--accent);color:#fff;font-size:10px;font-weight:700;flex-shrink:0;font-family:"JetBrains Mono",monospace}
+.slide .icon-chip.muted{background:var(--ink-mute)}
+
+/* ============================================================
+   PILL TAG (Component #29) — Slide Deck 統一シャシ（5 テーマ共通）
+   Filled-Header Card 内のカテゴリ列挙。.tag.primary は黒塗り優先。
+   ============================================================ */
+.slide .tag-list{display:flex;flex-wrap:wrap;gap:4px;margin-top:2px}
+.slide .tag{display:inline-block;font-size:10px;font-weight:600;padding:3px 8px;border-radius:10px;background:var(--rule-soft,#e8e8e8);color:var(--ink);white-space:nowrap}
+.slide .tag.primary{background:var(--accent);color:#fff}
+
+/* ============================================================
+   EXPANSION PILLS (Component #30) — Slide Deck 統一シャシ（5 テーマ共通）
+   「→ 経営企画」型の横展開ピル群。
+   ============================================================ */
+.slide .expansion-area{background:#fff;border-radius:8px;padding:10px 12px;box-shadow:var(--card-shadow,0 1px 4px rgba(0,0,0,0.05))}
+.slide .expansion-area .expansion-title{font-size:11px;font-weight:700;color:var(--ink);letter-spacing:0.08em;margin-bottom:8px;text-transform:uppercase}
+.slide .expansion-arrows{display:flex;gap:6px;flex-wrap:wrap}
+.slide .expansion-item{display:inline-flex;align-items:center;gap:4px;background:var(--accent);color:#fff;font-size:10.5px;font-weight:600;padding:5px 10px;border-radius:16px;white-space:nowrap}
+.slide .expansion-item .arr{font-size:11px;opacity:0.6}
+
+*{margin:0;padding:0;box-sizing:border-box}
+
+html,body{
+  height:100vh;
+  width:100vw;
+  overflow:hidden;
+  background:#e5e5e5;  /* Mono 既定。他テーマ使用時は #2a2c30 に戻す */
+  color:var(--ink);
+  font-family:"Noto Sans JP",sans-serif;
+  font-feature-settings:"palt";
+  letter-spacing:0.01em;
+}
+
+/* ============================================================
+   SLIDE DECK SHELL — single-slide presentation mode
+   ============================================================ */
+.deck{
+  position:fixed;
+  inset:0;
+  width:100vw;
+  height:100vh;
+  overflow:hidden;
+  padding:0;
+  margin:0;
+  display:block;
+}
+
+.slide{
+  position:absolute;
+  top:var(--slide-top,50%);
+  left:var(--slide-left,50%);
+  width:var(--slide-w,1280px);
+  height:var(--slide-h,720px);
+  background:var(--bg);
+  overflow:hidden;
+  box-shadow:0 6px 36px rgba(0,0,0,0.45);
+  display:none;
+  /* 位置は JS で縮小後サイズから直接計算し、描画だけ scale する。
+     CSS zoom は Chrome の text caret hit-testing がずれるため使わない。
+     transform-origin:top left でスケール時の基準を左上に固定。 */
+  transform-origin:top left;
+  transform:var(--slide-transform,translate(-50%,-50%) scale(var(--slide-scale,1)));
+  transition:opacity 0.18s ease;
+  opacity:0;
+  padding:60px 64px 56px;
+  -webkit-user-select:text;
+  -moz-user-select:text;
+  user-select:text;
+  cursor:auto;
+}
+/* presentation mode 表示保護：cover/divider などのレイアウト系クラスが
+   display を再指定したとしても、現在表示中でないスライドを必ず非表示にする */
+.deck > .slide:not(.current){
+  display:none !important;
+  pointer-events:none !important;
+}
+.deck > .slide.current{ pointer-events:auto; }
+.slide.current{
+  display:block;
+  opacity:1;
+}
+
+.slide.cover{padding:96px 80px 80px}
+
+/* ── 図版を主役にする Content スライド（作り込み図版/レイアウトパターンを載せるスライドに付与）──
+   スライドを縦 flex 化し、title-bar・message・slide-foot を除いた残りの縦領域を .fig-wrap に
+   flex:1 で与えて、図を縦中央＋高さ充填にする。図が上 1/3 に縮こまり下半分が空白になる事故を防ぐ
+   （diagram-components.md「図版領域を使い切る」と対。作り込み図版スライドには原則 fig-slide を付ける）。 */
+.slide.fig-slide,
+.slide.fig-slide.current{display:flex;flex-direction:column}
+.slide.fig-slide .title-bar,
+.slide.fig-slide .message,
+.slide.fig-slide .slide-foot{flex:0 0 auto}
+.slide.fig-slide .fig-wrap{flex:1 1 auto;align-items:center;justify-content:center;min-height:0;margin:4px 0}
+
+/* ============================================================
+   CRAFTED FIGURE CANVAS（作り込み図版・レイアウトパターン / Slide Deck 限定）
+   大きいネイティブサイズで図版を組み、transform: scale で本文領域
+   （padding 内 = 1152px 幅）に収める。詳細・作図文法・配色・5レイアウト
+   パターンは references/diagram-components.md（図解の統合リファレンス）を参照。
+   ============================================================ */
+.fig-wrap{display:flex;justify-content:center;align-items:flex-start;overflow:hidden;margin:6px 0}
+.fig-canvas{flex-shrink:0;transform-origin:top center;
+  /* 濃淡ランプ（作り込み図版共通。diagram-components.md「per-figure scoped CSS 規約」） */
+  --fa-04: color-mix(in srgb, var(--fig-accent) 4%,  #fff);
+  --fa-08: color-mix(in srgb, var(--fig-accent) 8%,  #fff);
+  --fa-18: color-mix(in srgb, var(--fig-accent) 18%, #fff);
+  --fa-30: color-mix(in srgb, var(--fig-accent) 30%, #fff);
+  --fa-line: color-mix(in srgb, var(--fig-accent) 35%, var(--rule));
+  --fa-deep:   color-mix(in srgb, var(--fig-accent) 72%, #fff);
+  --fa-deeper: color-mix(in srgb, var(--fig-accent) 50%, #fff);
+}
+/* 作り込み図版のレイアウト方式は構造型で選ぶ（diagram-components.md「レイアウト原則」）。
+   flow 図版（並置・ステップ・マトリクス・タイムライン・層）: .fig-NN{ width:1152px; } をそのまま組む（scale 不要・高さ補正不要）。
+   絶対配置図版（ハブ&スポーク・アーキ図・スイムレーン・空間配置 — これらは absolute が第一候補）:
+     .fig-NN{ width:<native>px; transform:scale(<1152/native>); } を追記する。
+     scale = 1152 / ネイティブ幅。ネイティブ高 × scale ≦ 図版領域高（概ね 440px）。
+     ★ height を明示し、margin-bottom:-(native高 − scaled高) で後続を視覚下端へ引き上げる。
+     例: .fig-NN{ width:1600px;height:600px;transform:scale(0.72);transform-origin:top center;margin-bottom:-168px }
+   per-figure の独自 CSS は .fig-NN 名前空間に閉じ、配色は --fig-accent 由来 + --good/--warn のみ使う。 */
+
+/* ---- 図解スキャフォルド（diagram-components.md「レイアウトパターン/作り込み図版」用） ----
+   配色は --fig-accent の濃淡 + 意味色 --good/--warn のみ。複数アクセント色は使わない。 */
+.fig-edges{position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none;z-index:5}
+.dgram-card{background:var(--panel);border:1px solid var(--rule);border-radius:8px;padding:12px 14px;box-shadow:0 2px 8px rgba(0,0,0,0.06)}
+.dgram-badge{display:inline-block;font-family:"JetBrains Mono",monospace;font-size:10px;font-weight:700;color:#fff;background:var(--fig-accent);border-radius:4px;padding:2px 9px;letter-spacing:.02em;white-space:nowrap}
+.dgram-ghost{background:var(--bg-alt);border:1.5px dashed var(--rule);opacity:.78;box-shadow:none}
+.dgram-ghost .name{color:var(--ink-mute);text-decoration:line-through;text-decoration-thickness:2px}
+.fig-cat-1{background:color-mix(in srgb,var(--fig-accent) 8%,#fff)}
+.fig-cat-2{background:color-mix(in srgb,var(--fig-accent) 18%,#fff)}
+.fig-cat-3{background:color-mix(in srgb,var(--fig-accent) 30%,#fff)}
+.fig-bar{background:var(--fig-accent);color:#fff}
+
+/* ============================================================
+   COVER COMPONENT
+   ============================================================ */
+.cover-tag{
+  font-family:"JetBrains Mono",monospace;
+  font-size:11px;
+  letter-spacing:0.2em;
+  color:var(--accent);
+  margin-bottom:28px;
+  text-transform:uppercase;
+  display:flex;
+  align-items:center;
+  gap:14px;
+}
+.cover-tag::before{content:"";width:32px;height:1px;background:var(--accent)}
+
+h1.cover-title{
+  font-family:"Noto Sans JP",sans-serif;
+  font-weight:700;
+  font-size:44px;
+  line-height:1.4;
+  letter-spacing:0.01em;
+  color:var(--ink);
+  margin-bottom:18px;
+}
+
+.cover-sub{
+  font-family:"Noto Sans JP",sans-serif;
+  font-weight:400;
+  font-size:18px;
+  color:var(--ink-soft);
+  line-height:1.7;
+  margin-bottom:48px;
+}
+
+.cover-meta{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:0;
+  border-top:2px solid var(--ink);
+  border-bottom:1px solid var(--rule);
+}
+.cover-meta > div{padding:18px 22px 18px 0;border-right:1px solid var(--rule)}
+.cover-meta > div:last-child{border-right:none}
+.cover-meta dt{
+  font-size:10px;
+  font-family:"JetBrains Mono",monospace;
+  letter-spacing:0.15em;
+  color:var(--ink-mute);
+  text-transform:uppercase;
+  margin-bottom:6px;
+}
+.cover-meta dd{
+  font-family:"Noto Sans JP",sans-serif;
+  font-size:14px;
+  color:var(--ink);
+  font-weight:500;
+}
+
+/* ============================================================
+   TITLE BAR (Content スライド見出し)
+   ============================================================ */
+.title-bar{
+  display:flex;
+  align-items:baseline;
+  gap:18px;
+  padding-bottom:14px;
+  margin-bottom:22px;
+  border-bottom:2px solid var(--ink);
+}
+.title-bar .sec-num{
+  font-family:"JetBrains Mono",monospace;
+  font-size:13px;
+  letter-spacing:0.08em;
+  color:var(--accent);
+  font-weight:500;
+}
+.title-bar h2{
+  font-family:"Noto Sans JP",sans-serif;
+  font-weight:600;
+  font-size:24px;
+  line-height:1.4;
+  color:var(--ink);
+  letter-spacing:0.01em;
+}
+
+/* ============================================================
+   MESSAGE (1 スライド 1 メッセージの主文)
+   ============================================================ */
+.message{
+  font-family:"Noto Sans JP",sans-serif;
+  font-weight:500;
+  font-size:17px;
+  line-height:1.7;
+  color:var(--ink);
+  margin:12px 0 18px;
+  max-width:none;
+}
+
+/* ============================================================
+   BODY LIST
+   ============================================================ */
+.body-list{
+  list-style:none;
+  margin:14px 0 18px;
+  font-size:14.5px;
+  line-height:1.85;
+}
+.body-list li{
+  padding:4px 0 4px 22px;
+  position:relative;
+  color:var(--ink-soft);
+}
+.body-list li::before{
+  content:"■";
+  position:absolute;
+  left:0;
+  top:4px;
+  color:var(--accent);
+  font-size:8px;
+}
+
+/* ============================================================
+   INSIGHT CALLOUT
+   ============================================================ */
+.insight{
+  margin:20px 0;
+  padding:18px 22px;
+  background:var(--accent-bg);
+  border-left:4px solid var(--accent);
+}
+.insight .txt{
+  font-family:"Noto Sans JP",sans-serif;
+  font-size:15.5px;
+  line-height:1.7;
+  color:var(--ink);
+  font-weight:500;
+}
+
+/* ============================================================
+   SCOPE PANEL
+   ============================================================ */
+.scope{
+  background:var(--bg-alt);
+  border:1px solid var(--rule);
+  padding:22px 26px;
+  margin:20px 0;
+}
+.scope .scope-sub{
+  font-family:"Noto Sans JP",sans-serif;
+  font-weight:600;
+  font-size:15px;
+  color:var(--ink);
+  margin-bottom:12px;
+}
+.scope ul{
+  list-style:none;
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:6px 32px;
+  font-size:14.5px;
+  line-height:1.75;
+}
+.scope ul li{
+  padding-left:18px;
+  position:relative;
+  color:var(--ink-soft);
+}
+.scope ul li::before{
+  content:"●";
+  position:absolute;
+  left:0;
+  top:0;
+  color:var(--accent);
+  font-size:8px;
+  line-height:2.0;
+}
+
+/* ============================================================
+   FACT LIST (補足ファクト / 出典付き箇条書き)
+   ============================================================ */
+.fact-list{
+  list-style:none;
+  margin:14px 0;
+  font-size:13.5px;
+  line-height:1.7;
+}
+.fact-list li{
+  padding:6px 0 6px 18px;
+  position:relative;
+  color:var(--ink-soft);
+  border-bottom:1px dotted var(--rule);
+}
+.fact-list li:last-child{border-bottom:none}
+.fact-list li::before{
+  content:"–";
+  position:absolute;
+  left:0;
+  top:6px;
+  color:var(--ink-mute);
+}
+.fact-list .src{
+  font-family:"JetBrains Mono",monospace;
+  font-size:10px;
+  color:var(--ink-mute);
+  margin-left:6px;
+  letter-spacing:0.05em;
+}
+
+/* ============================================================
+   SECTION DIVIDER (章扉スライド)
+   ============================================================ */
+.divider{
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  height:100%;
+  padding:40px 20px;
+}
+.divider .div-num{
+  font-family:"JetBrains Mono",monospace;
+  font-size:13px;
+  letter-spacing:0.18em;
+  color:var(--accent);
+  text-transform:uppercase;
+  margin-bottom:14px;
+}
+.divider .div-title{
+  font-family:"Noto Sans JP",sans-serif;
+  font-weight:700;
+  font-size:38px;
+  line-height:1.4;
+  color:var(--ink);
+  margin-bottom:18px;
+  letter-spacing:0.01em;
+}
+.divider .lede{
+  font-family:"Noto Sans JP",sans-serif;
+  font-weight:400;
+  font-size:17px;
+  line-height:1.85;
+  color:var(--ink-soft);
+  padding:18px 22px;
+  background:var(--bg-alt);
+  border-left:3px solid var(--accent);
+  max-width:880px;
+}
+
+/* ============================================================
+   TOC (スライドデッキ向け：1〜2 列の章一覧)
+   ============================================================ */
+.toc-grid{
+  list-style:none;
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:8px 56px;
+  margin-top:14px;
+}
+.toc-grid li{
+  display:flex;
+  align-items:baseline;
+  gap:16px;
+  padding:12px 0;
+  border-bottom:1px dotted var(--rule);
+  font-size:14.5px;
+}
+.toc-grid .toc-num{
+  font-family:"JetBrains Mono",monospace;
+  font-size:11px;
+  color:var(--accent);
+  min-width:30px;
+  font-weight:500;
+  letter-spacing:0.05em;
+}
+.toc-grid .toc-name{
+  font-family:"Noto Sans JP",sans-serif;
+  font-weight:500;
+  color:var(--ink);
+}
+
+/* ============================================================
+   DIAGRAM COMPONENTS (構造化図解 — diagram-components.md 参照)
+   template.html と同期。1スライド 1 図解を厳守
+   ============================================================ */
+.diagram{margin:18px 0;padding:22px 24px 18px;background:var(--bg-alt);border:1px solid var(--rule);page-break-inside:avoid;break-inside:avoid}
+.diagram figcaption{margin-top:14px;font-family:"JetBrains Mono",monospace;font-size:10.5px;color:var(--ink-mute);text-align:center;letter-spacing:0.12em;text-transform:uppercase}
+
+.diagram-flow-h{display:flex;align-items:stretch;gap:0}
+.diagram-flow-h .dflow-node{flex:1}
+.diagram-flow-v{display:flex;flex-direction:column;max-width:520px;margin:0 auto}
+.dflow-node{padding:14px 16px;background:var(--panel);border:1px solid var(--rule);min-height:78px;display:flex;flex-direction:column;justify-content:center}
+.dflow-node.accent{border-color:var(--accent);border-width:2px;padding:13px 15px;background:var(--accent-bg)}
+.dfn-label{font-family:"Noto Sans JP",sans-serif;font-weight:600;font-size:14px;color:var(--ink);margin-bottom:4px;letter-spacing:0.01em}
+.dflow-node.accent .dfn-label{color:var(--accent)}
+.dfn-desc{font-size:11.5px;color:var(--ink-soft);line-height:1.65}
+.dflow-arrow{width:28px;flex-shrink:0;position:relative;align-self:stretch}
+.dflow-arrow::after{content:"";position:absolute;top:50%;left:0;right:0;height:1px;background:var(--ink-mute);transform:translateY(-50%)}
+.dflow-arrow::before{content:"";position:absolute;top:50%;right:6px;width:0;height:0;border-left:6px solid var(--ink-mute);border-top:4px solid transparent;border-bottom:4px solid transparent;transform:translateY(-50%)}
+.dflow-arrow-v{height:20px;position:relative}
+.dflow-arrow-v::after{content:"";position:absolute;left:50%;top:0;bottom:0;width:1px;background:var(--ink-mute);transform:translateX(-50%)}
+.dflow-arrow-v::before{content:"";position:absolute;bottom:4px;left:50%;width:0;height:0;border-top:6px solid var(--ink-mute);border-left:4px solid transparent;border-right:4px solid transparent;transform:translateX(-50%)}
+
+.diagram-quadrant{position:relative;padding-left:52px;padding-right:8px}
+.dq-axis-y{position:absolute;left:14px;top:50%;transform:translateY(-50%) rotate(-90deg);transform-origin:center;font-family:"JetBrains Mono",monospace;font-size:10.5px;color:var(--ink-mute);letter-spacing:0.1em;white-space:nowrap}
+.dq-axis-x{margin-top:12px;text-align:center;font-family:"JetBrains Mono",monospace;font-size:10.5px;color:var(--ink-mute);letter-spacing:0.1em}
+.dq-axis-x span,.dq-axis-y span{color:var(--ink);font-weight:600;margin:0 6px}
+.dq-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--rule);border:1px solid var(--rule)}
+.dq-cell{padding:18px 18px;background:var(--panel);min-height:108px}
+.dq-cell.accent{background:var(--accent-bg);border-left:3px solid var(--accent);padding-left:15px}
+.dq-label{font-family:"Noto Sans JP",sans-serif;font-weight:600;font-size:15px;color:var(--ink);margin-bottom:6px}
+.dq-cell.accent .dq-label{color:var(--accent)}
+.dq-cell p{font-size:12.5px;color:var(--ink-soft);line-height:1.7;margin:0}
+
+.diagram-pyramid{display:flex;flex-direction:column;align-items:center;gap:5px;padding:6px 0}
+.dp-layer{padding:12px 18px;background:var(--panel);border:1px solid var(--rule);text-align:center;display:flex;flex-direction:column;justify-content:center;align-items:center;min-height:54px}
+.dp-l1{width:38%}
+.dp-l2{width:54%}
+.dp-l3{width:70%}
+.dp-l4{width:86%}
+.dp-l5{width:100%}
+.dp-layer.accent{border-color:var(--accent);border-width:2px;background:var(--accent-bg);padding:11px 17px}
+.dp-label{font-family:"Noto Sans JP",sans-serif;font-weight:600;font-size:14px;color:var(--ink);letter-spacing:0.01em}
+.dp-layer.accent .dp-label{color:var(--accent)}
+.dp-desc{font-size:11.5px;color:var(--ink-soft);margin-top:3px;line-height:1.55}
+
+.diagram-funnel{display:flex;flex-direction:column;align-items:center;gap:5px;padding:6px 0}
+.df-stage{padding:12px 20px;background:var(--panel);border:1px solid var(--rule);display:flex;flex-direction:column;align-items:center;text-align:center;gap:2px}
+.df-s1{width:100%}
+.df-s2{width:84%}
+.df-s3{width:68%}
+.df-s4{width:52%}
+.df-s5{width:38%}
+.df-stage.accent{border-color:var(--accent);border-width:2px;background:var(--accent-bg);padding:11px 19px}
+.df-label{font-family:"Noto Sans JP",sans-serif;font-weight:600;font-size:13.5px;color:var(--ink);letter-spacing:0.01em}
+.df-stage.accent .df-label{color:var(--accent)}
+.df-num{font-family:"JetBrains Mono",monospace;font-weight:500;font-size:20px;color:var(--ink);line-height:1.2;margin:2px 0}
+.df-stage.accent .df-num{color:var(--accent)}
+.df-desc{font-size:11px;color:var(--ink-soft);line-height:1.55}
+
+.diagram-cycle{display:flex;flex-direction:column;align-items:center;gap:0}
+.dc-track{display:flex;align-items:stretch;gap:8px;flex-wrap:wrap;justify-content:center;width:100%}
+.dc-node{flex:1;min-width:124px;max-width:200px;padding:14px;background:var(--panel);border:1px solid var(--rule);display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center}
+.dc-node.accent{border-color:var(--accent);border-width:2px;background:var(--accent-bg);padding:13px}
+.dc-marker{width:30px;height:30px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-family:"JetBrains Mono",monospace;font-weight:500;font-size:12.5px}
+.dc-node.accent .dc-marker{background:var(--accent)}
+.dc-label{font-family:"Noto Sans JP",sans-serif;font-weight:600;font-size:14px;color:var(--ink);margin-top:4px}
+.dc-node.accent .dc-label{color:var(--accent)}
+.dc-desc{font-size:11.5px;color:var(--ink-soft);line-height:1.55}
+.dc-arrow{width:18px;flex-shrink:0;align-self:center;position:relative;height:24px}
+.dc-arrow::after{content:"";position:absolute;top:50%;left:0;right:0;height:1px;background:var(--ink-mute);transform:translateY(-50%)}
+.dc-arrow::before{content:"";position:absolute;top:50%;right:2px;width:0;height:0;border-left:5px solid var(--ink-mute);border-top:3.5px solid transparent;border-bottom:3.5px solid transparent;transform:translateY(-50%)}
+.dc-loop{margin-top:14px;font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--accent);letter-spacing:0.18em;text-transform:uppercase}
+
+.diagram-venn{display:flex;flex-direction:column;align-items:center;gap:14px}
+.dv-svg{max-width:360px;width:100%;height:auto}
+.dv-circle{fill:var(--ink);fill-opacity:0.06;stroke:var(--ink);stroke-width:1.5}
+.dv-label{font-family:"Noto Sans JP",sans-serif;font-weight:600;font-size:14px;fill:var(--ink);text-anchor:middle}
+.dv-label-center{font-size:11px;fill:var(--accent);font-weight:600;letter-spacing:0.05em}
+.dv-legend{display:flex;flex-direction:column;gap:6px;max-width:480px;width:100%}
+.dv-leg-item{display:flex;align-items:baseline;gap:12px;font-size:12.5px;color:var(--ink-soft);line-height:1.55}
+.dv-leg-item.accent{color:var(--ink);font-weight:500}
+.dv-leg-tag{font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--ink-mute);min-width:56px;letter-spacing:0.05em;flex-shrink:0}
+.dv-leg-item.accent .dv-leg-tag{color:var(--accent)}
+
+.diagram-org{display:flex;flex-direction:column;align-items:center;gap:0}
+.dorg-level{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;width:100%}
+.dorg-node{padding:12px 20px;background:var(--panel);border:1px solid var(--rule);min-width:130px;text-align:center}
+.dorg-node.accent{border-color:var(--accent);border-width:2px;background:var(--accent-bg);padding:11px 19px}
+.dorg-label{font-family:"Noto Sans JP",sans-serif;font-weight:600;font-size:14px;color:var(--ink)}
+.dorg-node.accent .dorg-label{color:var(--accent)}
+.dorg-desc{font-size:11.5px;color:var(--ink-soft);margin-top:3px;line-height:1.55}
+.dorg-connector{width:1px;height:20px;background:var(--rule);margin:0 auto}
+
+.diagram-layers{display:flex;flex-direction:column;gap:2px}
+.dl-layer{display:flex;align-items:center;gap:16px;padding:12px 20px;background:var(--panel);border:1px solid var(--rule)}
+.dl-layer.accent{border-color:var(--accent);border-width:2px;background:var(--accent-bg);padding:11px 19px}
+.dl-tag{font-family:"JetBrains Mono",monospace;font-weight:500;font-size:11px;color:var(--ink-mute);letter-spacing:0.12em;min-width:32px;flex-shrink:0}
+.dl-layer.accent .dl-tag{color:var(--accent)}
+.dl-body{flex:1;min-width:0}
+.dl-label{font-family:"Noto Sans JP",sans-serif;font-weight:600;font-size:14px;color:var(--ink);letter-spacing:0.01em}
+.dl-layer.accent .dl-label{color:var(--accent)}
+.dl-desc{font-size:11.5px;color:var(--ink-soft);margin-top:3px;line-height:1.55}
+
+/* ============================================================
+   SUMMARY (最終スライド)
+   ============================================================ */
+.summary{
+  margin-top:18px;
+  padding:24px 28px;
+  background:var(--bg-alt);
+  border:1px solid var(--rule);
+  border-top:3px solid var(--accent);
+}
+.summary ul{list-style:none}
+.summary ul li{
+  padding:10px 0 10px 22px;
+  position:relative;
+  font-family:"Noto Sans JP",sans-serif;
+  font-size:17px;
+  line-height:1.7;
+  color:var(--ink);
+  border-bottom:1px dotted var(--rule);
+}
+.summary ul li:last-child{border-bottom:none}
+.summary ul li::before{
+  content:"■";
+  position:absolute;
+  left:0;
+  top:18px;
+  color:var(--accent);
+  font-size:9px;
+}
+
+/* ============================================================
+   SLIDE FOOT (ページ番号・doc-id)
+   ============================================================ */
+.slide-foot{
+  position:absolute;
+  bottom:20px;
+  left:64px;
+  right:64px;
+  display:flex;
+  justify-content:space-between;
+  align-items:baseline;
+  padding-top:10px;
+  border-top:1px solid var(--rule-soft);
+  font-family:"JetBrains Mono",monospace;
+  font-size:10px;
+  color:var(--ink-mute);
+  letter-spacing:0.1em;
+  /* スライド本体テキストの選択を阻害しないよう、装飾ヘッダ/フッタはクリックを通過させる */
+  pointer-events:none;
+}
+.slide-head{ pointer-events:none; }
+.slide-foot .doc-id{color:var(--accent)}
+.slide-foot .pg b{color:var(--ink);font-weight:600}
+
+/* ============================================================
+   PRESENTATION CHROME — counter / hint / thumbnail panel / toggle
+   ============================================================ */
+.deck-counter{
+  position:fixed;
+  bottom:14px;
+  right:20px;
+  font-family:"JetBrains Mono",monospace;
+  font-size:11px;
+  color:rgba(255,255,255,0.55);
+  letter-spacing:0.12em;
+  z-index:1000;
+  pointer-events:none;
+  user-select:none;
+}
+.deck-counter b{color:rgba(255,255,255,0.85);font-weight:500}
+
+.deck-hint{
+  position:fixed;
+  bottom:14px;
+  left:20px;
+  font-family:"JetBrains Mono",monospace;
+  font-size:11px;
+  color:rgba(255,255,255,0.4);
+  letter-spacing:0.08em;
+  z-index:1000;
+  pointer-events:none;
+  user-select:none;
+  transition:opacity 0.6s ease, left 0.25s ease;
+}
+.deck-hint.fade{opacity:0}
+body.panel-open .deck-hint{left:228px}
+
+.thumb-toggle{
+  position:fixed;
+  top:12px;
+  left:12px;
+  width:34px;
+  height:34px;
+  background:rgba(20,22,26,0.88);
+  color:rgba(255,255,255,0.85);
+  border:1px solid rgba(255,255,255,0.15);
+  border-radius:6px;
+  font-size:16px;
+  line-height:1;
+  cursor:pointer;
+  z-index:1200;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  transition:background 0.15s ease, left 0.25s ease, color 0.15s ease;
+  user-select:none;
+  font-family:"Noto Sans JP",sans-serif;
+}
+.thumb-toggle:hover{background:rgba(40,42,46,0.95);color:#fff}
+.thumb-toggle::before{content:"\2630"}
+body.panel-open .thumb-toggle{left:222px}
+body.panel-open .thumb-toggle::before{content:"\2715"}
+
+.thumb-panel{
+  position:fixed;
+  top:0;
+  left:0;
+  bottom:0;
+  width:210px;
+  background:rgba(18,20,24,0.97);
+  border-right:1px solid rgba(255,255,255,0.08);
+  overflow-y:auto;
+  overflow-x:hidden;
+  z-index:1100;
+  transform:translateX(-100%);
+  transition:transform 0.25s ease;
+  padding:56px 0 16px;
+}
+body.panel-open .thumb-panel{transform:translateX(0)}
+.thumb-panel::-webkit-scrollbar{width:6px}
+.thumb-panel::-webkit-scrollbar-track{background:transparent}
+.thumb-panel::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.15);border-radius:3px}
+.thumb-panel::-webkit-scrollbar-thumb:hover{background:rgba(255,255,255,0.25)}
+
+.thumb-panel-head{
+  font-family:"JetBrains Mono",monospace;
+  font-size:10px;
+  letter-spacing:0.14em;
+  color:rgba(255,255,255,0.4);
+  padding:0 16px 10px;
+  text-transform:uppercase;
+}
+.thumb-list{display:flex;flex-direction:column;gap:2px}
+
+.thumb-item{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding:6px 10px 6px 8px;
+  cursor:pointer;
+  transition:background 0.12s ease;
+  border-left:2px solid transparent;
+}
+.thumb-item:hover{background:rgba(255,255,255,0.04)}
+.thumb-item.current{
+  background:rgba(160,80,40,0.18);
+  border-left-color:var(--accent-soft);
+}
+
+.thumb-num{
+  width:20px;
+  text-align:right;
+  font-family:"JetBrains Mono",monospace;
+  font-size:10px;
+  color:rgba(255,255,255,0.45);
+  flex-shrink:0;
+}
+.thumb-item.current .thumb-num{color:rgba(255,210,180,0.95);font-weight:600}
+
+.thumb-frame{
+  width:160px;
+  height:90px;
+  overflow:hidden;
+  background:var(--bg);
+  border:1px solid rgba(255,255,255,0.1);
+  position:relative;
+  flex-shrink:0;
+  border-radius:2px;
+}
+.thumb-item.current .thumb-frame{
+  border-color:var(--accent-soft);
+  box-shadow:0 0 0 1px rgba(196,90,44,0.4);
+}
+
+.thumb-frame .slide{
+  position:absolute !important;
+  top:0 !important;
+  left:0 !important;
+  width:1280px !important;
+  height:720px !important;
+  transform:scale(0.125) !important;
+  transform-origin:top left !important;
+  display:block !important;
+  opacity:1 !important;
+  margin:0 !important;
+  box-shadow:none !important;
+  transition:none !important;
+  pointer-events:none;
+}
+
+/* スマホ等の狭い画面：サムネイルパネルを小さく左に置く。
+   開いてもスライドは右側に縮小表示され、ビューが隠れない（JS fit が実測幅を差し引く）。 */
+@media (max-width:899px){
+  .thumb-panel{width:104px;padding:46px 0 12px}
+  .thumb-panel-head{display:none}
+  .thumb-item{padding:5px 6px;gap:0;justify-content:center}
+  .thumb-num{display:none}
+  .thumb-frame{width:86px;height:48px}
+  .thumb-frame .slide{transform:scale(0.0672) !important}
+  body.panel-open .thumb-toggle{left:114px}
+  .deck-hint{display:none}
+}
+
+/* ============================================================
+   PRINT — 全スライドを 1 ページ 1 スライドで展開
+   ============================================================ */
+@media print{
+  html,body{
+    background:white;
+    overflow:visible;
+    height:auto;
+    width:auto;
+  }
+  .deck{
+    position:static;
+    padding:0;
+    gap:0;
+    width:auto;
+    height:auto;
+    overflow:visible;
+    display:block;
+  }
+  .slide{
+    position:relative !important;
+    top:auto !important;
+    left:auto !important;
+    transform:none !important;
+    opacity:1 !important;
+    display:block !important;
+    box-shadow:none;
+    page-break-after:always;
+    break-after:page;
+    margin:0 !important;
+  }
+  /* シェルの .deck > .slide:not(.current){display:none !important} は
+     .slide 単体より詳細度が高く、上の display:block !important に勝ってしまう
+     （印刷時に現在のスライド 1 枚しか出ないバグ）。同詳細度で上書きして全スライドを展開する */
+  .deck > .slide:not(.current){
+    display:block !important;
+    pointer-events:auto !important;
+  }
+  /* fig-slide は印刷でも縦 flex を維持（図の縦中央・高さ充填を保つ）。
+     詳細度を .deck > .slide.fig-slide.fig-slide（0,4,0）にして上の :not(.current)（0,3,0）に勝たせる */
+  .deck > .slide.fig-slide.fig-slide{display:flex !important;flex-direction:column}
+  .deck-counter,.deck-hint,.thumb-panel,.thumb-toggle{display:none !important}
+  @page{size:1280px 720px;margin:0}
+}
+
+/* ---- THEME: Forest ---- */
+:root{
+  --accent:#2a4f3a;
+  --accent-soft:#4a7558;
+  --accent-bg:#e2ebe1;
+}
+/* Slide-context typography overrides */
+.slide .message{ font-size: 17px; line-height: 1.7; margin: 12px 0 18px }
+.slide .body-list{ font-size: 14.5px; line-height: 1.85 }
+.slide .insight .txt{ font-size: 15.5px; line-height: 1.7 }
+.slide .fact-list{ font-size: 13.5px }
+.slide .scope ul{ font-size: 14.5px; line-height: 1.75 }
+.slide .summary ul li{ font-size: 17px; line-height: 1.7 }
+/* deck-specific density tweaks */
+.slide .diagram{ margin:14px 0; padding:18px 20px 14px }
+.slide .insight{ margin:14px 0; padding:14px 20px }
+.slide .body-list{ margin:10px 0 12px }
+.slide .fact-list{ margin:10px 0 }
+.slide .scope{ margin:14px 0; padding:18px 24px }
+
+</style>
+</head>
+<body>
+
+<div class="deck">
+
+  <!-- ============ SLIDE 01 / Cover ============ -->
+  <section class="slide cover" id="s1">
+    <div class="cover-tag">Training / Slide Deck</div>
+    <h1 class="cover-title">Claude Code で成果物を作る</h1>
+    <p class="cover-sub">コンサルティング業務・新規事業開発の実務で、Claude Code を安全に使いこなすための実践研修。<br>データ処理・ツール作成から、CLAUDE.md・Skills・Subagents による品質の固定までを扱う。</p>
+    <dl class="cover-meta">
+      <div><dt>Audience</dt><dd>コンサル・新規事業担当者</dd></div>
+      <div><dt>Document</dt><dd>研修資料（第2回）</dd></div>
+      <div><dt>Date</dt><dd>2026.07</dd></div>
+      <div><dt>Doc ID</dt><dd>TRN-2026-CC02</dd></div>
+    </dl>
+  </section>
+
+  <!-- ============ SLIDE 02 / TOC ============ -->
+  <section class="slide" id="s2">
+    <div class="title-bar"><h2>目次</h2></div>
+    <ol class="toc-grid">
+      <li><span class="toc-num">00</span><span class="toc-name">研修のゴール</span></li>
+      <li><span class="toc-num">01</span><span class="toc-name">Claude Code を知る・始める（2-1 / 2-2）</span></li>
+      <li><span class="toc-num">02</span><span class="toc-name">成果物を作る — データ処理とツール（2-3 / 2-4）</span></li>
+      <li><span class="toc-num">03</span><span class="toc-name">質を固定する道具 — CLAUDE.md・Skills・MCP（2-5）</span></li>
+      <li><span class="toc-num">04</span><span class="toc-name">使いこなす — Subagents・実践TIPS（2-6 / 2-7）</span></li>
+      <li><span class="toc-num">05</span><span class="toc-name">まとめ・今日からやること・演習</span></li>
+    </ol>
+    <div class="slide-foot"><span class="doc-id">TRN-2026-CC02</span><span class="pg"><b>2</b> / 38</span></div>
+  </section>
+
+  <!-- ============ SLIDE 03 / 研修のゴール ============ -->
+  <section class="slide" id="s3">
+    <div class="title-bar"><span class="sec-num">00</span><h2>研修のゴール</h2></div>
+    <p class="message">本研修を終えると、Claude Code を「安全に始め、成果物を作り、品質を仕組みで固定する」一連の流れを自分の業務で回せるようになる。</p>
+    <ul class="body-list">
+      <li>Claude Code で何が作れるか（ツール／自動化／データ処理／複数ファイル編集）を説明できる</li>
+      <li>Desktop（基本）で安全に始め、適切に指示を出せる</li>
+      <li>データ処理・複数ファイル作業を任せて成果物にできる</li>
+      <li>ツール／プロトタイプ／簡単なアプリを作れる</li>
+      <li>CLAUDE.md でルールを固定し、Skills で手順を型化して、成果物の質と再現性を上げられる</li>
+      <li>Subagents で作業を分担・並列化し、大きめの成果物づくりを効率化できる</li>
+    </ul>
+    <div class="slide-foot"><span class="doc-id">TRN-2026-CC02</span><span class="pg"><b>3</b> / 38</span></div>
+  </section>
+
+  <!-- ============ SLIDE 04 / Divider Section 01 ============ -->
+  <section class="slide" id="s4">
+    <div class="divider">
+      <div class="div-num">Section 01</div>
+      <h2 class="div-title">Claude Code を知る・始める</h2>
+      <p class="lede">AIエージェントとは何かを理解し、Claude Code で何が作れるかを地図として押さえる。そのうえで、作業用フォルダと安全な指示の型を整え、安心して任せられる状態を作る（2-1 / 2-2）。</p>
+    </div>
+    <div class="slide-foot"><span class="doc-id">TRN-2026-CC02</span><span class="pg"><b>4</b> / 38</span></div>
+  </section>
+
+  <!-- ============ SLIDE 05 / 2-1a AIエージェントとは（fig-01） ============ -->
+  <section class="slide fig-slide" id="s5">
+    <div class="title-bar"><span class="sec-num">1.1</span><h2>そもそも「AIエージェント」とは — 相談役から相棒へ</h2></div>
+    <p class="message">これまでの Chat は聞けば答える「相談役」。エージェントはゴールを伝えると、段取り・実行・仕上げまで自分で進める「相棒」である。</p>
+    <style>
+/* ---- fig-01: 相談役 vs 相棒（ヒーロー対比・flow） ---- */
+.fig-01{width:1152px;display:flex;flex-direction:column;gap:14px}
+.fig-01 .ask{align-self:center;display:flex;align-items:center;gap:10px;background:var(--bg-alt);border:1px solid var(--rule);border-radius:20px;padding:7px 22px;font-size:13px;color:var(--ink-soft)}
+.fig-01 .ask .lbl{font-family:"JetBrains Mono",monospace;font-size:10px;font-weight:700;letter-spacing:.12em;color:var(--fig-accent)}
+.fig-01 .vs-row{display:flex;align-items:stretch;gap:0}
+.fig-01 .panel{flex:1;border:1px solid var(--rule);border-radius:10px;background:var(--panel);padding:18px 20px 16px;display:flex;flex-direction:column;gap:10px;box-shadow:0 2px 8px rgba(0,0,0,0.06)}
+.fig-01 .panel.hero{border:2px solid var(--fig-accent);background:var(--fa-08)}
+.fig-01 .p-role{font-family:"JetBrains Mono",monospace;font-size:10.5px;font-weight:700;letter-spacing:.14em;color:var(--ink-mute)}
+.fig-01 .panel.hero .p-role{color:var(--fig-accent)}
+.fig-01 .p-head{font-size:17px;font-weight:700;color:var(--ink);white-space:nowrap}
+.fig-01 .p-quote{font-size:12px;line-height:1.65;color:var(--ink-soft);background:var(--panel);border:1px dashed var(--rule);border-radius:6px;padding:9px 12px}
+.fig-01 .panel.hero .p-quote{border-style:solid;border-color:var(--fa-line)}
+.fig-01 .p-note{font-size:12px;line-height:1.6;color:var(--ink-soft)}
+.fig-01 .p-note b{color:var(--ink)}
+.fig-01 .p-steps{display:flex;align-items:center;gap:6px;margin-top:2px}
+.fig-01 .p-steps .st{flex:1;text-align:center;background:var(--fa-18);border:1px solid var(--fa-line);border-radius:6px;padding:7px 4px;font-size:11.5px;font-weight:600;color:var(--ink);white-space:nowrap}
+.fig-01 .p-steps .st-ar{width:14px;flex-shrink:0;text-align:center;color:var(--fig-accent);font-size:11px}
+.fig-01 .vs-mid{width:64px;flex-shrink:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px}
+.fig-01 .vs-mid .ar{font-size:22px;color:var(--fig-accent);font-weight:700}
+.fig-01 .vs-mid .vl{font-family:"JetBrains Mono",monospace;font-size:9.5px;letter-spacing:.08em;color:var(--ink-mute);white-space:nowrap}
+.fig-01 .powers{display:flex;gap:10px}
+.fig-01 .pw{flex:1;display:flex;align-items:center;gap:10px;background:var(--panel);border:1px solid var(--rule);border-left:3px solid var(--fig-accent);border-radius:6px;padding:9px 14px}
+.fig-01 .pw .pw-n{font-family:"JetBrains Mono",monospace;font-size:11px;font-weight:700;color:var(--fig-accent)}
+.fig-01 .pw .pw-t{font-size:12.5px;font-weight:700;color:var(--ink);white-space:nowrap}
+.fig-01 .pw .pw-d{font-size:11px;color:var(--ink-mute);line-height:1.5}
+.fig-01 .duty{display:flex;align-items:center;gap:0;border:1px solid var(--rule);border-radius:8px;overflow:hidden}
+.fig-01 .duty .d-cell{flex:1;padding:10px 16px;font-size:12px;line-height:1.6;color:var(--ink-soft)}
+.fig-01 .duty .d-cell b{display:block;font-size:12.5px;color:var(--ink);margin-bottom:2px}
+.fig-01 .duty .d-cell.hu{background:var(--bg-alt)}
+.fig-01 .duty .d-cell.ag{background:var(--fa-08)}
+.fig-01 .duty .d-sep{width:44px;flex-shrink:0;text-align:center;font-size:16px;color:var(--fig-accent);font-weight:700}
+</style>
+<div class="fig-wrap"><div class="fig-canvas fig-01">
+  <div class="ask"><span class="lbl">依頼</span>「明日の企画書、構成案と裏付け調査をお願い」と頼んだとき——</div>
+  <div class="vs-row">
+    <div class="panel">
+      <div class="p-role">相談役（これまでの Chat）</div>
+      <div class="p-head">きれいな構成案を返して終わり</div>
+      <div class="p-quote">「完璧な構成案です。あとはご自身で調査して、資料に仕上げてください」</div>
+      <div class="p-note">アイデアはくれるが、手を動かすのは結局こちら。<br>返ってくるのは <b>「下書きのタネ」</b></div>
+    </div>
+    <div class="vs-mid"><span class="ar">→</span><span class="vl">AGENT</span></div>
+    <div class="panel hero">
+      <div class="p-role">相棒（エージェント）</div>
+      <div class="p-head">調べて、書いて、資料まで仕上げる</div>
+      <div class="p-steps">
+        <span class="st">やることリスト</span><span class="st-ar">→</span>
+        <span class="st">調べる</span><span class="st-ar">→</span>
+        <span class="st">本文を書く</span><span class="st-ar">→</span>
+        <span class="st">資料に仕上げる</span>
+      </div>
+      <div class="p-note">こちらは出てきたものを確認するだけ。<br>返ってくるのは <b>「ほぼ仕上がった成果物」</b></div>
+    </div>
+  </div>
+  <div class="powers">
+    <div class="pw"><span class="pw-n">01</span><div><div class="pw-t">段取りを考える</div><div class="pw-d">ゴールから「何をすべきか」を自分で計画する</div></div></div>
+    <div class="pw"><span class="pw-n">02</span><div><div class="pw-t">自律的に進める</div><div class="pw-d">複数のステップを続けて実行する</div></div></div>
+    <div class="pw"><span class="pw-n">03</span><div><div class="pw-t">道具を使って完結</div><div class="pw-d">検索・ファイル操作などを組み合わせて仕上げる</div></div></div>
+  </div>
+  <div class="duty">
+    <div class="d-cell hu"><b>人間の役割</b>ゴールを決める／成果物を確認し、採用・修正・やり直しを最終判断する</div>
+    <div class="d-sep">⇄</div>
+    <div class="d-cell ag"><b>エージェントの役割</b>段取り・道具の操作・仕上げまでの「間の作業」を進める</div>
+  </div>
+</div></div>
+
+    <div class="slide-foot"><span class="doc-id">TRN-2026-CC02</span><span class="pg"><b>5</b> / 38</span></div>
+  </section>
+
+  <!-- ============ SLIDE 06 / 2-1b 3つのレベル ============ -->
+  <section class="slide" id="s6">
+    <div class="title-bar"><span class="sec-num">1.2</span><h2>Claude Code とは — 成果物作成の3つのレベル</h2></div>
+    <p class="message">Claude Code は、ゴールを伝えるとファイルを直接読み書きして作業を進める環境。コードを書く必要はなく、日本語で依頼するだけでよい。</p>
+    <figure class="diagram">
+      <div class="diagram-layers">
+        <div class="dl-layer">
+          <span class="dl-tag">簡易</span>
+          <div class="dl-body"><div class="dl-label">Artifact</div><div class="dl-desc">診断ツール、画面モック、シミュレーター — その場の試作。認識合わせ・たたき台に</div></div>
+        </div>
+        <div class="dl-layer">
+          <span class="dl-tag">中級</span>
+          <div class="dl-body"><div class="dl-label">Cowork</div><div class="dl-desc">手元のファイル群を使った成果物 — レポート、集計表。ローカルフォルダでのファイル作業</div></div>
+        </div>
+        <div class="dl-layer accent">
+          <span class="dl-tag">高度</span>
+          <div class="dl-body"><div class="dl-label">Claude Code</div><div class="dl-desc">データ処理、複数画面、保存・再利用できるツール — より大きく・繰り返し使える成果物</div></div>
+        </div>
+      </div>
+      <figcaption>Artifact / Cowork が入口、Claude Code がもう一歩先</figcaption>
+    </figure>
+    <div class="slide-foot"><span class="doc-id">TRN-2026-CC02</span><span class="pg"><b>6</b> / 38</span></div>
+  </section>
+
+  <!-- ============ SLIDE 07 / 2-1c 作れるもの ============ -->
+  <section class="slide" id="s7">
+    <div class="title-bar"><span class="sec-num">1.3</span><h2>Claude Code で作れるもの</h2></div>
+    <p class="message">共通するのは「保存できる・繰り返し使える・チームで共有できる」。その場限りだった作業を、何度でも使える仕組みに変えられる。</p>
+    <div class="scope">
+      <div class="scope-sub">代表的な成果物</div>
+      <ul>
+        <li><b>CSV / Excel 分析ツール</b> — 大量データの集計・グラフ化・レポート生成を自動化</li>
+        <li><b>簡易ダッシュボード</b> — 複数データソースを統合した KPI 表示画面</li>
+        <li><b>複数ファイルの整理</b> — 散在するファイルを読み取り、分類・統合・レポート化</li>
+        <li><b>プロトタイプの本格化</b> — Artifact の試作品を保存・複数画面対応に発展</li>
+        <li><b>社内向けミニツール</b> — 見積計算、申請フォーム、チェックリスト</li>
+        <li><b>定型レポート生成</b> — 毎月の報告書をテンプレートとデータから自動生成</li>
+      </ul>
+    </div>
+    <div class="insight"><div class="txt">「作る」だけでなく「調べる・考える」にも使える — 複数エージェントの手分けでリサーチ・企画にも広がる（Section 04）。</div></div>
+    <div class="slide-foot"><span class="doc-id">TRN-2026-CC02</span><span class="pg"><b>7</b> / 38</span></div>
+  </section>
+
+  <!-- ============ SLIDE 08 / 2-1d 使い分け ============ -->
+  <section class="slide" id="s8">
+    <div class="title-bar"><span class="sec-num">1.4</span><h2>Chat・Cowork・Claude Code の使い分け</h2></div>
+    <p class="message">やりとりの単位で選ぶ — 1回性のやりとりは Chat、手元のファイル群は Cowork、プロジェクトフォルダ単位の横断作業は Claude Code。</p>
+    <figure class="diagram">
+      <div class="diagram-layers">
+        <div class="dl-layer">
+          <span class="dl-tag">CHAT</span>
+          <div class="dl-body"><div class="dl-label">Chat</div><div class="dl-desc">ファイルを貼って直してもらう。都度貼り直し・受け取って配置する一回性のやりとり</div></div>
+        </div>
+        <div class="dl-layer">
+          <span class="dl-tag">CWK</span>
+          <div class="dl-body"><div class="dl-label">Cowork</div><div class="dl-desc">手元のファイル群（Word・Excel・PDF・画像）を読ませて整理・要約・成果物化する</div></div>
+        </div>
+        <div class="dl-layer accent">
+          <span class="dl-tag">CODE</span>
+          <div class="dl-body"><div class="dl-label">Claude Code</div><div class="dl-desc">プロジェクトフォルダ単位で、複数ファイルを横断した分析・ツール構築・自動化を行う</div></div>
+        </div>
+      </div>
+      <figcaption>向いている場面で使い分ける</figcaption>
+    </figure>
+    <div class="slide-foot"><span class="doc-id">TRN-2026-CC02</span><span class="pg"><b>8</b> / 38</span></div>
+  </section>
+
+  <!-- ============ SLIDE 09 / 2-2a どこで動かすか ============ -->
+  <section class="slide" id="s9">
+    <div class="title-bar"><span class="sec-num">1.5</span><h2>どこで動かすか — Desktop / IDE / CLI</h2></div>
+    <p class="message">最初は Desktop から始めると迷わない。CLI や IDE は、並列作業や自動化を求めるようになってから検討すれば十分。</p>
+    <figure class="diagram">
+      <div class="diagram-layers">
+        <div class="dl-layer accent">
+          <span class="dl-tag">推奨</span>
+          <div class="dl-body"><div class="dl-label">Desktop — まず試す／ファイル中心で使う</div><div class="dl-desc">軽快で初心者向け。Cowork との切り替えもスムーズ</div></div>
+        </div>
+        <div class="dl-layer">
+          <span class="dl-tag">IDE</span>
+          <div class="dl-body"><div class="dl-label">IDE（VS Code / Cursor / JetBrains 拡張）</div><div class="dl-desc">エディタ画面の中で作業が完結。成果物・変更箇所（差分）を見ながら進めたい人向け</div></div>
+        </div>
+        <div class="dl-layer">
+          <span class="dl-tag">CLI</span>
+          <div class="dl-body"><div class="dl-label">CLI（ターミナル）</div><div class="dl-desc">複数の Claude Code を同時起動して並行で進められる。自動化・繰り返し実行が得意</div></div>
+        </div>
+      </div>
+      <figcaption>自分の作業スタイルに合わせて選ぶ</figcaption>
+    </figure>
+    <div class="slide-foot"><span class="doc-id">TRN-2026-CC02</span><span class="pg"><b>9</b> / 38</span></div>
+  </section>
+
+  <!-- ============ SLIDE 10 / 2-2b 準備と最初の一歩 ============ -->
+  <section class="slide" id="s10">
+    <div class="title-bar"><span class="sec-num">1.6</span><h2>始める前の準備と最初の一歩</h2></div>
+    <p class="message">まず作業用フォルダを切り、元データの直接編集を避ける。最初の指示は作業ではなく「まず中身を見てもらう」1文から始めると安全。</p>
+    <figure class="diagram">
+      <div class="diagram-flow-h">
+        <div class="dflow-node"><div class="dfn-label">1. アプリを起動</div><div class="dfn-desc">Claude デスクトップアプリを開く</div></div>
+        <div class="dflow-arrow"></div>
+        <div class="dflow-node"><div class="dfn-label">2. Claude Code を開く</div><div class="dfn-desc">メニューから選択（Cowork と同じ画面まわり）</div></div>
+        <div class="dflow-arrow"></div>
+        <div class="dflow-node"><div class="dfn-label">3. 作業フォルダを開く</div><div class="dfn-desc">元データのコピーを入れた作業用フォルダを指定</div></div>
+        <div class="dflow-arrow"></div>
+        <div class="dflow-node accent"><div class="dfn-label">4. 最初の指示を試す</div><div class="dfn-desc">いきなり作業を頼まず、状況把握から</div></div>
+      </div>
+      <figcaption>Desktop での起動 4 ステップ</figcaption>
+    </figure>
+    <div class="insight"><div class="txt">最初の1回はこう打つ — 「このフォルダに何のファイルがあるか、一覧と内容の概要を教えて。まだ何も変更しないで。」</div></div>
+    <div class="slide-foot"><span class="doc-id">TRN-2026-CC02</span><span class="pg"><b>10</b> / 38</span></div>
+  </section>
+
+  <!-- ============ SLIDE 11 / 2-2b' 許可ダイアログ ============ -->
+  <section class="slide" id="s11">
+    <div class="title-bar"><span class="sec-num">1.7</span><h2>最初に必ず出る「許可しますか？」の答え方</h2></div>
+    <p class="message">確認ダイアログは暴走を防ぐ安全装置。止まったと勘違いせず、落ち着いて答えればよい。迷ったら「1回だけ許可」が安全。</p>
+    <figure class="diagram">
+      <div class="diagram-quadrant" style="padding-left:8px">
+        <div class="dq-grid">
+          <div class="dq-cell accent">
+            <div class="dq-label">1回だけ許可</div>
+            <p>この1回だけ実行を認める。次の作業ではまた確認が出る。中身をよく見てから進めたいときに使う</p>
+          </div>
+          <div class="dq-cell">
+            <div class="dq-label">常に許可</div>
+            <p>同じフォルダ内の同種の操作（読み込みなど）は次回から確認なし。安全だと納得できた操作だけに使う</p>
+          </div>
+        </div>
+      </div>
+      <figcaption>基本の 2 択</figcaption>
+    </figure>
+    <ul class="body-list">
+      <li>「常に許可」した操作はその作業フォルダ内では次から省かれ、だんだんスムーズになる</li>
+      <li>作業フォルダの外を触ろうとしたときほど、中身を確かめてから答える</li>
+    </ul>
+    <div class="slide-foot"><span class="doc-id">TRN-2026-CC02</span><span class="pg"><b>11</b> / 38</span></div>
+  </section>
+
+  <!-- ============ SLIDE 12 / 2-2c 安全な指示5原則 ============ -->
+  <section class="slide" id="s12">
+    <div class="title-bar"><span class="sec-num">1.8</span><h2>安全な指示の出し方 — 5つの原則</h2></div>
+    <p class="message">指示が曖昧だと意図しない変更が起きる。次の5点を最初の指示に含める。</p>
+    <ul class="body-list">
+      <li><b>1. 目的と成果物を最初に伝える</b> — 「何のために」「最終的に何を出すか」を言語化する</li>
+      <li><b>2. 変更対象を明確にする</b> — 「○○ファイルの△△を修正して」。「全体を良くして」は避ける</li>
+      <li><b>3. 禁止事項を明示する</b> — 「○○は変更しないで」「既存のデータは消さないで」を先に伝える</li>
+      <li><b>4. 完了条件を決めておく</b> — 「これが満たされたら完了」。レビュー基準にもなる</li>
+      <li><b>5. 小さな単位で進める</b> — 「まず○○を作って → 確認 → 次に△△を追加」と段階的に</li>
+    </ul>
+    <div class="insight"><div class="txt">Claude Code は「手を動かすアシスタント」であり「責任者」ではない — 生成物の最終責任は自分。数値の正確性と既存部分が壊れていないかを重点チェックする。</div></div>
+    <div class="slide-foot"><span class="doc-id">TRN-2026-CC02</span><span class="pg"><b>12</b> / 38</span></div>
+  </section>
+
+  <!-- ============ SLIDE 13 / Divider Section 02 ============ -->
+  <section class="slide" id="s13">
+    <div class="divider">
+      <div class="div-num">Section 02</div>
+      <h2 class="div-title">成果物を作る — データ処理とツール</h2>
+      <p class="lede">Claude Code が特に得意な「データ処理・複数ファイルの横断作業」から始め、Artifact の延長で保存・再利用できるツールへ発展させる（2-3 / 2-4）。</p>
+    </div>
+    <div class="slide-foot"><span class="doc-id">TRN-2026-CC02</span><span class="pg"><b>13</b> / 38</span></div>
+  </section>
+
+  <!-- ============ SLIDE 14 / 2-3a データ処理 ============ -->
+  <section class="slide" id="s14">
+    <div class="title-bar"><span class="sec-num">2.1</span><h2>データ処理・複数ファイルを任せる</h2></div>
+    <p class="message">Claude Code が「集める・整える・まとめる」（下ごしらえ）を担い、自分は「分析・判断」（価値を出す仕事）に集中する。</p>
+    <div class="scope">
+      <div class="scope-sub">コンサル・新規事業で作れる成果物</div>
+      <ul>
+        <li><b>アンケート・調査データのクロス集計</b> — 設問・セグメント別に集計し、自由回答はカテゴリ分類して比較表に</li>
+        <li><b>インタビュー逐語録の整理</b> — 複数の逐語録から論点・発言を抽出して一覧に</li>
+        <li><b>競合IR・財務データの横断比較</b> — 複数社の開示情報を統合し、比較表を自動生成</li>
+        <li><b>定型調査レポートの生成</b> — テンプレートとデータから定例レポートのドラフトを生成</li>
+      </ul>
+    </div>
+    <div class="insight"><div class="txt">手作業で時間がかかる「集める・整える・まとめる」を委任し、人は分析・判断に時間を使う。</div></div>
+    <div class="slide-foot"><span class="doc-id">TRN-2026-CC02</span><span class="pg"><b>14</b> / 38</span></div>
+  </section>
+
+  <!-- ============ SLIDE 15 / 2-3b 作る流れ ============ -->
+  <section class="slide" id="s15">
+    <div class="title-bar"><span class="sec-num">2.2</span><h2>作る流れ — 4ステップ</h2></div>
+    <p class="message">準備・安全な指示（Section 01）を、実際の作業手順に落とすと次の4ステップになる。</p>
+    <figure class="diagram">
+      <div class="diagram-flow-h">
+        <div class="dflow-node"><div class="dfn-label">1. 目的と成果物を1行で</div><div class="dfn-desc">「月次売上CSVを統合して拠点別の集計表（Excel）を作る」</div></div>
+        <div class="dflow-arrow"></div>
+        <div class="dflow-node"><div class="dfn-label">2. 対象範囲を限定</div><div class="dfn-desc">「対象は◯◯フォルダのCSVだけ。元ファイルは変更せず新ファイルに出力して」</div></div>
+        <div class="dflow-arrow"></div>
+        <div class="dflow-node accent"><div class="dfn-label">3. 計画を出させてから実装</div><div class="dfn-desc">「まず実装せず、読み込むファイルと集計方針を説明して」</div></div>
+        <div class="dflow-arrow"></div>
+        <div class="dflow-node"><div class="dfn-label">4. 出力を動作確認</div><div class="dfn-desc">数値が元データと合っているか、抜け漏れがないかを自分で確認</div></div>
+      </div>
+      <figcaption>認識を合わせてから進めるのが安全</figcaption>
+    </figure>
+    <div class="slide-foot"><span class="doc-id">TRN-2026-CC02</span><span class="pg"><b>15</b> / 38</span></div>
+  </section>
+
+  <!-- ============ SLIDE 16 / 2-3c 活用例 ============ -->
+  <section class="slide" id="s16">
+    <div class="title-bar"><span class="sec-num">2.3</span><h2>活用例 — アンケート・調査データを集計する</h2></div>
+    <p class="message">元データは作業コピーで扱い、出力は必ず人が確認する。特に数値・金額・固有名詞は元データと照合してから使う。</p>
+    <figure class="diagram">
+      <div class="diagram-flow-h">
+        <div class="dflow-node"><div class="dfn-label">1. データを作業フォルダに</div><div class="dfn-desc">元ファイルのコピーを入れる。直接編集させないための準備</div></div>
+        <div class="dflow-arrow"></div>
+        <div class="dflow-node"><div class="dfn-label">2. 統合・集計を依頼</div><div class="dfn-desc">「統合して設問・セグメント別にクロス集計、自由回答は分類して比較表に」</div></div>
+        <div class="dflow-arrow"></div>
+        <div class="dflow-node"><div class="dfn-label">3. 新ファイルとして保存</div><div class="dfn-desc">「集計表を新しいファイルとして保存して」。成果物は別ファイルに</div></div>
+        <div class="dflow-arrow"></div>
+        <div class="dflow-node accent"><div class="dfn-label">4. 照合して報告書へ</div><div class="dfn-desc">数値・金額・固有名詞は元データと必ず照合</div></div>
+      </div>
+      <figcaption>元データは作業コピー・出力は必ず人が確認</figcaption>
+    </figure>
+    <div class="insight"><div class="txt">顧客データ・アンケート結果・機密資料は特に慎重に扱う。</div></div>
+    <div class="slide-foot"><span class="doc-id">TRN-2026-CC02</span><span class="pg"><b>16</b> / 38</span></div>
+  </section>
+
+  <!-- ============ SLIDE 17 / 2-4a Artifactとの違い ============ -->
+  <section class="slide" id="s17">
+    <div class="title-bar"><span class="sec-num">2.4</span><h2>ツール・プロトタイプ — Artifact との違い</h2></div>
+    <p class="message">Artifact（その場かぎりの試作）を、保存できて・複数画面があって・繰り返し使えるツールに発展させる。認識合わせが速くなり、案件をまたいで使い回せる。</p>
+    <figure class="diagram">
+      <div class="diagram-flow-h">
+        <div class="dflow-node" style="flex:1">
+          <div class="dfn-label">Artifact（第1回）</div>
+          <div class="dfn-desc">その場で動く試作品<br>1画面・データ保存なし<br>認識合わせ・たたき台に最適</div>
+        </div>
+        <div class="dflow-arrow"></div>
+        <div class="dflow-node accent" style="flex:1">
+          <div class="dfn-label">Claude Code</div>
+          <div class="dfn-desc">ファイルとして保存・再利用できる<br>複数画面・データの読み書きに対応<br>社内ミニツールとして継続利用できる</div>
+        </div>
+      </div>
+      <figcaption>試作の延長線上で「繰り返し使える形」へ</figcaption>
+    </figure>
+    <div class="slide-foot"><span class="doc-id">TRN-2026-CC02</span><span class="pg"><b>17</b> / 38</span></div>
+  </section>
+
+  <!-- ============ SLIDE 18 / 2-4b ツール例 ============ -->
+  <section class="slide" id="s18">
+    <div class="title-bar"><span class="sec-num">2.5</span><h2>作れるツールの例 — コンサル・新規事業向き</h2></div>
+    <p class="message">提案・調査・企画の現場でそのまま使える小さなツールが、日本語の依頼だけで作れる。</p>
+    <div class="scope">
+      <div class="scope-sub">ツール例</div>
+      <ul>
+        <li><b>セグメンテーション診断ツール</b> — 回答すると顧客セグメントや適合度スコアとアドバイスが出る</li>
+        <li><b>市場規模・価格シミュレーター</b> — TAM/SAM/SOM を算出。価格弾力性シミュレーションにも</li>
+        <li><b>競合比較ダッシュボード</b> — 複数社の価格・機能・シェアをグラフで一覧表示</li>
+        <li><b>ポジショニングマップ生成ツール</b> — 2軸を入力すると競合・自社の位置づけを可視化</li>
+        <li><b>NPS・認知度トラッカー</b> — 定点調査の結果を時系列で入力し、推移をグラフ化</li>
+        <li><b>競合・市場情報の検索ツール</b> — 手元の調査資料一覧をキーワードで絞り込む</li>
+      </ul>
+    </div>
+    <div class="slide-foot"><span class="doc-id">TRN-2026-CC02</span><span class="pg"><b>18</b> / 38</span></div>
+  </section>
+
+  <!-- ============ SLIDE 19 / 2-4c 作り方 ============ -->
+  <section class="slide" id="s19">
+    <div class="title-bar"><span class="sec-num">2.6</span><h2>ツールの作り方 — 4ステップ</h2></div>
+    <p class="message">まず動く最小版を作らせ、操作しながら段階的に育てる。一気に作り込ませないのがコツ。</p>
+    <figure class="diagram">
+      <div class="diagram-flow-h">
+        <div class="dflow-node"><div class="dfn-label">1. 目的と使う人を伝える</div><div class="dfn-desc">「営業が提案時に使う、簡単な市場規模算出ツール」</div></div>
+        <div class="dflow-arrow"></div>
+        <div class="dflow-node accent"><div class="dfn-label">2. たたき台を生成</div><div class="dfn-desc">まず動く最小版を作らせ、すぐ操作して確認</div></div>
+        <div class="dflow-arrow"></div>
+        <div class="dflow-node"><div class="dfn-label">3. 操作して修正を繰り返す</div><div class="dfn-desc">「項目を増やして」「結果をグラフに」と段階的に育てる</div></div>
+        <div class="dflow-arrow"></div>
+        <div class="dflow-node"><div class="dfn-label">4. 保存・共有</div><div class="dfn-desc">ブラウザで開くだけで使える形にして共有</div></div>
+      </div>
+      <figcaption>最小版 → 育てる → 共有</figcaption>
+    </figure>
+    <div class="insight"><div class="txt">作るのは「試作品・社内ツール」であり本番システムではない — 多人数利用や個人情報・機密データを扱う仕組みは別途設計が必要。クライアントに見せる際は「試作品です」と明記する。</div></div>
+    <div class="slide-foot"><span class="doc-id">TRN-2026-CC02</span><span class="pg"><b>19</b> / 38</span></div>
+  </section>
+
+  <!-- ============ SLIDE 20 / Divider Section 03 ============ -->
+  <section class="slide" id="s20">
+    <div class="divider">
+      <div class="div-num">Section 03</div>
+      <h2 class="div-title">質を固定する道具 — CLAUDE.md・Skills・MCP</h2>
+      <p class="lede">成果物を繰り返し作るようになると、毎回品質がブレない仕組みが欲しくなる。ルールの固定（CLAUDE.md）、手順の型化（Skills）、データの接続（MCP）で質と再現性を固定する（2-5）。</p>
+    </div>
+    <div class="slide-foot"><span class="doc-id">TRN-2026-CC02</span><span class="pg"><b>20</b> / 38</span></div>
+  </section>
+
+  <!-- ============ SLIDE 21 / 2-5a 3つの道具（fig-02） ============ -->
+  <section class="slide fig-slide" id="s21">
+    <div class="title-bar"><span class="sec-num">3.1</span><h2>3つの道具の全体像 — CLAUDE.md・Skills・MCP</h2></div>
+    <p class="message">常に守るルールの上で、型化した手順と道具を使い、足りないデータを取り寄せる。3つが揃うと依頼文は短くなり、毎回同じ品質が返ってくる。</p>
+    <style>
+/* ---- fig-02: 3つの道具（3カード・多属性・flow） ---- */
+.fig-02{width:1152px;display:flex;flex-direction:column;gap:14px}
+.fig-02 .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.fig-02 .tool{border-radius:10px;overflow:hidden;border:1px solid var(--rule);background:var(--panel);display:flex;flex-direction:column;box-shadow:0 2px 8px rgba(0,0,0,0.06)}
+.fig-02 .tool.always{border:2px solid var(--fig-accent)}
+.fig-02 .t-head{background:var(--fig-accent);padding:12px 16px 10px}
+.fig-02 .tool:not(.always) .t-head{background:var(--fa-deep)}
+.fig-02 .t-name{font-family:"JetBrains Mono",monospace;font-size:15px;font-weight:700;color:#fff;white-space:nowrap}
+.fig-02 .t-def{font-size:11.5px;color:rgba(255,255,255,0.85);margin-top:2px;font-weight:600;white-space:nowrap}
+.fig-02 .t-body{padding:12px 14px;display:flex;flex-direction:column;gap:8px;flex:1;background:var(--fa-04)}
+.fig-02 .t-row{display:flex;gap:8px;align-items:flex-start;background:var(--panel);border:1px solid var(--rule-soft);border-radius:6px;padding:8px 10px}
+.fig-02 .t-row .k{font-family:"JetBrains Mono",monospace;font-size:9.5px;font-weight:700;letter-spacing:.08em;color:var(--fig-accent);flex-shrink:0;width:52px;padding-top:2px}
+.fig-02 .t-row .v{font-size:12px;line-height:1.55;color:var(--ink-soft)}
+.fig-02 .t-row .v b{color:var(--ink)}
+.fig-02 .t-row.timing .v{font-weight:700;color:var(--ink)}
+.fig-02 .combine{display:flex;align-items:center;gap:0;background:var(--fig-accent);border-radius:8px;padding:13px 22px;color:#fff}
+.fig-02 .combine .c-item{flex:1;display:flex;align-items:center;gap:9px;justify-content:center}
+.fig-02 .combine .c-n{width:26px;height:26px;border-radius:50%;background:rgba(255,255,255,0.14);display:flex;align-items:center;justify-content:center;font-family:"JetBrains Mono",monospace;font-size:11px;font-weight:700;flex-shrink:0}
+.fig-02 .combine .c-t{font-size:12.5px;font-weight:600;white-space:nowrap}
+.fig-02 .combine .c-x{width:30px;flex-shrink:0;text-align:center;font-size:13px;color:rgba(255,255,255,0.55)}
+.fig-02 .combine .c-eq{width:34px;flex-shrink:0;text-align:center;font-size:15px;font-weight:700;color:rgba(255,255,255,0.85)}
+.fig-02 .combine .c-out{font-size:12.5px;font-weight:700;white-space:nowrap;background:#fff;color:var(--ink);border-radius:6px;padding:6px 14px}
+</style>
+<div class="fig-wrap"><div class="fig-canvas fig-02">
+  <div class="cards">
+    <div class="tool always">
+      <div class="t-head"><div class="t-name">CLAUDE.md</div><div class="t-def">＝ 常に守るルール</div></div>
+      <div class="t-body">
+        <div class="t-row timing"><span class="k">発動</span><span class="v">毎回自動で読み込まれる</span></div>
+        <div class="t-row"><span class="k">例</span><span class="v">文体・体裁・禁止事項</span></div>
+        <div class="t-row"><span class="k">たとえ</span><span class="v"><b>店の決まり</b> — 開店中ずっと守る約束事</span></div>
+      </div>
+    </div>
+    <div class="tool">
+      <div class="t-head"><div class="t-name">Skills</div><div class="t-def">＝ レシピ＋道具箱</div></div>
+      <div class="t-body">
+        <div class="t-row timing"><span class="k">発動</span><span class="v">呼ばれたときに動く</span></div>
+        <div class="t-row"><span class="k">例</span><span class="v">議事録の型・週報づくり</span></div>
+        <div class="t-row"><span class="k">たとえ</span><span class="v"><b>レシピ本と調理道具</b> — 作る料理に応じて取り出す</span></div>
+      </div>
+    </div>
+    <div class="tool">
+      <div class="t-head"><div class="t-name">MCP</div><div class="t-def">＝ 材料の取り寄せ</div></div>
+      <div class="t-body">
+        <div class="t-row timing"><span class="k">発動</span><span class="v">呼ばれたときに動く</span></div>
+        <div class="t-row"><span class="k">例</span><span class="v">Notion・Slack など社内サービスの接続</span></div>
+        <div class="t-row"><span class="k">たとえ</span><span class="v"><b>材料の買い出し</b> — 足りない食材を取り寄せる</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="combine">
+    <div class="c-item"><span class="c-n">R</span><span class="c-t">ルール（常時）</span></div><span class="c-x">×</span>
+    <div class="c-item"><span class="c-n">S</span><span class="c-t">手順（型）</span></div><span class="c-x">×</span>
+    <div class="c-item"><span class="c-n">D</span><span class="c-t">データ（接続）</span></div><span class="c-eq">＝</span>
+    <span class="c-out">依頼文は短く、毎回同じ品質の成果物</span>
+  </div>
+</div></div>
+
+    <div class="slide-foot"><span class="doc-id">TRN-2026-CC02</span><span class="pg"><b>21</b> / 38</span></div>
+  </section>
+
+  <!-- ============ SLIDE 22 / 2-5b CLAUDE.md 何を書く ============ -->
+  <section class="slide" id="s22">
+    <div class="title-bar"><span class="sec-num">3.2</span><h2>CLAUDE.md — 「毎回説明し直していること」を書いておく場所</h2></div>
+    <p class="message">CLAUDE.md は Claude Code が自動で読み込むルールファイル。会話のたびに同じ注意を繰り返さなくても、品質を一定に保てる。</p>
+    <figure class="diagram">
+      <div class="diagram-quadrant" style="padding-left:8px">
+        <div class="dq-grid">
+          <div class="dq-cell accent">
+            <div class="dq-label">書くべきこと</div>
+            <p>プロジェクトの概要、ファイル構成、守るルール、禁止事項、出力形式のルール、レビュー基準</p>
+          </div>
+          <div class="dq-cell">
+            <div class="dq-label">書かなくてよいこと</div>
+            <p>一般的な知識、一時的な作業指示（それはチャットで伝える）</p>
+          </div>
+        </div>
+      </div>
+      <figcaption>迷ったら「次の会話でも説明し直すか？」— し直すことなら書く</figcaption>
+    </figure>
+    <ul class="body-list">
+      <li>ルールは後から自分で確認できるくらい<b>具体的</b>に — 「結論から書く」ではなく「冒頭1段落に結論・根拠・アクションの3点を入れる」</li>
+      <li>曖昧な表現は Claude が独自解釈し、毎回ブレる原因になる</li>
+    </ul>
+    <div class="slide-foot"><span class="doc-id">TRN-2026-CC02</span><span class="pg"><b>22</b> / 38</span></div>
+  </section>
+
+  <!-- ============ SLIDE 23 / 2-5b' CLAUDE.md 例 ============ -->
+  <section class="slide" id="s23">
+    <div class="title-bar"><span class="sec-num">3.3</span><h2>案件用 CLAUDE.md の例 — B社 中期計画支援</h2></div>
+    <p class="message">箇条書きで書くだけでよく、特別な書き方は要らない。準備・指示の基本がファイルに固定され、毎回口頭で伝えずに済む。</p>
+    <ul class="fact-list">
+      <li><b>概要</b>：B社（食品メーカー）の中期経営計画策定支援。成果物は経営会議向け資料</li>
+      <li><b>フォルダの使い方</b>：01_受領資料／は読むだけ（変更しない）、02_作業中／にドラフト、03_納品／は確定版のみ</li>
+      <li><b>守るルール</b>：です・ます調、結論から書く。社名は「B社」と表記</li>
+      <li><b>禁止事項</b>：01_受領資料／の中のファイルは変更しない</li>
+      <li><b>出力形式</b>：報告資料は1スライド1メッセージ</li>
+    </ul>
+    <div class="insight"><div class="txt">CLAUDE.md はチームの「品質基準書」— 共有すれば全員が同じルール・同じ前提で Claude Code を使え、成果物の品質が揃う。</div></div>
+    <div class="slide-foot"><span class="doc-id">TRN-2026-CC02</span><span class="pg"><b>23</b> / 38</span></div>
+  </section>
+
+  <!-- ============ SLIDE 24 / 2-5c 置き場所（fig-04） ============ -->
+  <section class="slide fig-slide" id="s24">
+    <div class="title-bar"><span class="sec-num">3.4</span><h2>CLAUDE.md の置き場所 — 自分用と案件用の2段</h2></div>
+    <p class="message">自分の流儀（結論先行・です・ます調）は自分用へ、案件固有（クライアント名・体裁・レビュー観点）は案件用へ。両方が重ねて効く。</p>
+    <style>
+/* ---- fig-04: CLAUDE.md 置き場所2段（並置＋ツリー・flow） ---- */
+.fig-04{width:1152px;display:flex;flex-direction:column;gap:12px}
+.fig-04 .grid{display:grid;grid-template-columns:1fr 1fr 320px;gap:14px;align-items:stretch}
+.fig-04 .sc-card{border-radius:10px;overflow:hidden;border:1px solid var(--rule);background:var(--panel);display:flex;flex-direction:column;box-shadow:0 2px 8px rgba(0,0,0,0.06)}
+.fig-04 .sc-card.proj{border:2px solid var(--fig-accent)}
+.fig-04 .sc-head{padding:10px 16px 9px;background:var(--fa-deep)}
+.fig-04 .sc-card.proj .sc-head{background:var(--fig-accent)}
+.fig-04 .sc-head .h-name{font-size:14.5px;font-weight:700;color:#fff;white-space:nowrap}
+.fig-04 .sc-head .h-sub{font-family:"JetBrains Mono",monospace;font-size:9.5px;letter-spacing:.1em;color:rgba(255,255,255,0.72);margin-top:1px}
+.fig-04 .sc-body{padding:10px 12px;display:flex;flex-direction:column;gap:7px;flex:1;background:var(--fa-04)}
+.fig-04 .sc-row{display:flex;gap:8px;align-items:flex-start;background:var(--panel);border:1px solid var(--rule-soft);border-radius:6px;padding:7px 10px}
+.fig-04 .sc-row .k{font-family:"JetBrains Mono",monospace;font-size:9px;font-weight:700;letter-spacing:.06em;color:var(--fig-accent);flex-shrink:0;width:44px;padding-top:2px}
+.fig-04 .sc-row .v{font-size:11.5px;line-height:1.55;color:var(--ink-soft)}
+.fig-04 .sc-row .v b{color:var(--ink)}
+.fig-04 .tree{background:var(--panel);border:1px solid var(--rule);border-radius:10px;padding:14px 16px;display:flex;flex-direction:column;box-shadow:0 2px 8px rgba(0,0,0,0.06)}
+.fig-04 .tree .tr-title{font-family:"JetBrains Mono",monospace;font-size:9.5px;font-weight:700;letter-spacing:.12em;color:var(--ink-mute);margin-bottom:8px}
+.fig-04 .tree pre{font-family:"JetBrains Mono",monospace;font-size:11.5px;line-height:1.9;color:var(--ink-soft);margin:0}
+.fig-04 .tree pre b{color:var(--fig-accent);font-weight:700}
+.fig-04 .tree .tr-note{margin-top:auto;font-size:10.5px;color:var(--ink-mute);line-height:1.5;border-top:1px dashed var(--rule);padding-top:8px}
+.fig-04 .rulebar{display:flex;align-items:center;gap:14px;background:var(--fig-accent);border-radius:8px;padding:11px 20px;color:#fff}
+.fig-04 .rulebar .rb-k{font-family:"JetBrains Mono",monospace;font-size:9.5px;font-weight:700;letter-spacing:.14em;color:rgba(255,255,255,0.65);flex-shrink:0;border-right:1px solid rgba(255,255,255,0.25);padding-right:14px}
+.fig-04 .rulebar .rb-t{font-size:12.5px;font-weight:600;line-height:1.5}
+.fig-04 .rulebar .rb-t strong{background:#fff;color:var(--ink);padding:1px 8px;border-radius:3px;font-weight:700}
+.fig-04 .warnbar{display:flex;align-items:center;gap:12px;background:var(--warn-bg);border:1px solid var(--warn);border-radius:8px;padding:9px 18px}
+.fig-04 .warnbar .wb-k{font-family:"JetBrains Mono",monospace;font-size:9.5px;font-weight:700;letter-spacing:.1em;color:var(--warn);flex-shrink:0}
+.fig-04 .warnbar .wb-t{font-size:11.5px;color:var(--ink-soft);line-height:1.5}
+.fig-04 .warnbar .wb-t b{color:var(--ink)}
+</style>
+<div class="fig-wrap"><div class="fig-canvas fig-04">
+  <div class="grid">
+    <div class="sc-card">
+      <div class="sc-head"><div class="h-name">自分用（グローバル）</div><div class="h-sub">GLOBAL — 全作業に共通</div></div>
+      <div class="sc-body">
+        <div class="sc-row"><span class="k">場所</span><span class="v">PC の設定フォルダ（<b>.claude</b>）に1つ</span></div>
+        <div class="sc-row"><span class="k">適用</span><span class="v">自分が関わる<b>すべての作業</b></span></div>
+        <div class="sc-row"><span class="k">例</span><span class="v">結論から書く／です・ます調 ＝ 自分の仕事の流儀</span></div>
+        <div class="sc-row"><span class="k">開き方</span><span class="v"><b>/memory</b> で開ける（場所は覚えなくてよい）</span></div>
+      </div>
+    </div>
+    <div class="sc-card proj">
+      <div class="sc-head"><div class="h-name">案件用（プロジェクト）</div><div class="h-sub">PROJECT — この案件だけ</div></div>
+      <div class="sc-body">
+        <div class="sc-row"><span class="k">場所</span><span class="v">作業フォルダとして開くフォルダの<b>直下</b></span></div>
+        <div class="sc-row"><span class="k">適用</span><span class="v"><b>その案件だけ</b>に適用される</span></div>
+        <div class="sc-row"><span class="k">例</span><span class="v">クライアントは B社／成果物の体裁／レビュー観点</span></div>
+        <div class="sc-row"><span class="k">特長</span><span class="v"><b>チーム共有</b>でき、全員が同じ前提で動ける</span></div>
+      </div>
+    </div>
+    <div class="tree">
+      <div class="tr-title">FOLDER TREE</div>
+      <pre>Claude作業（親フォルダ）
+├ A社_新商品案件
+│  └ <b>CLAUDE.md</b> ←この案件のルール
+└ B社_調査案件
+   └ <b>CLAUDE.md</b></pre>
+      <div class="tr-note">案件ごとのサブフォルダ直下に1つずつ置く</div>
+    </div>
+  </div>
+  <div class="rulebar"><span class="rb-k">RULE</span><span class="rb-t">両方とも効く（重ねて読み込まれる）。内容がぶつかったときは、より具体的な <strong>案件用が優先</strong></span></div>
+  <div class="warnbar"><span class="wb-k">CAUTION</span><span class="wb-t"><b>作業フォルダは必ず自分の PC 上（ローカル）に作る</b> — Google ドライブ・BOX などのクラウド共有には直接つながない。クラウド上のファイルは、いったんローカルの作業用フォルダにコピーして使う</span></div>
+</div></div>
+
+    <div class="slide-foot"><span class="doc-id">TRN-2026-CC02</span><span class="pg"><b>24</b> / 38</span></div>
+  </section>
+
+  <!-- ============ SLIDE 25 / 2-5d /init /memory 自動メモリ ============ -->
+  <section class="slide" id="s25">
+    <div class="title-bar"><span class="sec-num">3.5</span><h2>どう作る？ — /init・/memory・自動メモリ</h2></div>
+    <p class="message">チャット入力欄に打つだけの「スラッシュコマンド」で、たたき台生成から確認・編集まで完結する。コマンドを使わず「CLAUDE.md にまとめて」でもよい。</p>
+    <figure class="diagram">
+      <div class="diagram-layers">
+        <div class="dl-layer accent">
+          <span class="dl-tag">/init</span>
+          <div class="dl-body"><div class="dl-label">たたき台を自動生成</div><div class="dl-desc">案件フォルダを開いた状態で打つと、中身から CLAUDE.md を自動生成。既存があれば上書きせず改善点を提案</div></div>
+        </div>
+        <div class="dl-layer">
+          <span class="dl-tag">/memory</span>
+          <div class="dl-body"><div class="dl-label">一覧表示・編集</div><div class="dl-desc">読み込まれている CLAUDE.md（自分用／案件用）を確認・追記。自動メモリの中身もここで確認・編集</div></div>
+        </div>
+        <div class="dl-layer">
+          <span class="dl-tag">AUTO</span>
+          <div class="dl-body"><div class="dl-label">自動メモリ — Claude が自分でメモを取る</div><div class="dl-desc">修正パターン・好み・作業ログを次のセッションに引き継ぐ。「これを覚えておいて」で保存される</div></div>
+        </div>
+      </div>
+      <figcaption>あなたが書くルール（CLAUDE.md）＋ Claude が自ら書くメモ（自動メモリ）</figcaption>
+    </figure>
+    <div class="insight"><div class="txt">反映されるのは「新しい会話」から — 作ったら・変えたら、新しい会話で始める。</div></div>
+    <div class="slide-foot"><span class="doc-id">TRN-2026-CC02</span><span class="pg"><b>25</b> / 38</span></div>
+  </section>
+
+  <!-- ============ SLIDE 26 / 2-5e 役割別分割 ============ -->
+  <section class="slide" id="s26">
+    <div class="title-bar"><span class="sec-num">3.6</span><h2>応用 — ルールファイルは役割別に小さく分ける</h2></div>
+    <p class="message">CLAUDE.md は「インデックス」、各 .md は「個別の章」。1ファイルに全部書くと、どのルールを優先するか判断しづらくなる。</p>
+    <figure class="diagram">
+      <div class="diagram-layers">
+        <div class="dl-layer">
+          <span class="dl-tag">DSN</span>
+          <div class="dl-body"><div class="dl-label">DESIGN.md</div><div class="dl-desc">見た目のトンマナ、配色、体裁。非デザイナーでも一定品質を保てる</div></div>
+        </div>
+        <div class="dl-layer">
+          <span class="dl-tag">CNT</span>
+          <div class="dl-body"><div class="dl-label">CONTENT.md</div><div class="dl-desc">文体・用語・構成パターン・「書かないこと」のルール</div></div>
+        </div>
+        <div class="dl-layer">
+          <span class="dl-tag">REV</span>
+          <div class="dl-body"><div class="dl-label">REVIEW.md</div><div class="dl-desc">レビュー観点と合格基準。誰がレビューしても同じ目線でチェックできる</div></div>
+        </div>
+        <div class="dl-layer accent">
+          <span class="dl-tag">PRG</span>
+          <div class="dl-body"><div class="dl-label">PROGRESS.md</div><div class="dl-desc">経過・決定事項・残タスク。「作業開始時に PROGRESS.md も読んで」と書けば会話をまたいで引き継げる</div></div>
+        </div>
+      </div>
+      <figcaption>CLAUDE.md からは「詳しくは○○.md を参照」と参照する</figcaption>
+    </figure>
+    <div class="slide-foot"><span class="doc-id">TRN-2026-CC02</span><span class="pg"><b>26</b> / 38</span></div>
+  </section>
+
+  <!-- ============ SLIDE 27 / 2-5f Skills ============ -->
+  <section class="slide" id="s27">
+    <div class="title-bar"><span class="sec-num">3.7</span><h2>Skills — よく使う手順を型にする</h2></div>
+    <p class="message">手順・ルール・出力形式を型として保存し、呼び出すだけで同じ品質の成果物を作る。AI の柔軟さと決まった処理の正確さを両立できる。</p>
+    <figure class="diagram">
+      <div class="diagram-layers">
+        <div class="dl-layer accent">
+          <span class="dl-tag">01</span>
+          <div class="dl-body"><div class="dl-label">指示書（中心）</div><div class="dl-desc">「競合の動きを整理 → 自社への示唆 → 次アクション」の手順と、いつ使うか</div></div>
+        </div>
+        <div class="dl-layer">
+          <span class="dl-tag">02</span>
+          <div class="dl-body"><div class="dl-label">テンプレート・素材</div><div class="dl-desc">週報のひな型（見出し・表の体裁・トンマナ）</div></div>
+        </div>
+        <div class="dl-layer">
+          <span class="dl-tag">03</span>
+          <div class="dl-body"><div class="dl-label">決まった処理</div><div class="dl-desc">社名・製品名の表記ゆれを正式名称に一括統一</div></div>
+        </div>
+        <div class="dl-layer">
+          <span class="dl-tag">04</span>
+          <div class="dl-body"><div class="dl-label">参照資料</div><div class="dl-desc">自社の競合定義・用語集（必要なときだけ読む補足）</div></div>
+        </div>
+      </div>
+      <figcaption>例：Skill「競合ウォッチ週報」の中身 — 4点セット</figcaption>
+    </figure>
+    <div class="insight"><div class="txt">Skill 化の3条件 — ①繰り返し発生する ②手順が明確 ③品質基準がある。3つが揃う作業が Skill 向き。</div></div>
+    <div class="slide-foot"><span class="doc-id">TRN-2026-CC02</span><span class="pg"><b>27</b> / 38</span></div>
+  </section>
+
+  <!-- ============ SLIDE 28 / 2-5g Skillsの育て方 ============ -->
+  <section class="slide" id="s28">
+    <div class="title-bar"><span class="sec-num">3.8</span><h2>Skills の育て方と共有 — まず指示文だけ、あとから道具を足す</h2></div>
+    <p class="message">最初から完成形を目指さない。プログラムを書く必要はなく、束ねる作業も Claude に頼めばよい。</p>
+    <figure class="diagram">
+      <div class="diagram-flow-h">
+        <div class="dflow-node accent"><div class="dfn-label">1. 手順を文章で書く</div><div class="dfn-desc">うまくいった依頼文を書き起こす。「この手順を Skill にして」と頼めば下書きしてくれる</div></div>
+        <div class="dflow-arrow"></div>
+        <div class="dflow-node"><div class="dfn-label">2. 道具を足す</div><div class="dfn-desc">テンプレート・決まった処理・参照資料を後付けで束ねる</div></div>
+        <div class="dflow-arrow"></div>
+        <div class="dflow-node"><div class="dfn-label">3. 使って直す</div><div class="dfn-desc">発動するか・品質・手間の3点を見ながら「自分仕様」に育てる</div></div>
+      </div>
+      <figcaption>呼び出しは名指しが確実 — 「競合ウォッチ週報の Skill で今週分を作って」</figcaption>
+    </figure>
+    <ul class="body-list">
+      <li>Skill の実体はファイル一式 — そのまま配布でき、属人化しがちな「うまいやり方」がチームの標準になる</li>
+      <li>実例：800社スキル集 <b>consulting-toolkit-800</b>（調査提案書・デスクリサーチ・インタビュー設計・議事録・報告書骨子・スライド構成）。マーケットプレイス「eight-hundred-inc/consulting-toolkit-800」から導入</li>
+    </ul>
+    <div class="slide-foot"><span class="doc-id">TRN-2026-CC02</span><span class="pg"><b>28</b> / 38</span></div>
+  </section>
+
+  <!-- ============ SLIDE 29 / 2-5h MCP ============ -->
+  <section class="slide" id="s29">
+    <div class="title-bar"><span class="sec-num">3.9</span><h2>MCP / Connectors — 必要なデータを接続する</h2></div>
+    <p class="message">成果物の質は「渡す情報の質」で決まる。Notion・Slack などの社内情報を接続すれば、自社の文脈を踏まえた成果物が一度の依頼で作れる。</p>
+    <ul class="body-list">
+      <li><b>仕組みはシンプル</b> — claude.ai 設定の「コネクタ」＝ MCP。「Claude と外部サービスをつなぐ口」と理解すれば十分</li>
+      <li><b>つなぎ方</b> — デスクトップアプリの設定（コネクタ）からサービスを追加し、案内に沿ってログイン・許可。<b>/mcp</b> で接続一覧を確認</li>
+      <li><b>例</b> — 社内の Notion を接続すれば「先週の定例の議事メモを踏まえて論点を整理して」がコピペなしで通る</li>
+      <li>PC 上のフォルダなら接続不要 — 作業フォルダに置けばそのまま読める</li>
+    </ul>
+    <div class="insight"><div class="txt">接続の原則 — ①必要な情報だけ渡す（ノイズは品質を下げる）②適切な粒度で渡す ③権限・機密に注意（アクセス権のある情報に限定し、機密・権限外は不用意につながない）。</div></div>
+    <div class="slide-foot"><span class="doc-id">TRN-2026-CC02</span><span class="pg"><b>29</b> / 38</span></div>
+  </section>
+
+  <!-- ============ SLIDE 30 / Divider Section 04 ============ -->
+  <section class="slide" id="s30">
+    <div class="divider">
+      <div class="div-num">Section 04</div>
+      <h2 class="div-title">使いこなす — Subagents・実践TIPS</h2>
+      <p class="lede">大きめ・複雑な成果物を効率よく作るための使いこなし。Subagents で作業を分担・並列化し、スラッシュコマンドと立て直しの型で日々の作業を安定させる（2-6 / 2-7）。</p>
+    </div>
+    <div class="slide-foot"><span class="doc-id">TRN-2026-CC02</span><span class="pg"><b>30</b> / 38</span></div>
+  </section>
+
+  <!-- ============ SLIDE 31 / 2-6a Subagents（fig-03） ============ -->
+  <section class="slide fig-slide" id="s31">
+    <div class="title-bar"><span class="sec-num">4.1</span><h2>Subagents — 作業を分担・並列化する</h2></div>
+    <p class="message">1つの大きなタスクを「調べる人・作る人・チェックする人」に分ける。ゴールを渡せば、手分け〜統合の段取りはメインエージェントが組む。</p>
+    <style>
+/* ---- fig-03: Subagents 親子構造（3層・辺ラベル付き・flow縦） ---- */
+.fig-03{width:1152px;display:flex;flex-direction:column;gap:0}
+.fig-03 .tier{display:flex;justify-content:center}
+.fig-03 .node{background:var(--panel);border:1px solid var(--rule);border-radius:10px;padding:12px 26px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,0.06)}
+.fig-03 .node .n-role{font-family:"JetBrains Mono",monospace;font-size:9.5px;font-weight:700;letter-spacing:.14em;color:var(--ink-mute);margin-bottom:3px}
+.fig-03 .node .n-name{font-size:15.5px;font-weight:700;color:var(--ink);white-space:nowrap}
+.fig-03 .node .n-desc{font-size:11.5px;color:var(--ink-soft);line-height:1.55;margin-top:3px}
+.fig-03 .node.human{border-left:3px solid var(--ink);min-width:560px}
+.fig-03 .node.main{border:2px solid var(--fig-accent);background:var(--fa-08);min-width:560px}
+.fig-03 .node.main .n-role{color:var(--fig-accent)}
+.fig-03 .edge-row{display:flex;justify-content:center;gap:120px;padding:4px 0;height:52px}
+.fig-03 .edge{display:flex;align-items:center;gap:8px}
+.fig-03 .edge .e-line{display:flex;flex-direction:column;align-items:center;color:var(--fig-accent);font-size:15px;line-height:1;font-weight:700}
+.fig-03 .edge .e-lbl{font-family:"JetBrains Mono",monospace;font-size:10px;font-weight:700;letter-spacing:.06em;color:var(--ink);background:var(--fa-18);border:1px solid var(--fa-line);border-radius:10px;padding:3px 10px;white-space:nowrap}
+.fig-03 .edge.up .e-lbl{background:var(--panel);border-style:dashed}
+.fig-03 .edge.up .e-line{color:var(--ink-mute);font-weight:400}
+.fig-03 .subs{display:flex;gap:14px;justify-content:center}
+.fig-03 .sub{flex:1;max-width:330px;background:var(--fa-04);border:1px solid var(--fa-line);border-radius:10px;padding:12px 16px;text-align:center}
+.fig-03 .sub .s-tag{display:inline-block;font-family:"JetBrains Mono",monospace;font-size:9.5px;font-weight:700;letter-spacing:.1em;color:#fff;background:var(--fig-accent);border-radius:4px;padding:2px 10px;margin-bottom:6px}
+.fig-03 .sub .s-name{font-size:14px;font-weight:700;color:var(--ink);white-space:nowrap}
+.fig-03 .sub .s-desc{font-size:11.5px;color:var(--ink-soft);line-height:1.55;margin-top:3px}
+.fig-03 .par-note{margin-top:12px;display:flex;align-items:center;justify-content:center;gap:12px;background:var(--bg-alt);border:1px solid var(--rule);border-radius:8px;padding:9px 18px}
+.fig-03 .par-note .pn-k{font-family:"JetBrains Mono",monospace;font-size:9.5px;font-weight:700;letter-spacing:.12em;color:var(--fig-accent);flex-shrink:0}
+.fig-03 .par-note .pn-t{font-size:12px;color:var(--ink-soft);line-height:1.55}
+.fig-03 .par-note .pn-t b{color:var(--ink)}
+</style>
+<div class="fig-wrap"><div class="fig-canvas fig-03">
+  <div class="tier"><div class="node human">
+    <div class="n-role">YOU</div>
+    <div class="n-name">あなた（人間）</div>
+    <div class="n-desc">ゴールを渡す。最後に成果を確認し、採用・修正・やり直しを判断する</div>
+  </div></div>
+  <div class="edge-row">
+    <div class="edge down"><span class="e-line">↓</span><span class="e-lbl">ゴールを渡す</span></div>
+    <div class="edge up"><span class="e-lbl">成果を受け取る</span><span class="e-line">↑</span></div>
+  </div>
+  <div class="tier"><div class="node main">
+    <div class="n-role">MAIN AGENT</div>
+    <div class="n-name">メインエージェント（親）</div>
+    <div class="n-desc">あなたと話す AI 本体。自分でサブに手分けし、戻ってきた要約を統合する</div>
+  </div></div>
+  <div class="edge-row">
+    <div class="edge down"><span class="e-line">↓</span><span class="e-lbl">手分けして指示</span></div>
+    <div class="edge up"><span class="e-lbl">要約が戻る</span><span class="e-line">↑</span></div>
+  </div>
+  <div class="subs">
+    <div class="sub"><span class="s-tag">SUB 1</span><div class="s-name">調査担当</div><div class="s-desc">必要な情報・ファイルの収集と整理を専門に担当</div></div>
+    <div class="sub"><span class="s-tag">SUB 2</span><div class="s-name">実装担当</div><div class="s-desc">実際のファイル作成・修正・成果物づくりを担当</div></div>
+    <div class="sub"><span class="s-tag">SUB 3</span><div class="s-name">レビュー担当</div><div class="s-desc">成果物の品質チェック・抜け漏れ確認を担当</div></div>
+  </div>
+  <div class="par-note">
+    <span class="pn-k">POINT</span>
+    <span class="pn-t">サブエージェント（子）は<b>並列</b>で作業し、<b>要約だけ</b>をメインに返す。調査は並列、レビューは成果物が揃ってから — この段取りも親が組む。確実に使いたいときは「<b>サブエージェントで手分けして</b>」と一言入れる</span>
+  </div>
+</div></div>
+
+    <div class="slide-foot"><span class="doc-id">TRN-2026-CC02</span><span class="pg"><b>31</b> / 38</span></div>
+  </section>
+
+  <!-- ============ SLIDE 32 / 2-6b なぜ強いのか ============ -->
+  <section class="slide" id="s32">
+    <div class="title-bar"><span class="sec-num">4.2</span><h2>なぜ強いのか — 「机のたとえ」と「独立した目」</h2></div>
+    <p class="message">手分けして要約だけを返せば親の机（一度に扱える情報量）が空いたままになり、役割を分ければ批判が甘くならない。</p>
+    <figure class="diagram">
+      <div class="diagram-quadrant" style="padding-left:8px">
+        <div class="dq-grid">
+          <div class="dq-cell accent">
+            <div class="dq-label">使う</div>
+            <p>情報量が多く1つの会話では精度が落ちる／作業を並列に分けられる／違う視点が欲しい</p>
+          </div>
+          <div class="dq-cell">
+            <div class="dq-label">使わない</div>
+            <p>簡単・短い・手順が一直線の作業（過剰になるので単体の Claude Code で OK）</p>
+          </div>
+        </div>
+      </div>
+      <figcaption>最初は1つの Claude Code で十分。「分担した方が速い」と感じたら取り入れる</figcaption>
+    </figure>
+    <ul class="body-list">
+      <li>1体の AI は「作業机」に限りがある — 書類（情報）で埋まると判断が鈍る。手分け＋要約返却で机を空ける</li>
+      <li>同じ AI に「作って」と「批判して」を同時に頼むと立場が混ざる — 役割を分けると各自が本気で役目を果たす</li>
+      <li>注意：背景（目的・前提・判断基準）を渡さないと、たくさん動く分だけ的外れになりやすい</li>
+    </ul>
+    <div class="slide-foot"><span class="doc-id">TRN-2026-CC02</span><span class="pg"><b>32</b> / 38</span></div>
+  </section>
+
+  <!-- ============ SLIDE 33 / 2-6c リサーチ・アイデアの型 ============ -->
+  <section class="slide" id="s33">
+    <div class="title-bar"><span class="sec-num">4.3</span><h2>リサーチの型・アイデアの型 — そのまま使える例文</h2></div>
+    <p class="message">カギは「独立した目」と「広さ」。従来は複数の AI に投げてコピペ統合していた工程が、一度の依頼で通せる。</p>
+    <figure class="diagram">
+      <div class="diagram-flow-h">
+        <div class="dflow-node"><div class="dfn-label">観点別に並列調査</div><div class="dfn-desc">複数の担当が同時に異なる観点を調べる</div></div>
+        <div class="dflow-arrow"></div>
+        <div class="dflow-node"><div class="dfn-label">親が統合</div><div class="dfn-desc">要約だけを受け取り全体をまとめる</div></div>
+        <div class="dflow-arrow"></div>
+        <div class="dflow-node accent"><div class="dfn-label">別担当が検証</div><div class="dfn-desc">抜けと根拠の弱い点を独立チェック</div></div>
+        <div class="dflow-arrow"></div>
+        <div class="dflow-node"><div class="dfn-label">1枚にまとめる</div><div class="dfn-desc">広く深く、抜けの少ない成果物に</div></div>
+      </div>
+      <figcaption>リサーチの型：広げたら一度まとめ、別のエージェントで検証する</figcaption>
+    </figure>
+    <ul class="fact-list">
+      <li><b>リサーチ例文</b>：「競合3社を『価格・提供価値・顧客層』の3観点でサブエージェントに手分けして並列で調べて。統合したら、別の担当に抜けと根拠の弱い点をチェックさせ、最後に1枚の比較表にまとめて」</li>
+      <li><b>アイデア例文</b>：「新サービスの名称を考えたい。まず命名の成功パターンを調べ、次に案を20個発散し、別の評価役に『覚えやすさ・独自性・既存名との重複』で採点させて上位5案に絞って」</li>
+    </ul>
+    <div class="slide-foot"><span class="doc-id">TRN-2026-CC02</span><span class="pg"><b>33</b> / 38</span></div>
+  </section>
+
+  <!-- ============ SLIDE 34 / 2-6d シックスハット ============ -->
+  <section class="slide" id="s34">
+    <div class="title-bar"><span class="sec-num">4.4</span><h2>コラム — 思考フレームワークを Subagents に載せる</h2></div>
+    <p class="message">シックスハット（6つの帽子）の「1つの視点＝1人の担当」に分ければ、テーマを抜けなく検証できる。企画の評価・提案の事前レビュー・打ち手の比較に。</p>
+    <div class="scope">
+      <div class="scope-sub">6つの視点 ＝ 6人の担当</div>
+      <ul>
+        <li><b>事実（白）</b> — データ・客観情報だけを集め、「分かっていること／いないこと」を仕分ける</li>
+        <li><b>感情（赤）</b> — 使う人・受け手がどう感じるか。好き嫌い・期待・不安を言語化</li>
+        <li><b>リスク（黒）</b> — 弱点・懸念・失敗しうる点を厳しく指摘。批判専門なので遠慮なく</li>
+        <li><b>メリット（黄）</b> — 価値・うまくいく理由・得られる効果を前向きに洗い出す</li>
+        <li><b>新発想（緑）</b> — 代替案・別の切り口・改善アイデアを自由に発想</li>
+        <li><b>統括（青）</b> — 他の5人の結果を整理して結論にまとめる（あなたの統合役）</li>
+      </ul>
+    </div>
+    <div class="insight"><div class="txt">Skills は「どうやるか」（手順の型）、Subagents は「誰が（何人で）やるか」（分担）。役割が違うので組み合わせて使える。</div></div>
+    <div class="slide-foot"><span class="doc-id">TRN-2026-CC02</span><span class="pg"><b>34</b> / 38</span></div>
+  </section>
+
+  <!-- ============ SLIDE 35 / 2-7a 実践TIPS ============ -->
+  <section class="slide" id="s35">
+    <div class="title-bar"><span class="sec-num">4.5</span><h2>実践 TIPS — スラッシュコマンドと小ワザ</h2></div>
+    <p class="message">すべて覚える必要はない。使えそうなものから取り入れる。コマンドの最新一覧は /help で確認できる。</p>
+    <figure class="diagram">
+      <div class="diagram-flow-h">
+        <div class="dflow-node"><div class="dfn-label">/context</div><div class="dfn-desc">机の埋まり具合を見る（会話履歴の使用量確認）</div></div>
+        <div class="dflow-arrow"></div>
+        <div class="dflow-node accent"><div class="dfn-label">/compact</div><div class="dfn-desc">要点だけ残して机を片付ける（同じ作業を続けるとき）</div></div>
+        <div class="dflow-arrow"></div>
+        <div class="dflow-node"><div class="dfn-label">/clear</div><div class="dfn-desc">全部下げてまっさらにする（別の作業に移るとき）</div></div>
+      </div>
+      <figcaption>会話が重くなったら — 「作業机」を片付ける3コマンド</figcaption>
+    </figure>
+    <ul class="body-list">
+      <li><b>パスのコピー</b> — Win：右クリック「パスのコピー」／Mac：Opt+⌘+C。フォルダ外のファイルも渡せる</li>
+      <li><b>/effort</b> — 思考の深さを調整。複雑な作業は深く、軽い作業はデフォルトで十分</li>
+      <li><b>ESC 2回・↑キー</b>（CLI / IDE）— 直前指示への巻き戻し／過去指示の再利用</li>
+      <li><b>並行作業</b> — 「案件＝フォルダ＝会話」を1対1に。同じフォルダを複数会話で同時変更しない</li>
+    </ul>
+    <div class="slide-foot"><span class="doc-id">TRN-2026-CC02</span><span class="pg"><b>35</b> / 38</span></div>
+  </section>
+
+  <!-- ============ SLIDE 36 / 2-7b 立て直し方 ============ -->
+  <section class="slide" id="s36">
+    <div class="title-bar"><span class="sec-num">4.6</span><h2>うまく動かない時の立て直し方</h2></div>
+    <p class="message">「もっと強い指示を出す」より「準備に戻る」のが効く。打ち手は順番ではなく、状況に応じて選ぶ。</p>
+    <ul class="body-list">
+      <li><b>まず、止めてよい</b> — 停止ボタン（または ESC）でいつでも止める。「今どこまで進んだ？」と確認してから打ち手を選ぶ</li>
+      <li><b>新しい会話で仕切り直す</b> — 冒頭に「目的／いまの状況／残っている課題」を1段落で書いてから依頼し直す</li>
+      <li><b>作業を1ステップに切る</b> — 「まず◯◯だけ直して。終わったら報告して、次の指示を待って」</li>
+      <li><b>対象ファイル・範囲を限定する</b> — 「対象は◯◯フォルダの△△だけ。ほかは読まず・変更しないで」</li>
+      <li><b>現状を棚卸しさせる</b> — 「変更する前に、今このファイルがどうなっていて、何が問題か説明して」</li>
+    </ul>
+    <div class="insight"><div class="txt">それでも長引くときは、2-2 の基本（作業フォルダ／目的と成果物／変更対象／禁止事項／完了条件）を整え直すのが近道。指示を強くするより前提を整え直す。</div></div>
+    <div class="slide-foot"><span class="doc-id">TRN-2026-CC02</span><span class="pg"><b>36</b> / 38</span></div>
+  </section>
+
+  <!-- ============ SLIDE 37 / まとめ ============ -->
+  <section class="slide" id="s37">
+    <div class="title-bar"><h2>まとめ — Claude Code で成果物を作る</h2></div>
+    <div class="summary">
+      <ul>
+        <li><b>知る・始める</b> — 何が作れるかを地図として押さえ、Desktop＋作業用フォルダ＋安全な指示の型（目的／変更対象／禁止事項／完了条件）で始める</li>
+        <li><b>作る</b> — ①データ処理・複数ファイル（集める・整える・まとめるを任せる）②ツール・プロトタイプ（保存・再利用できる形に育てる）</li>
+        <li><b>質を固定する</b> — CLAUDE.md でルールを固定し、Skills で手順を型化し、MCP で必要なデータを接続する</li>
+        <li><b>使いこなす</b> — Subagents で調査・実装・レビューを分担／並列化。困ったら「強い指示」より「準備に戻る」</li>
+        <li><b>出力は常に「初稿」</b> — 最終的な確認と承認は人間が行い、責任を持つ</li>
+      </ul>
+    </div>
+    <div class="slide-foot"><span class="doc-id">TRN-2026-CC02</span><span class="pg"><b>37</b> / 38</span></div>
+  </section>
+
+  <!-- ============ SLIDE 38 / 今日からやること＋演習 ============ -->
+  <section class="slide" id="s38">
+    <div class="title-bar"><h2>今日からやること（まず1つでOK）＋演習メニュー</h2></div>
+    <p class="message">Desktop で実際に1つ作ってみるのがいちばんの近道。演習は自分の業務データ（または架空データ）で試す。</p>
+    <div class="value-bar">
+      <div class="value-bar-item"><div class="vb-icon">1</div><div class="vb-text">Claude Code を Desktop で1回試す<br>（作業用フォルダ＋小さなタスク）</div></div>
+      <div class="vb-divider"></div>
+      <div class="value-bar-item"><div class="vb-icon">2</div><div class="vb-text">複数ファイルで成果物を1つ作る<br>（手元データで集計・レポート下書き）</div></div>
+      <div class="vb-divider"></div>
+      <div class="value-bar-item"><div class="vb-icon">3</div><div class="vb-text">Skill を1つ呼んでみる<br>（consulting-toolkit-800 など）</div></div>
+    </div>
+    <div class="scope" style="margin-top:16px">
+      <div class="scope-sub">演習メニュー（全8本）</div>
+      <ul>
+        <li>1. Claude Code への安全な指示文を作る（変更対象・禁止事項・完了条件・段階手順）</li>
+        <li>2. 複数ファイルのデータ集計を作る（計画 → 実装 → 照合）</li>
+        <li>3. 簡単なツールを1つ作る（最小版 → 育てる → 保存）</li>
+        <li>4. CLAUDE.md を1つ書く（/init 活用）</li>
+        <li>5. 成果物づくりの Skill を1つ設計する</li>
+        <li>6. consulting-toolkit-800 を入れて1つ呼び出す</li>
+        <li>7. Subagents の分担を設計し、実際に動かす</li>
+        <li>8. 実践 TIPS（/compact・パスのコピー等）を実際に試す</li>
+      </ul>
+    </div>
+    <div class="slide-foot"><span class="doc-id">TRN-2026-CC02</span><span class="pg"><b>38</b> / 38 · お疲れさまでした</span></div>
+  </section>
+
+</div><!-- /.deck -->
+
+<button class="thumb-toggle" id="thumbToggle" type="button" aria-label="サムネイル一覧の表示切替" title="サムネイル一覧（T）"></button>
+<aside class="thumb-panel" id="thumbPanel" aria-label="スライド一覧">
+  <div class="thumb-panel-head">Slides</div>
+  <div class="thumb-list" id="thumbList"></div>
+</aside>
+
+<div class="deck-counter" id="deckCounter"><b>1</b> / 38</div>
+<div class="deck-hint" id="deckHint">← → / Enter / Space で移動　・　T でサムネイル　・　F で全画面</div>
+
+<script>
+(function(){
+  var slides = Array.from(document.querySelectorAll('.slide'));
+  var counter = document.getElementById('deckCounter');
+  var hint = document.getElementById('deckHint');
+  var toggleBtn = document.getElementById('thumbToggle');
+  var thumbList = document.getElementById('thumbList');
+  var PANEL_W = 210;
+  /* Canvas is fixed at 1280x720; the CSS variables are kept for backwards-compat */
+  function readPxVar(name, fallback){
+    var v = getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+    var m = v.match(/^(\d+(?:\.\d+)?)px$/);
+    return m ? parseFloat(m[1]) : fallback;
+  }
+  var SLIDE_W = readPxVar('--slide-w', 1280);
+  var SLIDE_H = readPxVar('--slide-h', 720);
+  var current = 0;
+  var thumbItems = [];
+
+  function buildThumbnails(){
+    slides.forEach(function(slide, i){
+      var item = document.createElement('div');
+      item.className = 'thumb-item';
+      item.setAttribute('data-idx', i);
+
+      var num = document.createElement('span');
+      num.className = 'thumb-num';
+      num.textContent = String(i + 1).padStart(2, '0');
+
+      var frame = document.createElement('div');
+      frame.className = 'thumb-frame';
+
+      var clone = slide.cloneNode(true);
+      clone.removeAttribute('id');
+      clone.classList.remove('current');
+      clone.querySelectorAll('[id]').forEach(function(el){ el.removeAttribute('id'); });
+      frame.appendChild(clone);
+
+      item.appendChild(num);
+      item.appendChild(frame);
+      item.addEventListener('click', function(e){
+        e.stopPropagation();
+        go(i);
+      });
+      thumbList.appendChild(item);
+      thumbItems.push(item);
+    });
+  }
+
+  function fit(){
+    var panelOpen = document.body.classList.contains('panel-open');
+    // パネルを開いている間はスライド表示領域からパネル幅を差し引く（ビューを隠さない）。
+    // 幅は CSS の実測値を使うため、デスクトップ(210px)/スマホ(小さいパネル)が自動で整合する。
+    var panelEl = document.querySelector('.thumb-panel');
+    var panelW = (panelOpen && panelEl) ? panelEl.offsetWidth : 0;
+    var availW = window.innerWidth - panelW;
+    var availH = window.innerHeight;
+    var scale = Math.min(availW / SLIDE_W, availH / SLIDE_H);
+    var scaledW = SLIDE_W * scale;
+    var scaledH = SLIDE_H * scale;
+    var left = panelW + Math.max((availW - scaledW) / 2, 0);
+    var top = Math.max((availH - scaledH) / 2, 0);
+    document.documentElement.style.setProperty('--slide-scale', scale);
+    document.documentElement.style.setProperty('--slide-left', left + 'px');
+    document.documentElement.style.setProperty('--slide-top', top + 'px');
+    document.documentElement.style.setProperty('--slide-transform', 'scale(' + scale + ')');
+  }
+
+  function update(){
+    slides.forEach(function(s, i){ s.classList.toggle('current', i === current); });
+    thumbItems.forEach(function(t, i){ t.classList.toggle('current', i === current); });
+    if (counter){
+      counter.innerHTML = '<b>' + (current + 1) + '</b> / ' + slides.length;
+    }
+    if (document.body.classList.contains('panel-open') && thumbItems[current]){
+      var rect = thumbItems[current].getBoundingClientRect();
+      if (rect.top < 60 || rect.bottom > window.innerHeight - 16){
+        thumbItems[current].scrollIntoView({block: 'center', behavior: 'smooth'});
+      }
+    }
+    try { window.history.replaceState(null, '', '#s' + (current + 1)); } catch(_){}
+  }
+
+  function go(idx){
+    if (idx < 0) idx = 0;
+    if (idx >= slides.length) idx = slides.length - 1;
+    if (idx === current) return;
+    current = idx;
+    update();
+  }
+
+  function togglePanel(){
+    document.body.classList.toggle('panel-open');
+    try {
+      localStorage.setItem('slide-deck-panel-open',
+        document.body.classList.contains('panel-open') ? '1' : '0');
+    } catch(_){}
+    fit();
+    setTimeout(update, 60);
+  }
+
+  function initFromHash(){
+    var m = (window.location.hash || '').match(/^#s(\d+)$/);
+    if (m){
+      var n = parseInt(m[1], 10);
+      if (n >= 1 && n <= slides.length) current = n - 1;
+    }
+  }
+
+  function initPanelState(){
+    var saved = null;
+    try { saved = localStorage.getItem('slide-deck-panel-open'); } catch(_){}
+    // 既定はデスクトップのみ開く。スマホ等の狭い画面では閉じた状態で開始する。
+    var open = (saved === null) ? (window.innerWidth >= 900) : (saved === '1');
+    if (open) document.body.classList.add('panel-open');
+  }
+
+  function isTyping(target){
+    if (!target) return false;
+    var tag = (target.tagName || '').toLowerCase();
+    return tag === 'input' || tag === 'textarea' || tag === 'select' || target.isContentEditable;
+  }
+
+  document.addEventListener('keydown', function(e){
+    if (e.metaKey || e.ctrlKey || e.altKey) return;
+    if (isTyping(e.target)) return;
+    // Shift + 矢印キー等はテキスト選択拡張のためにブラウザ既定動作を残す
+    if (e.shiftKey && e.key !== ' ') return;
+
+    var next = ['Enter','ArrowRight','ArrowDown','PageDown'];
+    var prev = ['Backspace','ArrowLeft','ArrowUp','PageUp'];
+
+    if (next.indexOf(e.key) !== -1 || (e.key === ' ' && !e.shiftKey)){
+      e.preventDefault(); go(current + 1);
+    } else if (prev.indexOf(e.key) !== -1 || (e.key === ' ' && e.shiftKey)){
+      e.preventDefault(); go(current - 1);
+    } else if (e.key === 'Home'){
+      e.preventDefault(); go(0);
+    } else if (e.key === 'End'){
+      e.preventDefault(); go(slides.length - 1);
+    } else if (e.key === 't' || e.key === 'T'){
+      e.preventDefault(); togglePanel();
+    } else if (e.key === 'f' || e.key === 'F'){
+      e.preventDefault();
+      if (document.fullscreenElement) document.exitFullscreen();
+      else if (document.documentElement.requestFullscreen) document.documentElement.requestFullscreen();
+    } else if (e.key === 'Escape' && document.body.classList.contains('panel-open')){
+      e.preventDefault(); togglePanel();
+    }
+  });
+
+  if (toggleBtn){
+    toggleBtn.addEventListener('click', function(e){
+      e.stopPropagation(); togglePanel();
+    });
+  }
+
+  // --- スワイプでページ送り（タッチ端末） ---
+  var tStartX = null, tStartY = null;
+  document.addEventListener('touchstart', function(e){
+    if (e.touches.length !== 1){ tStartX = null; return; }
+    // サムネイルパネル内のスワイプ（縦スクロール）はページ送りに使わない
+    if (e.target.closest && e.target.closest('.thumb-panel')){ tStartX = null; return; }
+    tStartX = e.touches[0].clientX;
+    tStartY = e.touches[0].clientY;
+  }, {passive:true});
+  document.addEventListener('touchend', function(e){
+    if (tStartX === null) return;
+    var dx = e.changedTouches[0].clientX - tStartX;
+    var dy = e.changedTouches[0].clientY - tStartY;
+    tStartX = null;
+    // 横移動が十分大きく、かつ縦移動より主であるときだけページ送り
+    if (Math.abs(dx) < 45 || Math.abs(dx) < Math.abs(dy) * 1.3) return;
+    if (dx < 0) go(current + 1); else go(current - 1);
+  }, {passive:true});
+
+  window.addEventListener('hashchange', function(){
+    var m = (window.location.hash || '').match(/^#s(\d+)$/);
+    if (m){
+      var n = parseInt(m[1], 10);
+      if (n >= 1 && n <= slides.length && (n - 1) !== current){
+        current = n - 1; update();
+      }
+    }
+  });
+
+  window.addEventListener('resize', fit);
+
+  initPanelState();
+  buildThumbnails();
+  initFromHash();
+  fit();
+  update();
+  setTimeout(function(){ if (hint) hint.classList.add('fade'); }, 4500);
+})();
+</script>
+
+</body>
+</html>
