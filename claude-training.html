@@ -6,9 +6,15 @@
 <title>Claude仕事術講座 — 中小企業のためのAI実務活用</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.2/marked.min.js"></script>
 <style>
-:root{--ink:#1f2a24;--bg:#f7f6f2;--panel:#ffffff;--accent:#0f5c4e;--accent-soft:#e3efec;--line:#e2e0d8;--muted:#6b7570;--warn:#b4552d;}
+:root{--ink:#1f2a30;--bg:#f4f7f8;--panel:#ffffff;--accent:#1a5f7a;--accent-soft:#e7f1ea;--line:#d9e2e5;--muted:#5c6b72;--warn:#c0622b;--egrid-green:#57a773;}
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:"Hiragino Sans","Yu Gothic UI","Noto Sans JP",sans-serif;background:var(--bg);color:var(--ink);line-height:1.85}
+body{font-family:"Hiragino Kaku Gothic ProN","Yu Gothic","Meiryo",system-ui,sans-serif;background:var(--bg);color:var(--ink);line-height:1.85}
+.egrid-bar{background:#fff;border-bottom:1px solid var(--line);padding:10px 20px;display:flex;align-items:center;gap:12px}
+.egrid-bar .eg-brand{font-weight:700;color:var(--accent);text-decoration:none;font-size:16px}
+.egrid-bar .eg-brand span{color:var(--egrid-green)}
+.egrid-bar .eg-tag{color:var(--muted);font-size:13px}
+.egrid-bar .eg-back{margin-left:auto;color:var(--accent);text-decoration:none;font-size:13px}
+.egrid-bar .eg-back:hover{text-decoration:underline}
 a{color:var(--accent)}
 .layout{display:flex;min-height:100vh}
 nav{width:280px;background:var(--panel);border-right:1px solid var(--line);padding:20px 14px;position:sticky;top:0;height:100vh;overflow-y:auto;flex-shrink:0}
@@ -67,6 +73,11 @@ footer{font-size:11px;color:var(--muted);padding:24px 48px;border-top:1px solid 
 </style>
 </head>
 <body>
+<div class="egrid-bar">
+  <a class="eg-brand" href="index.html">e-grid <span>研修</span></a>
+  <span class="eg-tag">｜ AI活用研修：Claude仕事術講座</span>
+  <a class="eg-back" href="index.html">← 研修トップへ</a>
+</div>
 <div class="layout">
 <nav id="nav"></nav>
 <div style="flex:1;display:flex;flex-direction:column">
