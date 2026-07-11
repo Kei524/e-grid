@@ -68,8 +68,9 @@ python3 -m http.server 8000   # → http://localhost:8000
 ├── kamikaki.html         # 紙書き編（続編）概要・事前確認ハブ
 ├── case-c.html           # C地銀 ヒアリングメモ＋解答例（事前確認）
 ├── case-d.html           # D社 ヒアリング書き起こし＋補助データ（事前確認）
-├── claude-training.html       # Claude仕事術講座（Coworkで作成／自己完結HTML）
-├── claude-code-training.html  # Claude Code で成果物を作る（Coworkで作成／自己完結HTML）
+├── claude-training.html       # Claude仕事術講座（Coworkで作成）
+├── claude-code-training.html  # Claude Code で成果物を作る
+├── toolkit-setup.html         # e-Grid Consulting Toolkit 導入マニュアル（Mac/Win）
 ├── assets/style.css      # 共通スタイル（図表コンポーネント含む）
 └── .github/workflows/deploy-pages.yml  # GitHub Pages 自動デプロイ
 ```

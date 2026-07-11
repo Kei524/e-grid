@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>e-Grid Consulting Toolkit 導入マニュアル｜イーグリッド</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <nav class="nav">
+    <a class="brand" href="index.html">e-grid <span>LS研修</span></a>
+    <a class="navlink" href="index.html">トップ</a>
+    <a class="navlink" href="session0.html">第0回</a>
+    <a class="navlink" href="session1.html">第1回</a>
+    <a class="navlink" href="session2.html">第2回</a>
+    <a class="navlink" href="session3.html">第3回</a>
+    <a class="navlink" href="session4.html">第4回</a>
+    <a class="navlink" href="ai-guide.html">AI併用</a>
+    <a class="navlink" href="toolmap.html">フレーム選択</a>
+    <a class="navlink" href="rubric.html">ルーブリック</a>
+    <a class="navlink" href="kamikaki.html">紙書き編</a>
+    <a class="navlink" href="claude-training.html">Claude</a>
+    <a class="navlink active" href="claude-code-training.html">Claude Code</a>
+  </nav>
+</header>
+
+<main class="container">
+
+  <div class="page-head">
+    <p class="eyebrow">SETUP GUIDE</p>
+    <h1 class="page-title">e-Grid Consulting Toolkit 導入マニュアル（Mac / Windows）</h1>
+    <p class="meta">Claude Code に「e-Grid Consulting Toolkit」プラグインを導入する手順書。Google Drive の共有フォルダから配布しています（GitHub 公開はしていません）。</p>
+  </div>
+
+  <div class="keypoint">
+    <span class="kp-label">対象・所要</span>
+    <span class="kp-body">e-Grid の共有ドライブにアクセスできる人／約5〜10分。覚える名前は1つだけ：<code>e-grid-consulting-toolkit</code>。</span>
+  </div>
+
+  <h2>0. 完成イメージ（先に結論）</h2>
+  <p>Claude Code のチャット欄で、最終的に次の2行を実行します（<code>&lt;パス&gt;</code> は各自の環境で取得）。</p>
+  <div class="prompt">/plugin marketplace add "&lt;配布フォルダの絶対パス&gt;"
+/plugin install e-grid-consulting-toolkit@e-grid-consulting-toolkit</div>
+  <p><code>/plugin list</code> に <code>e-grid-consulting-toolkit@e-grid-consulting-toolkit ✔ enabled</code> と出れば完了です。</p>
+
+  <h2>1. 事前準備（Mac / Windows 共通）</h2>
+  <table>
+    <tr><th>準備</th><th>内容</th></tr>
+    <tr><td>Claude Code が使える</td><td>ターミナルで <code>claude</code> が動く、またはデスクトップアプリ／IDE拡張が入っていること。未導入なら先に社内手順で導入。</td></tr>
+    <tr><td>Google Drive for Desktop が同期</td><td>アプリがインストール・ログイン済みで、配布フォルダ <code>egrid_Consulting toolkit_Cloude</code> がPCの Drive 上に見えること。見えない場合はアクセス権を管理者（イーグリッド）に依頼。</td></tr>
+    <tr><td>（PPTX を作る場合のみ）Python</td><td>「e-Grid風の PowerPoint を作る」機能を使うときだけ必要（§5）。導入だけなら後回しでOK。</td></tr>
+  </table>
+
+  <h2>2. インストール手順 — Mac</h2>
+  <div class="steps">
+    <div class="step"><span class="n">1</span><h4>オフライン使用可に</h4><p>Finderで配布フォルダを右クリック →「このデバイス上で常に使用可能にする」。雲→緑チェックに変わりDL完了まで待つ。</p></div>
+    <div class="step"><span class="n">2</span><h4>絶対パスを取得</h4><p>フォルダを選択し、<code>option(⌥)</code>＋右クリック →「"…" をパス名としてコピー」。</p></div>
+    <div class="step"><span class="n">3</span><h4>マーケット登録</h4><p>チャット欄で <code>/plugin marketplace add "&lt;パス&gt;"</code>（ダブルクオートで囲む）。</p></div>
+    <div class="step"><span class="n">4</span><h4>インストール</h4><p><code>/plugin install e-grid-consulting-toolkit@e-grid-consulting-toolkit</code></p></div>
+    <div class="step"><span class="n">5</span><h4>動作確認</h4><p><code>/plugin list</code> で <code>✔ enabled</code> を確認。セッションを一度再起動。</p></div>
+  </div>
+  <div class="box" style="background:var(--light);border:1px solid var(--border);border-radius:12px;">
+    <p class="box-title">Step 2 パスの例</p>
+    <div class="prompt">/Users/&lt;ユーザー名&gt;/Library/CloudStorage/GoogleDrive-&lt;自分のアドレス&gt;/.shortcut-targets-by-id/&lt;フォルダID&gt;/01_コンサルティング/00_Consulting_OS_/e-Grid_Consulting_OS/egrid_Consulting toolkit_Cloude</div>
+    <p class="meta">※ <code>GoogleDrive-…</code> や <code>&lt;フォルダID&gt;</code> の部分は各自のアカウント・共有設定で変わります。実際の値は Step 2 の操作で取得してください（別法：ターミナルに <code>cd </code> と打ってからフォルダをドラッグ）。</p>
+  </div>
+
+  <h2>3. インストール手順 — Windows</h2>
+  <div class="steps">
+    <div class="step"><span class="n">1</span><h4>オフライン使用可に</h4><p>エクスプローラーで配布フォルダを右クリック →「オフラインで使用可能にする」（Google Drive メニュー）。緑チェックまで待つ。</p></div>
+    <div class="step"><span class="n">2</span><h4>絶対パスを取得</h4><p>フォルダを選択し、<code>Shift</code>＋右クリック →「パスのコピー」（ダブルクオート付きで入る）。</p></div>
+    <div class="step"><span class="n">3</span><h4>マーケット登録</h4><p><code>/plugin marketplace add "&lt;パス&gt;"</code></p></div>
+    <div class="step"><span class="n">4</span><h4>インストール</h4><p><code>/plugin install e-grid-consulting-toolkit@e-grid-consulting-toolkit</code></p></div>
+    <div class="step"><span class="n">5</span><h4>動作確認</h4><p><code>/plugin list</code> で <code>✔ enabled</code>。セッションを再起動。</p></div>
+  </div>
+  <div class="box" style="background:var(--light);border:1px solid var(--border);border-radius:12px;">
+    <p class="box-title">Step 2 パスの例</p>
+    <div class="prompt">G:\共有ドライブ\…\e-Grid_Consulting_OS\egrid_Consulting toolkit_Cloude</div>
+    <p class="meta">※ Google Drive は <code>G:</code> などの仮想ドライブとして表示され、ドライブ文字・共有ドライブ名は環境で変わります。バックスラッシュ（<code>\</code>）のままで問題ありません。</p>
+  </div>
+
+  <h2>4. 更新・アンインストール（共通）</h2>
+  <h3>更新するとき（配布フォルダが新しくなったら）</h3>
+  <div class="prompt">/plugin marketplace update e-grid-consulting-toolkit
+/plugin install e-grid-consulting-toolkit@e-grid-consulting-toolkit</div>
+  <p class="meta">更新後はセッションを再起動してください。</p>
+  <h3>アンインストールするとき</h3>
+  <div class="prompt">/plugin uninstall e-grid-consulting-toolkit@e-grid-consulting-toolkit
+/plugin marketplace remove e-grid-consulting-toolkit</div>
+
+  <h2>5.（任意）PPTX を作る機能の追加準備</h2>
+  <p>「e-Grid風の PowerPoint を作って」等（<strong>egrid-branded-pptx</strong> スキル）を使う場合、<strong>Python 3</strong> と <strong>python-pptx</strong> が必要です（実際に生成するときのみ）。</p>
+  <table>
+    <tr><th>OS</th><th>コマンド</th></tr>
+    <tr><td>Mac（ターミナル）</td><td><code>python3 --version</code> ／ <code>python3 -m pip install python-pptx</code></td></tr>
+    <tr><td>Windows（PowerShell 等）</td><td><code>python --version</code> ／ <code>python -m pip install python-pptx</code></td></tr>
+  </table>
+  <p class="meta">テンプレート本体（<code>e-Grid_PPT_Format.pptx</code>）はプラグインに同梱済みのため別途用意は不要。スライドは正式フォーマットのスライドマスターを継承して生成されます。</p>
+
+  <h2>6. うまくいかないとき（トラブル対処）</h2>
+  <table>
+    <tr><th>症状</th><th>原因</th><th>対処</th></tr>
+    <tr><td><code>marketplace add</code> で失敗／フォルダが読めない</td><td>配布フォルダがクラウド上のみ（雲）で実体が無い</td><td>Step 1「オフラインで使用可能にする」を実行し、DL完了を待って再実行</td></tr>
+    <tr><td><code>install</code> で「マーケットプレイスが見つからない」</td><td>過去の失敗した登録が残っている</td><td>下記「登録のやり直し」を実行</td></tr>
+    <tr><td>パスを貼ったらエラー</td><td>パスに空白や日本語が含まれ途中で切れている</td><td>パス全体を<strong>ダブルクオート</strong>で囲む。Mac は option+右クリック、Win は Shift+右クリックで正確に取得</td></tr>
+    <tr><td>入れたのにスキルが出ない</td><td>セッション未再起動</td><td>Claude Code を再起動。<code>/plugin list</code> で <code>enabled</code> を確認</td></tr>
+    <tr><td>PPTX生成でエラー（ModuleNotFoundError: pptx 等）</td><td>python-pptx 未インストール</td><td>§5 の手順で <code>python-pptx</code> を入れる</td></tr>
+  </table>
+  <div class="box" style="background:var(--light);border:1px solid var(--border);border-radius:12px;">
+    <p class="box-title">登録のやり直し（クリーンインストール）</p>
+    <div class="prompt">/plugin marketplace remove e-grid-consulting-toolkit
+/plugin marketplace add "&lt;配布フォルダの絶対パス&gt;"
+/plugin install e-grid-consulting-toolkit@e-grid-consulting-toolkit</div>
+  </div>
+
+  <h2>7. 導入後の使い方（入口）</h2>
+  <p>チャット欄にやりたいことを日本語で書けば、対応するスキルが起動します。</p>
+  <table>
+    <tr><th>頼み方の例</th><th>起動するスキル</th></tr>
+    <tr><td>「e-Grid風のスライドを作成して」「スライドマスターを反映して資料を作って」</td><td>egrid-branded-pptx</td></tr>
+    <tr><td>「調査提案書を作成して」</td><td>interview-research-proposal</td></tr>
+    <tr><td>「会議メモから議事録を作って」</td><td>meeting-minutes-creator</td></tr>
+    <tr><td>「デスクリサーチを実行して」</td><td>desk-research</td></tr>
+    <tr><td>「HTMLにして」「4:3スライドにして」</td><td>html-artifact</td></tr>
+    <tr><td>「プロジェクトを開始」「次のタスク」</td><td>project-manager</td></tr>
+  </table>
+  <p class="meta">同梱スキルの一覧と詳しい説明は、配布フォルダ内の <code>README.md</code> を参照してください。</p>
+
+  <h2>付録. 配布・更新のしくみ（管理者向け）</h2>
+  <ul>
+    <li><strong>配布物 ＝ Google Drive フォルダ</strong>（<code>egrid_Consulting toolkit_Cloude</code>）。各PCはこのフォルダのローカルパスを marketplace 登録して使う。</li>
+    <li>編集はメンテナの作業用ローカルコピーで行い、Drive フォルダへ同期して配布する。<strong>Drive フォルダを直接編集しない</strong>（同期中の読み込み不整合を避けるため）。</li>
+    <li>名称は「マーケットプレイス名 ＝ プラグイン名 ＝ <code>e-grid-consulting-toolkit</code>」で統一。</li>
+  </ul>
+
+  <div class="pager">
+    <a href="claude-code-training.html">← Claude Code 研修</a>
+    <span class="spacer"></span>
+    <a href="index.html">研修トップへ →</a>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  © イーグリッド AIコンサルティング組織 ｜ e-Grid Consulting Toolkit 導入マニュアル
+</footer>
+
+</body>
+</html>
