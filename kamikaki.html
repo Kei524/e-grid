@@ -59,6 +59,10 @@
     <div class="a"><div class="num">2</div><h4>絵が描ける</h4><p>正しく、インパクトのある図表で表現できる。</p></div>
     <div class="a"><div class="num">3</div><h4>早く手が動く</h4><p>きれいに速く電子化できる（目安：1枚5分）。</p></div>
   </div>
+  <div class="keypoint">
+    <span class="kp-label">AI時代の重み</span>
+    <span class="kp-body">AIが代替するのは「清書の速さ」。<strong>メッセージが作れる＝価値↑</strong>（AI出力の良し悪しを見抜く批評眼としても必須）／<strong>絵が描ける＝価値→</strong>（形式選択の判断は人間、作画はAI補助）／<strong>早く手が動く＝再定義</strong>（「1枚5分」から「AIに正確に指示し直させる速さ＝ブリーフィング力」へ）。</span>
+  </div>
 
   <h2>スライドの大原則：Keep it Simple</h2>
   <div class="keypoint">
@@ -86,7 +90,17 @@
   </table>
   <p class="meta">※ 数字に強くないオーナー経営層には「概念図＋コメント」が刺さる。グラフは1枚に絞り、So What をセットで。</p>
 
-  <h2>紙書き6ステップ（第2回の中心）</h2>
+  <div class="page-head" style="margin-top:56px;">
+    <p class="eyebrow">第2回 ／ 90分</p>
+    <h1 class="page-title">AI時代の紙書き — Fact→Causality→構造化→メッセージ→仕上げ</h1>
+    <p class="meta">「浅い・薄い・AI任せ」の資料から脱却する。AIに資料を作らせる前に、人が資料の「意味」を設計する工程を学びます。</p>
+  </div>
+  <div class="keypoint">
+    <span class="kp-label">要点</span>
+    <span class="kp-body">AIが代替するのは「清書の速さ」。「メッセージが作れる」力の価値はむしろ上がる。本研修が鍛えるのは、AIがあっても変わらない「思考」の部分です。</span>
+  </div>
+
+  <h3>紙書き6ステップ（土台）</h3>
   <p>プロは「考え方を選ぶ」ところから始める。手を動かすのは構造化が終わってから。</p>
   <div class="steps">
     <div class="step"><span class="n">0</span><h4>考え方の選択</h4><p>結論先／経緯先／比較／因果／構造のどれで攻めるか</p></div>
@@ -97,11 +111,196 @@
     <div class="step"><span class="n">5</span><h4>メッセージ仕上げ</h4><p>1スライド1メッセージで磨き込む</p></div>
   </div>
 
+  <h3>6ステップ × AI分業マップ</h3>
+  <div class="keypoint">
+    <span class="kp-label">要点</span>
+    <span class="kp-body">上流（Step0〜3）は人間が主・AIは批評役。下流（4〜5）はAIが作業役。</span>
+  </div>
+  <table>
+    <tr><th>ステップ</th><th>人間がやる（判断の主体）</th><th>AIを使う（批評役・作業役）</th></tr>
+    <tr><td>0 考え方の選択</td><td>攻め方の最終判断</td><td>フレーム候補を複数挙げさせて比較する</td></tr>
+    <tr><td>1 Factの整理</td><td>事実と解釈の分離</td><td>分離結果を監査させ、混入を指摘させる</td></tr>
+    <tr><td>2 Causalityの整理</td><td>因果を結ぶ・違和感の発見</td><td>反例・逆因果・見落とし要因を挙げさせる</td></tr>
+    <tr><td>3 面白Factの考察</td><td>So What の決定</td><td>壁打ちで深掘り、想定反論を生成させる</td></tr>
+    <tr><td>4 構造化</td><td>縦軸・横軸の選択</td><td>MECE漏れ・重複をチェックさせる</td></tr>
+    <tr><td>5 メッセージ仕上げ</td><td>最終メッセージの判断</td><td>言い換え10案・禁じ手検出・清書</td></tr>
+  </table>
+
+  <h3>e-Grid 標準プロンプト集</h3>
+  <p>プロンプトを個人技にしない。標準として配布し、Google Doc で改善を蓄積します。</p>
+  <table>
+    <tr><th>局面</th><th>プロンプト（要旨）</th><th>狙い</th></tr>
+    <tr><td>① 事実／解釈 分離監査（Step1・上流）</td><td>箇条書きを「事実」と「解釈」に分類し、解釈が事実として書かれている箇所を指摘せよ</td><td>Fact整理の自己流を防ぐ。指摘の採否は自分で判断</td></tr>
+    <tr><td>② 因果の反証（Step2・上流）</td><td>この因果チェーンに対し、反例・逆方向の因果・見落とし外部要因を各3つ挙げよ</td><td>因果の思い込みを崩す。反論に耐えた鎖だけ残す</td></tr>
+    <tr><td>③ So What 壁打ち（Step3・上流）</td><td>私のSo Whatに経営者の立場で反論せよ。想定反論3つと、それでも成り立つ条件を示せ</td><td>クライアントの前に出す前の耐久試験</td></tr>
+    <tr><td>④ 禁じ手検出器（Step5・提出前）</td><td>スライドを禁じ手15個＋AI時代の禁じ手5個で検査し、番号・該当箇所・修正案を表で出せ</td><td>提出前の機械検査を習慣化</td></tr>
+    <tr><td>⑤ メッセージ言い換え10案（Step5）</td><td>言い換えを10案、So What の鋭さ順に並べ、各案の狙いを1行で付せ</td><td>クリスタライズの選択肢を広げる（選ぶのは自分）</td></tr>
+    <tr><td>⑥ 3要素採点ルーブリック（相互レビュー）</td><td>メッセージ／絵／構造の明快さを各5点で採点し、根拠を引用付きで示せ</td><td>人間採点との差分議論の材料を作る</td></tr>
+  </table>
+  <div class="box warn">
+    <p class="box-title">⚠️ 出力の検証は人間の責任</p>
+    <p>下流はAIに任せて速くする。ただし出力の検証責任は常に書き手にある。AI時代の禁じ手（そのまま提出・未検証数値・AI文体）に注意。</p>
+  </div>
+
+  <h2 style="margin-top:56px;">「浅い・薄い・AI任せ」から脱却する</h2>
+  <div class="keypoint">
+    <span class="kp-label">大前提</span>
+    <span class="kp-body">AIが作った資料は完成品ではない。<strong>人が論点と主張を決め、AIに整理と展開を任せ、最後に人が品質を保証する。</strong></span>
+  </div>
+  <p>「地方銀行向けのDX提案資料を作って」とだけAIに頼むと、見た目の整った資料が出てきます。しかし上司から次を問われると、本人は答えられません。</p>
+  <div class="box" style="background:var(--light);border:1px solid var(--border);border-radius:12px;">
+    <p class="box-title">上司からの5つの質問</p>
+    <ul>
+      <li>この銀行の本当の課題は何か？</li>
+      <li>なぜDXが必要なのか？</li>
+      <li>何を最優先にすべきなのか？</li>
+      <li>この数字の出典は何か？</li>
+      <li>なぜこの順番なのか？</li>
+    </ul>
+    <p class="meta">見た目が整い、AIが書いたから正しいと思い、納期に追われて確認せず使う——AIは自信を持って間違うことがある。</p>
+  </div>
+
+  <h3>資料の「浅さ」— 示唆まで到達していない</h3>
+  <p>浅い資料とは、情報は書かれているが、相手の判断につながる<strong>「示唆」</strong>まで到達していない資料。「説明 → ファクト → 解釈 → 示唆」の階段を最後まで登ります。</p>
+  <table>
+    <tr><th>段階</th><th>例（来店客数）</th></tr>
+    <tr><td>説明</td><td>このグラフは過去5年間の来店客数を示しています</td></tr>
+    <tr><td>ファクト</td><td>来店客数は5年間で30％減少しています</td></tr>
+    <tr><td>解釈</td><td>顧客接点が店舗からデジタルへ移行する一方、当行の非対面チャネルへの移行は遅れています</td></tr>
+    <tr><td><strong>示唆</strong></td><td>店舗削減を先行するのではなく、顧客をデジタルチャネルへ移行させる仕組みを先に整備すべきです</td></tr>
+  </table>
+  <div class="keypoint">
+    <span class="kp-label">浅さを確認する問い</span>
+    <span class="kp-body">So What?（だから何か／相手にとって何を意味するか／相手は何を判断すべきか）。浅さは「考え切れていない」＝思考の深度不足。</span>
+  </div>
+
+  <h3>資料の「薄さ」— 論証と構成が不足</h3>
+  <p>薄い資料とは、主張や示唆はあるが、それを納得させる<strong>根拠・構成・具体性・実行方法</strong>が不足している資料。</p>
+  <table>
+    <tr><th>薄さを構成する5つの不足</th><th>中身</th></tr>
+    <tr><td>根拠が薄い</td><td>主張を支えるデータ・事実・出典が不足</td></tr>
+    <tr><td>構成が薄い</td><td>ページは並ぶが、論理の順番になっていない</td></tr>
+    <tr><td>具体性が薄い</td><td>「高度化」「効率化」「変革」など抽象語が多い</td></tr>
+    <tr><td>実行性が薄い</td><td>誰が・何を・いつ・どのように進めるかがない</td></tr>
+    <tr><td>体裁・情報設計が薄い</td><td>情報の優先順位がなく、主張と図表が一致しない</td></tr>
+  </table>
+  <div class="keypoint">
+    <span class="kp-label">薄さを確認する問い</span>
+    <span class="kp-body">What Else?（納得させるために他に何が必要か／根拠は十分か／実行方法まで説明できるか）。薄さは「設計し切れていない」。</span>
+  </div>
+
+  <h3>浅さと薄さの違い</h3>
+  <table>
+    <tr><th>観点</th><th>浅い資料</th><th>薄い資料</th></tr>
+    <tr><td>問題</td><td>示唆がない</td><td>論証と構成が不足</td></tr>
+    <tr><td>読み手の反応</td><td>「だから何？」</td><td>「根拠はそれだけ？」</td></tr>
+    <tr><td>不足しているもの</td><td>解釈・判断・行動</td><td>データ・具体性・展開</td></tr>
+    <tr><td>改善の問い</td><td>So What?</td><td>What Else?</td></tr>
+    <tr><td>主な原因</td><td>考え切れていない</td><td>設計し切れていない</td></tr>
+  </table>
+
+  <h2 style="margin-top:56px;">正しい流れ — 全工程でAIを使う</h2>
+  <div class="keypoint">
+    <span class="kp-label">要点</span>
+    <span class="kp-body">いきなりスライドを作らせない。人が考えた「構造」をAIに展開させる。①〜③の下書きはAIに任せてよいが、論点・主張・示唆の妥当性は最後まで人が判断する。</span>
+  </div>
+  <table>
+    <tr><th>ステップ</th><th>AIとの協業</th></tr>
+    <tr><td>① 読み手と目的を確認</td><td>与件を渡し、読み手・目的・スコープを構造化させる</td></tr>
+    <tr><td>② 論点を決める</td><td>探索調査を実行させ、論点・仮説を構造化・検証させる</td></tr>
+    <tr><td>③ 主張と根拠を整理</td><td>主張・根拠・示唆を文章（MD）で組み立てさせる</td></tr>
+    <tr><td>④ スライド構成へ展開</td><td>1スライド1メッセージで構成案を設計させる</td></tr>
+    <tr><td>⑤ 内容を確認</td><td>7観点で品質レビューさせ、人が承認する</td></tr>
+    <tr><td>⑥ スライド化</td><td>構成案を PPTX／HTML／XLSX に実体化させる</td></tr>
+    <tr><td>⑦ 最終レビュー</td><td>出典・断定・AI臭を提出前検査する</td></tr>
+  </table>
+
+  <h3>スライド化の前に固める「紙書きフォーマット」</h3>
+  <p>AIに資料を考えさせるのではなく、人が固めた入力をAIに展開させます。</p>
+  <div class="box" style="background:var(--light);border:1px solid var(--border);border-radius:12px;">
+    <ul>
+      <li>読み手：</li>
+      <li>読み手が判断したいこと：</li>
+      <li>資料の目的：</li>
+      <li>最も伝えたい結論：</li>
+      <li>根拠となる事実：</li>
+      <li>事実から言えること：</li>
+      <li>相手に取ってほしい行動：</li>
+    </ul>
+  </div>
+
+  <h2>品質レビュー 7観点</h2>
+  <p>⑤では、成果物を次の7観点でレビューします（#3が「浅さ」、#1・#4・#5などが「薄さ」を検出）。</p>
+  <table>
+    <tr><th>#</th><th>観点</th><th>見るポイント</th><th>検出</th></tr>
+    <tr><td>1</td><td>ストーリーライン</td><td>結論→根拠→詳細のピラミッド構造。配置に必然性があるか</td><td>薄さ</td></tr>
+    <tr><td>2</td><td>論理構造</td><td>So What／Why So が成立し、ファクト羅列でなく示唆まで踏み込むか</td><td>浅さ・薄さ</td></tr>
+    <tr><td>3</td><td>メッセージの鋭さ</td><td>一般論でなく独自の主張か。意思決定の根拠を与えるか</td><td>浅さ</td></tr>
+    <tr><td>4</td><td>エビデンスと具体性</td><td>定量データ・事例・固有名詞・出典で裏付けるか</td><td>薄さ</td></tr>
+    <tr><td>5</td><td>アクショナビリティ</td><td>次の行動が判断できる粒度か。優先順位・結論先出しか</td><td>薄さ</td></tr>
+    <tr><td>6</td><td>文書構成と文章品質</td><td>一文一義・粒度統一・見出し・表の使い分けが適切か</td><td>薄さ</td></tr>
+    <tr><td>7</td><td>整合性と網羅性</td><td>入力と矛盾がないか。用語・数値が一貫し、MECEで抜け漏れがないか</td><td>薄さ</td></tr>
+  </table>
+
+  <h2>演習 — AIと勝負する（C地銀・同一素材）</h2>
+  <div class="box exercise">
+    <p class="box-title">✏️ 演習（第2回・約25分）</p>
+    <ol>
+      <li>AIに作らせる（10分）— C地銀ヒアリングメモをAIに渡し、経営層向け1枚を生成させる</li>
+      <li>並べて比較（5分）— 自分が6ステップで仕上げた1枚と、AIの1枚を並べる</li>
+      <li>差分を言語化（5分）— 「AIに負けている点」「AIに勝っている点」を各2つ書き出す</li>
+      <li>全体共有（5分）— 人間側の勝ち筋を全員で抽出し、Google Doc に蓄積する</li>
+    </ol>
+    <p class="meta">よくある着地：AIは網羅性と速さで勝つ。クライアント文脈に根ざした So What と「捨てる勇気」で人間が勝つ。この差分こそ、あなたがクライアントに提供する価値。</p>
+  </div>
+
+  <h2>まとめ — 実務で守る5つのルール</h2>
+  <ol>
+    <li>AI生成物は「完成品」ではなく「初稿」として扱う</li>
+    <li>自分の言葉で説明できない文章は使わない</li>
+    <li>数字・事実・事例は必ず根拠と出典を確認する</li>
+    <li>「だから何？」＝浅さ ／ 「ほかに何が必要か？」＝薄さ を確認する</li>
+    <li>最後は必ず「自分の名前で出せるか」を判断する</li>
+  </ol>
+
+  <h3>提出前チェックリスト（10問すべて Yes に）</h3>
+  <div class="cards">
+    <div class="card">
+      <div class="num">AIの使い方</div>
+      <ul style="margin:6px 0 0;padding-left:1.2em;font-size:14px;">
+        <li>☐ いきなり完成資料を作らせていないか</li>
+        <li>☐ 読み手と目的を自分で決めたか</li>
+        <li>☐ AIの文章を自分の言葉で説明できるか</li>
+        <li>☐ 数字や事実の根拠を確認したか</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="num">浅さ</div>
+      <ul style="margin:6px 0 0;padding-left:1.2em;font-size:14px;">
+        <li>☐ 説明だけで終わっていないか</li>
+        <li>☐ ファクトから解釈が導かれているか</li>
+        <li>☐ 相手が何を判断すべきか明確か</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="num">薄さ</div>
+      <ul style="margin:6px 0 0;padding-left:1.2em;font-size:14px;">
+        <li>☐ 主張を支える根拠は十分か</li>
+        <li>☐ ページ間の論理はつながっているか</li>
+        <li>☐ 実行方法・次の行動まで示したか</li>
+      </ul>
+    </div>
+  </div>
+  <div class="keypoint">
+    <span class="kp-label">締め</span>
+    <span class="kp-body">AIを使うことは、考えることを省略することではない。AIを使うからこそ、人は「誰に・何を・なぜ伝えるのか」を明確にする必要がある。AI時代の紙書きとは、AIに資料を作らせる前に、人が資料の「意味」を設計する工程である。</span>
+  </div>
+
   <h2>全体構成（90分 × 4回）</h2>
   <table>
     <tr><th>回</th><th>テーマ</th><th>扱う概念</th><th>演習素材</th><th>週宿題</th></tr>
     <tr><td>第1回</td><td>紙書きとは／5種類</td><td>3要素／5種類／PPT基本／禁じ手15</td><td>自分の過去スライド3枚</td><td>禁じ手の検出＆改修</td></tr>
-    <tr><td>第2回</td><td>紙書き6ステップ</td><td>Fact→Causality→構造化→メッセージ→仕上げ</td><td><a href="case-c.html">C地銀ヒアリングメモ</a></td><td>自業務報告を6ステップで1枚</td></tr>
+    <tr><td>第2回</td><td>AI時代の紙書き（6ステップ）</td><td>6ステップ×AI分業／標準プロンプト集／浅さ・薄さ脱却／品質レビュー7観点</td><td><a href="case-c.html">C地銀ヒアリングメモ</a>（AIと勝負）</td><td>自業務報告をAI協業で1枚＋AI活用ログ</td></tr>
     <tr><td>第3回</td><td>グラフ＆定性表現</td><td>グラフ7パターン／定性表現の主要パターン</td><td><a href="case-d.html">D社売上データ</a></td><td>業務データから1枚作成</td></tr>
     <tr><td>第4回</td><td>フレームワーク＆統合演習</td><td>3C／5F／BCG／Ansoff／効果×難易度 ほか</td><td><a href="case-d.html">D社DX提案 骨子</a></td><td>提案書5枚（修了提出物）</td></tr>
   </table>
@@ -113,7 +312,7 @@
     <a class="card" href="case-c.html">
       <div class="num">第2回 演習素材</div>
       <h3>C地銀 ヒアリングメモ</h3>
-      <p>観察事項を読み、「症状」と「原因」を自分なりに分けてくる（6ステップの題材）。解答例つき。</p>
+      <p>観察事項を読み、「症状」と「原因」を自分なりに分けてくる。6ステップで1枚に仕上げ、AIの1枚と勝負する題材。解答例つき。</p>
     </a>
     <a class="card" href="case-d.html">
       <div class="num">第3〜4回 演習素材</div>
