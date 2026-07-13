@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>e-Grid Consulting Toolkit（スキル・エージェント・ワークフロー）｜イーグリッド</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <nav class="nav">
+    <a class="brand" href="index.html">e-grid <span>LS研修</span></a>
+    <a class="navlink" href="index.html">トップ</a>
+    <a class="navlink" href="session0.html">第0回</a>
+    <a class="navlink" href="session1.html">第1回</a>
+    <a class="navlink" href="session2.html">第2回</a>
+    <a class="navlink" href="session3.html">第3回</a>
+    <a class="navlink" href="session4.html">第4回</a>
+    <a class="navlink" href="ai-guide.html">AI併用</a>
+    <a class="navlink" href="toolmap.html">フレーム選択</a>
+    <a class="navlink" href="rubric.html">ルーブリック</a>
+    <a class="navlink" href="kamikaki.html">紙書き編</a>
+    <a class="navlink" href="claude-training.html">Claude</a>
+    <a class="navlink active" href="claude-code-training.html">Claude Code</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="inner">
+    <h1>e-Grid Consulting Toolkit</h1>
+    <p>コンサルティングプロジェクトの立ち上げから最終報告書まで、ワークフロー全体をAIがサポートする Claude Code プラグイン（スキル・コマンド・エージェント群）。</p>
+    <div class="badges">
+      <span class="badge">Claude Code プラグイン</span>
+      <span class="badge">スキル 約20</span>
+      <span class="badge">エージェント 5</span>
+      <span class="badge">3フェーズ11ステップ</span>
+    </div>
+  </div>
+</section>
+
+<main class="container">
+
+  <div class="page-head">
+    <p class="eyebrow">OVERVIEW</p>
+    <h1 class="page-title">ツールキットの全体像</h1>
+    <p class="meta">GitHub リポジトリ：<a href="https://github.com/Kei524/e-grid_consulting_toolkit">Kei524/e-grid_consulting_toolkit</a>（正本）</p>
+  </div>
+  <div class="keypoint">
+    <span class="kp-label">要点</span>
+    <span class="kp-body">調査プロジェクトでは、提案書の論点を軸にインタビューガイド・報告書骨子まで一貫して設計する。各スキルに品質基準が組み込まれ、<strong>AIタスクと人間タスクを明確に分離した協調型ワークフロー</strong>で運用する。</span>
+  </div>
+  <div class="box" style="background:var(--accent-soft);border:1px solid #bcd9c7;border-radius:12px;">
+    <p class="box-title">📦 導入方法は2通り</p>
+    <ul>
+      <li><strong>GitHub 経由（標準・下記）</strong>：<code>/plugin marketplace add Kei524/e-grid-consulting-toolkit</code></li>
+      <li><strong>Google Drive／オフライン経由</strong>：手順は <a href="toolkit-setup.html">導入マニュアル（Mac / Windows）</a> を参照</li>
+    </ul>
+  </div>
+
+  <h2>クイックスタート（GitHub マーケットプレイス）</h2>
+  <p>Claude Code のチャット欄で、次の2行を<strong>1行ずつ</strong>実行するだけで導入できます。</p>
+  <div class="prompt">/plugin marketplace add Kei524/e-grid-consulting-toolkit
+/plugin install e-grid-consulting-toolkit@e-grid-consulting-toolkit</div>
+  <p><code>/plugin list</code> に <code>e-grid-consulting-toolkit@e-grid-consulting-toolkit ✔ enabled</code> と出れば完了（反映にはセッション再起動が必要な場合あり）。更新は <code>/plugin update e-grid-consulting-toolkit@e-grid-consulting-toolkit</code>。</p>
+  <p class="meta">覚える名前は <code>e-grid-consulting-toolkit</code> の1つだけ（リポジトリ名 ＝ マーケットプレイス名 ＝ プラグイン名）。</p>
+
+  <h2>Skills（スキル）</h2>
+
+  <h3>プロジェクト管理</h3>
+  <table>
+    <tr><th>スキル</th><th>説明</th><th>トリガー</th></tr>
+    <tr><td>project-manager</td><td>ワークフローのオーケストレーター。状態管理・進捗追跡を行い、各ステップで適切なスキルを呼び出す</td><td>「プロジェクトを開始」「進捗確認」「次のタスク」</td></tr>
+  </table>
+
+  <h3>調査プロジェクト</h3>
+  <p>デスクリサーチとインタビューを組み合わせた調査に対応（技術動向・市場調査・インタビュー中心・デューデリジェンス等）。</p>
+  <table>
+    <tr><th>スキル</th><th>説明</th><th>トリガー</th></tr>
+    <tr><td>interview-research-proposal</td><td>与件情報と打ち合わせメモから調査プロジェクト提案書を作成</td><td>「調査提案書を作成して」</td></tr>
+    <tr><td>interview-guide-creator</td><td>提案書の論点に対応したインタビューガイドを作成</td><td>「インタビューガイドを作成して」</td></tr>
+    <tr><td>interview-candidate-selector</td><td>候補者リストから最適な対象者を選定・評価</td><td>「インタビュー対象者を選定して」</td></tr>
+    <tr><td>interview-minutes-creator</td><td>文字起こしと質問リストから詳細なインタビュー議事録を作成</td><td>「インタビュー議事録を作成して」</td></tr>
+    <tr><td>report-outline-creator</td><td>提案書・調査結果から最終報告書の骨子を設計</td><td>「報告書骨子を作成して」</td></tr>
+    <tr><td>slide-structure-designer</td><td>ソースからスライドのページ構成をMDで設計。各スライドにレイアウトパターンを割当</td><td>「スライド構成を設計して」</td></tr>
+    <tr><td>integrated-analysis-creator</td><td>調査結果を論点構造に沿って統合分析し、3層ピラミッド構造の最終報告書を作成</td><td>「最終報告書を作成して」</td></tr>
+    <tr><td>research-project-workflow</td><td>3フェーズ・11ステップのワークフロー定義</td><td>project-manager から自動呼出</td></tr>
+  </table>
+
+  <h3>汎用プロジェクト</h3>
+  <table>
+    <tr><th>スキル</th><th>説明</th><th>トリガー</th></tr>
+    <tr><td>project-proposal</td><td>与件情報から汎用プロジェクト提案書を作成（戦略・実装・コンテンツ等）</td><td>「プロジェクト提案書を作成して」</td></tr>
+  </table>
+
+  <h3>ユーティリティ</h3>
+  <table>
+    <tr><th>スキル</th><th>説明</th><th>トリガー</th></tr>
+    <tr><td>desk-research</td><td>Exa／WebSearch／WebFetch／Browser Use／Deep Research の3層で情報収集し調査レポート出力</td><td>「デスクリサーチを実行して」「市場規模を調べて」</td></tr>
+    <tr><td>meeting-minutes-creator</td><td>会議メモから議事録を作成</td><td>「会議メモから議事録を作って」</td></tr>
+    <tr><td>egrid-branded-pptx</td><td>e-Gridブランド（ゴールド×チャコール・白背景・4:3・Meiryo）のPowerPoint作成。正式フォーマットの実スライドマスターを継承する「テンプレート土台方式」が既定（python-pptx）</td><td>「e-Grid風のスライドを作成」</td></tr>
+    <tr><td>subagent-creator</td><td>SubAgent 作成ガイド。Skill か SubAgent かを判断し適切な方を作成</td><td>「エージェントを作成して」</td></tr>
+    <tr><td>chart-generator-guide</td><td>matplotlibデータチャート生成ガイド。ブランドパレット対応、PNG+SVG二重出力、7パターン</td><td>image-creator 経由</td></tr>
+    <tr><td>image-generator-guide</td><td>HTML+CSSによる構造化図解の設計ガイド。イラスト系は画像生成プロンプトを返却</td><td>image-creator 経由</td></tr>
+    <tr><td>html-artifact</td><td>Markdown を自己完結HTML（縦長文書／4:3スライドデッキ）に変換。30コンポーネント＋8図解＋作り込み図版</td><td>「HTMLにして」「4:3スライドにして」</td></tr>
+    <tr><td>slide-pattern-creator</td><td>スライド1枚のレイアウトパターンの正本。定義MD＋スケルトンHTMLを library/ に蓄積（同梱136パターン）</td><td>「スライドパターンを抽出して」</td></tr>
+    <tr><td>circleback-meeting-minutes</td><td>Circleback MCP から過去1週間の会議を取得・自動分類し議事録MDを一括生成（並列）</td><td>「Circlebackから議事録を作って」</td></tr>
+  </table>
+
+  <h2>Agents（エージェント）</h2>
+  <p>特定の役割に特化したサブエージェント。project-manager やワークフローの各ステップから自動的に呼び出されます。</p>
+  <table>
+    <tr><th>エージェント</th><th>説明</th><th>呼び出し</th></tr>
+    <tr><td>quality-reviewer</td><td>品質レビュー専門。指定チェック項目＋デフォルト5軸（論理構造・具体性・読み手視点・整合性・網羅性）で評価し、合格／条件付き合格／要修正を判定</td><td>AIタスク後のレビューゲート（review_level=full）</td></tr>
+    <tr><td>desk-researcher</td><td>デスクリサーチ実行専門。Exa／WebSearch／WebFetch／Browser Use で収集し、調査レポートと仮説検証シートを出力</td><td>Step 3（初期調査）／Step 10（詳細調査）</td></tr>
+    <tr><td>image-creator</td><td>画像・図解・データチャート生成。HTML+CSSをPNG化、matplotlibでチャート。イラスト系は生成プロンプト返却</td><td>「図解して」「グラフを作って」</td></tr>
+    <tr><td>circleback-minutes-worker</td><td>Circleback MCP から単一会議のトランスクリプトを取得し議事録MDを生成する専門ワーカー</td><td>circleback-meeting-minutes から並列起動</td></tr>
+    <tr><td>slide-figure-creator</td><td>HTMLスライドデッキで、リッチ判定の作り込み図版を1図1エージェントで生成（設計→レンダ→クロップ検証→修正）</td><td>html-artifact から並列起動</td></tr>
+  </table>
+
+  <h2>ワークフロー</h2>
+  <div class="keypoint">
+    <span class="kp-label">要点</span>
+    <span class="kp-body">project-manager が汎用オーケストレーターとして状態管理・レビューゲート・進捗追跡を担い、各ステップの手順はワークフロースキルに委譲する。</span>
+  </div>
+  <h3>状態は3ファイルで管理</h3>
+  <table>
+    <tr><th>ファイル</th><th>役割</th></tr>
+    <tr><td>CLAUDE.md</td><td>静的な基本情報（クライアント名・納期・ファイル配置）。全セッションで自動ロード</td></tr>
+    <tr><td>workflow.md</td><td>プロセス進捗（チェックリスト・成果物リンク・履歴・意思決定）</td></tr>
+    <tr><td>Output/プロジェクトサマリ.md</td><td>知識状態（論点・仮説検証状況・リスク・主要発見）。随時更新</td></tr>
+  </table>
+  <h3>与件に応じた3つのパス</h3>
+  <div class="axis">
+    <div class="a"><div class="num">A</div><h4>そのまま使う</h4><p>定義済みワークフローをそのまま適用</p></div>
+    <div class="a"><div class="num">B</div><h4>調整する</h4><p>定義済みをベースにステップを追加・省略・順序変更</p></div>
+    <div class="a"><div class="num">C</div><h4>新規設計</h4><p>AIが与件から新規設計（定義済みを参照パターンに）</p></div>
+  </div>
+
+  <h3>調査プロジェクトのワークフロー（3フェーズ・11ステップ）</h3>
+  <table>
+    <tr><th>Phase</th><th>Step</th><th>担当スキル／エージェント</th></tr>
+    <tr><td rowspan="5"><strong>0 提案</strong></td><td>1. 論点・仮説の設計 [AI]</td><td>desk-researcher</td></tr>
+    <tr><td>2. 提案書作成 [AI]</td><td>interview-research-proposal</td></tr>
+    <tr><td>3. 提案用スライド構成設計 [AI]</td><td>slide-structure-designer</td></tr>
+    <tr><td>4. インタビューガイド作成 [AI]</td><td>interview-guide-creator</td></tr>
+    <tr><td>5. 最終報告書骨子案作成 [AI]</td><td>report-outline-creator</td></tr>
+    <tr><td rowspan="4"><strong>1 調査</strong></td><td>6. インタビュー対象者選定 [AI]</td><td>interview-candidate-selector</td></tr>
+    <tr><td>（インタビュー実施 [人間]）／7. インタビュー議事メモ作成 [AI]</td><td>interview-minutes-creator</td></tr>
+    <tr><td>8. インタビューまとめ [AI]</td><td>—</td></tr>
+    <tr><td>9. デスクリサーチ [AI]</td><td>desk-researcher</td></tr>
+    <tr><td rowspan="2"><strong>2 分析・とりまとめ</strong></td><td>10. 最終報告書作成 [AI]</td><td>integrated-analysis-creator</td></tr>
+    <tr><td>11. 報告用スライド構成設計 [AI]</td><td>slide-structure-designer</td></tr>
+  </table>
+  <p class="meta">各AIステップ完了後、レビューゲートを経て次へ。<code>review_level=full</code> は quality-reviewer＋ユーザー確認、<code>light</code> はユーザー確認のみ。</p>
+
+  <h3>スライド化フロー — 4層アーキテクチャ（Step 3／11 の下流）</h3>
+  <p>スライド生成は「内容構成・レイアウトパターン・スライドマスター・実装」の4層に分離され、どの出力経路でも同じレイアウトパターンに従います。</p>
+  <table>
+    <tr><th>層</th><th>担当</th><th>責務</th></tr>
+    <tr><td>1 内容構成</td><td>slide-structure-designer</td><td>1スライド1メッセージの構成MD。各スライドにパターン指定を割当</td></tr>
+    <tr><td>2 レイアウトパターン</td><td>slide-pattern-creator / library</td><td>コンテンツエリア構造の正本（structure YAML＋スケルトンHTML）</td></tr>
+    <tr><td>3 スライドマスター</td><td>egrid-branded-pptx／html-artifact テーマ</td><td>表紙・タイトル/メッセージ行・フッター・ロゴ・サイズ・フォント・配色</td></tr>
+    <tr><td>4 実装</td><td>html-artifact／image-creator／egrid-branded-pptx</td><td>パターン（構造）×マスター（スキン）に従って出力</td></tr>
+  </table>
+
+  <h2>使い方</h2>
+  <h3>プロジェクト全体をワークフローで進める</h3>
+  <div class="steps">
+    <div class="step"><span class="n">1</span><h4>与件を配置</h4><p>あれば <code>Input/</code> に置く</p></div>
+    <div class="step"><span class="n">2</span><h4>開始</h4><p>「プロジェクトを開始」→ 名称・クライアント・納期・スコープを入力</p></div>
+    <div class="step"><span class="n">3</span><h4>ワークフロー承認</h4><p>AIが与件を分析し提案（定義済み or カスタム）→ 承認</p></div>
+    <div class="step"><span class="n">4</span><h4>順に実行</h4><p>「次のタスク」で各ステップ、完了後に確認・承認／修正。「進捗確認」でいつでも状況把握</p></div>
+  </div>
+  <h3>個別スキルだけを使う</h3>
+  <div class="box ai">
+    <p class="box-title">🤖 トリガーワードの例</p>
+    <div class="prompt">「調査提案書を作成して」        → interview-research-proposal
+「提案書を作成して」            → project-proposal（調査以外）
+「会議メモから議事録を作って」  → meeting-minutes-creator
+「デスクリサーチを実行して」    → desk-research
+「スライド構成を設計して」      → slide-structure-designer
+「4:3 のスライドにして」        → html-artifact
+「この構造を図解して」          → image-creator</div>
+  </div>
+
+  <h2>成果物の格納先</h2>
+  <table>
+    <tr><th>成果物</th><th>パス</th></tr>
+    <tr><td>プロジェクトサマリ／論点・仮説</td><td><code>Output/プロジェクトサマリ.md</code>／<code>Output/論点・仮説.md</code></td></tr>
+    <tr><td>提案書／スライド構成（提案）</td><td><code>Output/提案書.md</code>／<code>Output/スライド構成_提案.md</code></td></tr>
+    <tr><td>インタビューガイド／対象者</td><td><code>Output/インタビューガイド.md</code>／<code>Output/インタビュー対象者.md</code></td></tr>
+    <tr><td>報告書骨子／議事録</td><td><code>Output/報告書骨子.md</code>／<code>Output/議事録/</code></td></tr>
+    <tr><td>インタビューまとめ／最終報告書</td><td><code>Output/インタビューまとめ.md</code>／<code>Output/最終報告書.md</code></td></tr>
+    <tr><td>スライド構成（報告）／進捗</td><td><code>Output/スライド構成_報告.md</code>／<code>workflow.md</code></td></tr>
+  </table>
+
+  <h2>推奨・併用</h2>
+  <h3>推奨MCP：Exa（セマンティック検索）</h3>
+  <p><code>desk-research</code>／<code>desk-researcher</code> は Exa のセマンティック検索MCPを Layer 1 の主軸ツールの一つとして利用します。技術文献・研究論文・GitHub・「〜のような事例」型の類似探索・英語ソースに強く、WebSearch（最新ニュース・日本語メディア・公的統計）と相互補完。未設定でも WebSearch／WebFetch で動作します。</p>
+  <h3>併用推奨：Anthropic 公式スキルプラグイン</h3>
+  <table>
+    <tr><th>プラグイン</th><th>主なスキル</th><th>用途</th></tr>
+    <tr><td>document-skills</td><td>pptx, xlsx, pdf, docx, skill-creator 等</td><td>ドキュメントの作成・編集・変換、スキル作成・評価</td></tr>
+    <tr><td>example-skills</td><td>algorithmic-art, frontend-design, brand-guidelines 等</td><td>クリエイティブ・デザイン・開発系の参考実装</td></tr>
+  </table>
+  <div class="prompt">/plugin marketplace add anthropics/skills
+/plugin install document-skills@anthropic-agent-skills</div>
+
+  <h2>ディレクトリ構成</h2>
+  <div class="prompt">e-grid-consulting-toolkit/（GitHub リポジトリ ＝ 正本）
+├── .claude-plugin/marketplace.json   # マーケットプレイスカタログ
+├── README.md ／ LICENSE.md
+└── plugins/egrid-consulting-toolkit/  # プラグイン本体
+    ├── .claude-plugin/plugin.json     # マニフェスト
+    ├── commands/                      # pm ほか
+    ├── skills/                        # 約20スキル（_shared に共通原則）
+    └── agents/                        # quality-reviewer / desk-researcher ほか5体</div>
+
+  <div class="pager">
+    <a href="toolkit-setup.html">← 導入マニュアル（Drive/オフライン）</a>
+    <span class="spacer"></span>
+    <a href="claude-code-training.html">Claude Code 研修 →</a>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  © イーグリッド AIコンサルティング組織 ｜ e-Grid Consulting Toolkit
+</footer>
+
+</body>
+</html>

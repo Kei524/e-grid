@@ -70,7 +70,8 @@ python3 -m http.server 8000   # → http://localhost:8000
 ├── case-d.html           # D社 ヒアリング書き起こし＋補助データ（事前確認）
 ├── claude-training.html       # Claude仕事術講座（Coworkで作成）
 ├── claude-code-training.html  # Claude Code で成果物を作る
-├── toolkit-setup.html         # e-Grid Consulting Toolkit 導入マニュアル（Mac/Win）
+├── consulting-toolkit.html    # e-Grid Consulting Toolkit（スキル/エージェント/ワークフロー概要）
+├── toolkit-setup.html         # 同ツールキット 導入マニュアル（Mac/Win・Drive/オフライン）
 ├── assets/style.css      # 共通スタイル（図表コンポーネント含む）
 └── .github/workflows/deploy-pages.yml  # GitHub Pages 自動デプロイ
 ```
