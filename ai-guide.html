@@ -10,7 +10,7 @@
 
 <header class="site-header">
   <nav class="nav">
-    <a class="brand" href="index.html">e-grid <span>LS研修</span></a>
+    <a class="brand" href="index.html">イーグリッド <span>コンサル研修ポータル</span></a>
     <a class="navlink" href="index.html">トップ</a>
     <a class="navlink" href="session0.html">第0回</a>
     <a class="navlink" href="session1.html">第1回</a>
@@ -80,6 +80,50 @@
     <tr><td>第3回</td><td>論点バリデーター＋仮説生成器</td><td>論点が本質的か診断／仮説と反証条件を生成</td></tr>
     <tr><td>第4回</td><td>ツリー網羅性レビュー＋提案診断</td><td>ツリーの抜け・ダブりを指摘／1分プレゼンを経営者視点で診断</td></tr>
   </table>
+
+  <h2>AI併用4段フロー ＋ ブリーフ6要素</h2>
+  <div class="keypoint">
+    <span class="kp-label">要点</span>
+    <span class="kp-body">1周5分・2周で提出品質。時間配分が逆転する — 従来：考える2割・作る8割 → AI併用：<strong>考える（ブリーフ＋批評）8割・作る2割</strong>。思考の質がそのまま成果物の質になる。</span>
+  </div>
+  <table>
+    <tr><th>#</th><th>工程</th><th>主体</th><th>やること</th></tr>
+    <tr><td>①</td><td>ブリーフ</td><td>人間</td><td>メッセージ・形式・データ・制約を1つのプロンプトで指示する（6要素）</td></tr>
+    <tr><td>②</td><td>生成</td><td>AI</td><td>ドラフトを作る。同時に形式違い案も出させる</td></tr>
+    <tr><td>③</td><td>批評</td><td>人間</td><td>メッセージ整合・禁じ手・数値をチェック。<strong>元データと必ず突合</strong></td></tr>
+    <tr><td>④</td><td>修正指示</td><td>人間→AI</td><td>直す箇所を具体的に指示（「軸の単位を億円に」等）→ ②へ戻る</td></tr>
+  </table>
+  <div class="box ai">
+    <p class="box-title">🤖 ブリーフ6要素テンプレ（コピーして使う）</p>
+    <div class="prompt">① メッセージ：この1枚で伝えたいこと（So What まで書く）
+② 形式：使ってほしいグラフ／図の種類と系列構成
+③ 軸・単位：縦軸／横軸の項目と単位、期間
+④ 強調：どこをハイライトするか
+⑤ 体裁：出所表記・凡例の有無、3D／背景色／目盛線の可否
+⑥ 制約：データにない数値を補完しないこと。不明点は聞き返すこと</div>
+  </div>
+  <div class="box warn">
+    <p class="box-title">⚠️ ⑥が最重要</p>
+    <p>生成AIは空欄を「それっぽい数字」で埋めようとします。<strong>「捏造禁止・不明は質問」を毎回明示するのがプロの作法</strong>です。</p>
+  </div>
+
+  <h2>AI時代の禁じ手（⑯〜⑳）</h2>
+  <p>ツールの禁じ手15個（紙書き編 第1回）に追加される、AI利用そのものの禁じ手です。</p>
+  <table>
+    <tr><th>#</th><th>禁じ手</th><th>概要</th></tr>
+    <tr><td>⑯</td><td>AI生成スライドをそのまま提出</td><td>構成・数値・文言を検証せずに提出する。<strong>責任はAIではなく書き手にある</strong></td></tr>
+    <tr><td>⑰</td><td>Step0（考え方選択）の放棄</td><td>AIが出した構造をそのまま採用し、「どの考え方で攻めるか」を自分で選ばない</td></tr>
+    <tr><td>⑱</td><td>未検証のAI数値・出典引用</td><td>AIが示した数値・出典をファクトチェックせずにボディへ載せる</td></tr>
+    <tr><td>⑲</td><td>AI文体の放置</td><td>冗長な言い回し・過剰な網羅感などの“AI臭”を残したまま提出する</td></tr>
+    <tr><td>⑳</td><td>機密データの無許可投入</td><td>クライアント情報を、許可されていないAIサービスに入力する（<strong>情報管理違反</strong>）</td></tr>
+  </table>
+  <p class="meta">※ ⑳は研修内でも厳守。演習で使うのは会社が許可したAI環境のみ。研修ケース（D社・C地銀）は架空データなので自由に使えます。グラフ生成に特化した禁じ手4つ（捏造・軸切り取り・過剰装飾・出所創作）は <a href="kamikaki.html">紙書き編 第3回</a> を参照。</p>
+
+  <h2>AI活用ログ — 修了提出物の一部</h2>
+  <div class="keypoint">
+    <span class="kp-label">要点</span>
+    <span class="kp-body">「どこでAIを使い、何を採用・修正・<strong>棄却</strong>したか」を記録する。棄却理由が最大のナレッジになる。使ったプロンプトと改善案は毎週「LS研修ナレッジ」Docへ追記し、個人技にせず組織の標準に育てる。</span>
+  </div>
 
   <h2>プロンプトの基本の型</h2>
   <p>良い出力は良い指示から。次の5要素を意識します。</p>
