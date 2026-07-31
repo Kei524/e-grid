@@ -12,17 +12,35 @@
   <nav class="nav">
     <a class="brand" href="index.html">イーグリッド <span>コンサル研修ポータル</span></a>
     <a class="navlink" href="index.html">トップ</a>
-    <a class="navlink" href="session0.html">第0回</a>
-    <a class="navlink" href="session1.html">第1回</a>
-    <a class="navlink" href="session2.html">第2回</a>
-    <a class="navlink" href="session3.html">第3回</a>
-    <a class="navlink" href="session4.html">第4回</a>
-    <a class="navlink" href="ai-guide.html">AI併用</a>
-    <a class="navlink" href="toolmap.html">フレーム選択</a>
-    <a class="navlink" href="rubric.html">ルーブリック</a>
-    <a class="navlink active" href="kamikaki.html">紙書き編</a>
-    <a class="navlink" href="claude-training.html">Claude</a>
-    <a class="navlink" href="claude-code-training.html">Claude Code</a>
+    <span class="navgroup ">
+      <span class="navgroup-label">① ロジカル<br>シンキング編</span>
+      <a class="navlink" href="session0.html">第0回</a>
+      <a class="navlink" href="session1.html">第1回</a>
+      <a class="navlink" href="session2.html">第2回</a>
+      <a class="navlink" href="session3.html">第3回</a>
+      <a class="navlink" href="session4.html">第4回</a>
+    </span>
+    <span class="navgroup current">
+      <span class="navgroup-label">② 紙書き編</span>
+      <a class="navlink active" href="kamikaki.html">概要</a>
+      <a class="navlink" href="kamikaki.html#k1">第1回</a>
+      <a class="navlink" href="kamikaki.html#k2">第2回</a>
+      <a class="navlink" href="kamikaki.html#ks">特別M</a>
+      <a class="navlink" href="kamikaki.html#k3">第3回</a>
+      <a class="navlink" href="kamikaki.html#k4">第4回</a>
+    </span>
+    <span class="navgroup ">
+      <span class="navgroup-label">共通資料</span>
+      <a class="navlink" href="ai-guide.html">AI併用</a>
+      <a class="navlink" href="toolmap.html">フレーム選択</a>
+      <a class="navlink" href="rubric.html">ルーブリック</a>
+    </span>
+    <span class="navgroup ">
+      <span class="navgroup-label">AI活用研修</span>
+      <a class="navlink" href="claude-training.html">Claude</a>
+      <a class="navlink" href="claude-code-training.html">Claude Code</a>
+      <a class="navlink" href="consulting-toolkit.html">Toolkit</a>
+    </span>
   </nav>
 </header>
 
@@ -52,14 +70,26 @@
     <span class="kp-body">AIは3分で「80点の見た目」を作ります。この研修は、<strong>その80点が本当に80点かを見抜く訓練</strong>。AIが変えるのは作業、鍛えるのはAIがあっても変わらない「思考」の部分です。</span>
   </div>
 
+  <div class="box" style="background:var(--light);border:1px solid var(--border);border-radius:12px;">
+    <p class="box-title">📑 このページの目次（各回へジャンプ）</p>
+    <p>
+      <a href="#k1">第1回 紙書きとは／5種類</a> ｜
+      <a href="#k2">第2回 紙書き6ステップ</a> ｜
+      <a href="#ks">特別M 浅い・薄い・AI任せからの脱却</a> ｜
+      <a href="#k3">第3回 AI活用×データ可視化</a> ｜
+      <a href="#k4">第4回 フレームワーク＆統合演習</a>
+    </p>
+    <p class="meta">※ 紙書き編は全回を1ページにまとめています（当日の投影はPPT本体）。ロジカルシンキング編は回ごとに別ページです。</p>
+  </div>
+
   <h2>全体構成（90分 × 4回 ＋ 特別モジュール）</h2>
   <table>
     <tr><th>回</th><th>テーマ</th><th>身につく道具</th><th>演習素材</th><th>宿題</th></tr>
-    <tr><td>第1回</td><td>紙書きとは／5種類</td><td>3要素／スライド5種類／PPT基本／禁じ手15＋AI禁じ手5</td><td>自分の過去スライド3枚</td><td>禁じ手の検出＆改修</td></tr>
-    <tr><td>第2回</td><td>紙書き6ステップ</td><td>Step0〜5／AI分業マップ／標準プロンプト集</td><td><a href="case-c.html">C地銀 ヒアリングメモ</a></td><td>自業務報告を6ステップで1枚</td></tr>
-    <tr><td><strong>特別M</strong></td><td>浅い・薄い・AI任せからの脱却</td><td>説明→ファクト→解釈→示唆／So What・What Else／品質レビュー7観点</td><td>C地銀 継続</td><td>—（他回に組み込み可）</td></tr>
-    <tr><td>第3回</td><td><strong>AI活用 × データ可視化</strong></td><td>形式選択の判断軸／4段フロー／ブリーフ6要素／AI禁じ手4</td><td><a href="case-d.html">D社 売上データ</a></td><td>実務スライド1枚のAI再作成</td></tr>
-    <tr><td>第4回</td><td>フレームワーク＆統合演習</td><td>3C／5F／BCG／Ansoff／効果×難易度／ロードマップ</td><td><a href="case-d.html">D社 DX提案 骨子</a></td><td>提案書5枚＋AI活用ログ1枚（修了提出物）</td></tr>
+    <tr><td><a href="#k1">第1回</a></td><td>紙書きとは／5種類</td><td>3要素／スライド5種類／PPT基本／禁じ手15＋AI禁じ手5</td><td>自分の過去スライド3枚</td><td>禁じ手の検出＆改修</td></tr>
+    <tr><td><a href="#k2">第2回</a></td><td>紙書き6ステップ</td><td>Step0〜5／AI分業マップ／標準プロンプト集</td><td><a href="case-c.html">C地銀 ヒアリングメモ</a></td><td>自業務報告を6ステップで1枚</td></tr>
+    <tr><td><a href="#ks"><strong>特別M</strong></a></td><td>浅い・薄い・AI任せからの脱却</td><td>説明→ファクト→解釈→示唆／So What・What Else／品質レビュー7観点</td><td>C地銀 継続</td><td>—（他回に組み込み可）</td></tr>
+    <tr><td><a href="#k3">第3回</a></td><td><strong>AI活用 × データ可視化</strong></td><td>形式選択の判断軸／4段フロー／ブリーフ6要素／AI禁じ手4</td><td><a href="case-d.html">D社 売上データ</a></td><td>実務スライド1枚のAI再作成</td></tr>
+    <tr><td><a href="#k4">第4回</a></td><td>フレームワーク＆統合演習</td><td>3C／5F／BCG／Ansoff／効果×難易度／ロードマップ</td><td><a href="case-d.html">D社 DX提案 骨子</a></td><td>提案書5枚＋AI活用ログ1枚（修了提出物）</td></tr>
   </table>
   <p class="meta">※ 第3回は2026年7月に「グラフ＆定性表現」から全面改訂。旧コア知識（グラフ7パターン・定性11パターン）は参照資料として配布し、講義は判断訓練とハンズオンに振り替えています。毎回：冒頭に振り返り10分／終了時に翌週宿題／毎週 Google Doc「LS研修ナレッジ」にナレッジ追記。</p>
 
@@ -82,7 +112,7 @@
     <li>統一フォーマットで、最適な表現形式（視覚化・キーワード化）を選ぶ</li>
   </ul>
 
-  <h2>スライド5種類の使い分け（第1回）</h2>
+  <h2 id="k1">スライド5種類の使い分け（第1回）</h2>
   <div class="keypoint">
     <span class="kp-label">要点</span>
     <span class="kp-body">形式は「データの型」で選ぶのではない。「伝えたいメッセージ」で選ぶ。</span>
@@ -98,7 +128,7 @@
   <p class="meta">※ 第1回ではあわせて、ツールの禁じ手15個＋<strong>AI時代の禁じ手5個</strong>（そのまま提出・未検証数値・AI文体 等 → 詳細は <a href="ai-guide.html">AI併用ガイド</a>）を扱います。</p>
 
   <!-- ============ 第2回 ============ -->
-  <div class="page-head" style="margin-top:56px;">
+  <div class="page-head" id="k2" style="margin-top:56px;">
     <p class="eyebrow">第2回 ／ 90分</p>
     <h1 class="page-title">紙書き6ステップ — Fact→Causality→構造化→メッセージ→仕上げ</h1>
     <p class="meta">1メッセージ：プロは「考え方を選ぶ」ところから始める。手を動かすのは構造化が終わってから。</p>
@@ -154,7 +184,7 @@
   </div>
 
   <!-- ============ 特別モジュール ============ -->
-  <div class="page-head" style="margin-top:56px;">
+  <div class="page-head" id="ks" style="margin-top:56px;">
     <p class="eyebrow">特別モジュール ／ 90分（第2回と第3回の間）</p>
     <h1 class="page-title">「浅い・薄い・AI任せ」からの脱却</h1>
     <p class="meta">1メッセージ：AI時代の紙書きとは、AIに資料を作らせる前に、人が資料の「意味」を設計する工程である。第2回「AIと勝負する」の直後に置くと最も効きます。</p>
@@ -314,7 +344,7 @@
   </div>
 
   <!-- ============ 第3回 ============ -->
-  <div class="page-head" style="margin-top:56px;">
+  <div class="page-head" id="k3" style="margin-top:56px;">
     <p class="eyebrow">第3回 ／ 90分（2026年7月 全面改訂）</p>
     <h1 class="page-title">AI活用 × データビジュアライゼーション</h1>
     <p class="meta">1メッセージ：形式を選ぶのは人間、描くのはAI。「ブリーフィング力」が新しい手の速さ。知識講義は圧縮し、AIに描かせるハンズオン中心の回です。</p>
@@ -420,7 +450,7 @@
   </div>
 
   <!-- ============ 第4回 ============ -->
-  <div class="page-head" style="margin-top:56px;">
+  <div class="page-head" id="k4" style="margin-top:56px;">
     <p class="eyebrow">第4回 ／ 90分（最終回）</p>
     <h1 class="page-title">フレームワーク＆統合演習</h1>
     <p class="meta">3C／5 Forces／BCG／Ansoff／効果×難易度／ロードマップ。D社DX提案の骨子作成 — 人間思考フル＋仕上げでAI併用。</p>

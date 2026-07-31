@@ -15,6 +15,9 @@ body{font-family:"Hiragino Kaku Gothic ProN","Yu Gothic","Meiryo",system-ui,sans
 .egrid-bar .eg-tag{color:var(--muted);font-size:13px}
 .egrid-bar .eg-back{margin-left:auto;color:var(--accent);text-decoration:none;font-size:13px}
 .egrid-bar .eg-back:hover{text-decoration:underline}
+.egrid-bar .eg-nav{margin-left:auto;display:flex;gap:4px;flex-wrap:wrap}
+.egrid-bar .eg-nav a{color:var(--muted);text-decoration:none;font-size:12.5px;padding:4px 9px;border-radius:8px;white-space:nowrap}
+.egrid-bar .eg-nav a:hover{background:var(--accent-soft);color:var(--accent)}
 a{color:var(--accent)}
 .layout{display:flex;min-height:100vh}
 nav{width:280px;background:var(--panel);border-right:1px solid var(--line);padding:20px 14px;position:sticky;top:0;height:100vh;overflow-y:auto;flex-shrink:0}
@@ -74,9 +77,15 @@ footer{font-size:11px;color:var(--muted);padding:24px 48px;border-top:1px solid 
 </head>
 <body>
 <div class="egrid-bar">
-  <a class="eg-brand" href="index.html">e-grid <span>研修</span></a>
+  <a class="eg-brand" href="index.html">イーグリッド <span>コンサル研修ポータル</span></a>
   <span class="eg-tag">｜ AI活用研修：Claude仕事術講座</span>
-  <a class="eg-back" href="index.html">← 研修トップへ</a>
+  <span class="eg-nav">
+    <a href="index.html">トップ</a>
+    <a href="session0.html">① ロジカルシンキング編</a>
+    <a href="kamikaki.html">② 紙書き編</a>
+    <a href="claude-code-training.html">Claude Code</a>
+    <a href="consulting-toolkit.html">Toolkit</a>
+  </span>
 </div>
 <div class="layout">
 <nav id="nav"></nav>
